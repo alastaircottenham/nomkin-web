@@ -1,0 +1,336 @@
+/*
+ * nomkin.app — the marketing site.
+ *
+ * Colour is lifted from `src/design/tokens.css` in the app repo, which is the
+ * source of truth. This is a second copy in a second repo and there is no test
+ * holding the two together, so the token names are kept identical: when a value
+ * changes in the app, it is a find-and-replace here rather than a redesign.
+ *
+ * The landing page is the app's first screen (spec §6.1 step 1) — a full amber
+ * wash, the wordmark, one line, and the dog. It does not follow the OS theme,
+ * for the same reason that screen does not: this is a moment in the app's own
+ * colour. The privacy page *does* follow it, because it is a document.
+ */
+
+:root {
+  /* Food — amber */
+  --color-food-fill: #ef9f27;
+  --color-food-text-on: #412402;
+  /* Secondary ink on the wash: a darker amber, 5.1:1 on the fill. */
+  --color-food-ink-soft: #5b3606;
+  --color-food-line: #854f0b;
+
+  /* Move — teal */
+  --color-move-fill: #1d9e75;
+
+  --color-pet-cream: #fff6e8;
+
+  /* Document surfaces — light */
+  --color-surface: #fffdf9;
+  --color-surface-sunken: #f4efe7;
+  --color-border: #e6ded2;
+  --color-text-primary: #241a0e;
+  --color-text-secondary: #5c4f41;
+  --color-text-muted: #7a6a58;
+
+  --font-sans:
+    ui-rounded, 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+/* --- The landing page: a full amber wash ---------------------------------- */
+
+/*
+ * A grid rather than a centred column, so that the footer sitting on the bottom
+ * edge does not drag the dog off centre with it. `1fr auto` gives the stack the
+ * whole of the space that is left and centres it inside that; on a tall desktop
+ * window the animal stays in the middle of the wash where the app puts it.
+ */
+.wash {
+  background: var(--color-food-fill);
+  color: var(--color-food-text-on);
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  justify-items: center;
+  text-align: center;
+  /* Room for the notch on a phone and for the home indicator underneath. */
+  padding: max(1.5rem, env(safe-area-inset-top)) 1.5rem max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.wash__main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.wordmark {
+  font-size: clamp(2.75rem, 13vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.05;
+}
+
+.tagline {
+  font-size: clamp(1.05rem, 4.5vw, 1.35rem);
+  color: var(--color-food-ink-soft);
+  margin: 0;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+/*
+ * The dog, breathing. `WelcomePet` runs the home screen's idle loop on this
+ * screen in the app; here it is the drawn master with the same slow rise, which
+ * is as close as a static page gets without shipping the renderer.
+ */
+.pet {
+  width: min(62vw, 300px);
+  height: auto;
+  animation: breathe 4.2s ease-in-out infinite;
+  transform-origin: 50% 100%;
+  /* A soft ground shadow so the animal sits on the wash rather than floating. */
+  filter: drop-shadow(0 12px 18px rgba(65, 36, 2, 0.18));
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.025) translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pet {
+    animation: none;
+  }
+}
+
+.coming-soon {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-food-text-on);
+  background: #ffd699;
+  border: 2px solid var(--color-food-text-on);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  margin: 0;
+}
+
+.stores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * The badges are not links. Neither store lists Nomkin yet, and both Apple's
+ * and Google's badge guidelines only allow the artwork to point at a live
+ * listing — so these are flat marks that say where it is going, and they get
+ * their real artwork and their href on the day the listings exist.
+ */
+.badge {
+  display: block;
+  height: 48px;
+  width: auto;
+  opacity: 0.85;
+}
+
+.site-footer {
+  padding-top: 2rem;
+  font-size: 0.85rem;
+  color: var(--color-food-ink-soft);
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.site-footer a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* --- The privacy page: a document ----------------------------------------- */
+
+.doc {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  min-height: 100svh;
+}
+
+.doc__inner {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.doc__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-food-line);
+  text-decoration: none;
+  margin-bottom: 2rem;
+}
+
+.doc__back:hover,
+.doc__back:focus-visible {
+  text-decoration: underline;
+}
+
+.doc h1 {
+  font-size: clamp(1.9rem, 6vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+
+.doc__dates {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 2rem;
+}
+
+/* The promise the whole document is an expansion of, pulled out of the flow. */
+.doc__lede {
+  font-size: 1.15rem;
+  line-height: 1.55;
+  background: var(--color-surface-sunken);
+  border-left: 4px solid var(--color-food-fill);
+  border-radius: 0 12px 12px 0;
+  padding: 1.1rem 1.25rem;
+  margin: 0 0 2.5rem;
+}
+
+.doc h2 {
+  font-size: 1.3rem;
+  line-height: 1.25;
+  margin: 2.5rem 0 0.75rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.doc h3 {
+  font-size: 1.05rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.doc p,
+.doc li {
+  color: var(--color-text-secondary);
+}
+
+.doc li {
+  margin-bottom: 0.4rem;
+}
+
+.doc strong {
+  color: var(--color-text-primary);
+}
+
+.doc a {
+  color: var(--color-food-line);
+  text-underline-offset: 3px;
+}
+
+/* A plain two-column table of what is held and why, on a page whose whole
+   argument is that the list is short. It scrolls rather than squashing. */
+.doc__table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0 1.5rem;
+}
+
+.doc table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 30rem;
+  font-size: 0.95rem;
+}
+
+.doc th,
+.doc td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.doc th {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  border-bottom-width: 2px;
+}
+
+.doc__contact {
+  background: var(--color-surface-sunken);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 2.5rem;
+}
+
+.doc__contact p {
+  margin: 0.35rem 0;
+}
+
+.doc__foot {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface: #17120c;
+    --color-surface-sunken: #221a11;
+    --color-border: #3a2e21;
+    --color-text-primary: #f7efe3;
+    --color-text-secondary: #ded2c2;
+    --color-text-muted: #b3a692;
+    --color-food-line: #f0b45a;
+  }
+}
