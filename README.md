@@ -33,7 +33,7 @@ The URLs the stores need are then:
 - The privacy policy URL must be **publicly reachable with no login and no redirect chain**. Load
   `https://nomkin.app/privacy/` in a private window and confirm it renders before pasting it into
   App Store Connect → App Information → Privacy Policy URL.
-- `privacy@nomkin.app` must actually receive mail. Set up forwarding at the registrar (or with
+- `hello@nomkin.app` must actually receive mail. Set up forwarding at the registrar (or with
   Cloudflare Email Routing / Fastmail / iCloud+ custom domain) — the policy names it as the contact
   and reviewers do sometimes write to it.
 - The policy is one half of the job. The other half is the **App Privacy** questionnaire in App
