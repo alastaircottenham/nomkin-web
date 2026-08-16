@@ -6,7 +6,7 @@
     <title>Privacy policy — Nomkin</title>
     <meta
       name="description"
-      content="Nomkin's privacy policy. Everything stays on your phone: no account, no server, no analytics, no advertising."
+      content="Nomkin's privacy policy. Everything stays on your phone unless you choose to make a free backup account, and that account holds one copy of your data and nothing else."
     />
     <link rel="canonical" href="https://nomkin.app/privacy/" />
     <link rel="icon" href="/assets/app-icon.png" />
@@ -19,25 +19,28 @@
 
       <h1>Privacy policy</h1>
       <p class="doc__dates">
-        Last updated 12 August 2026 &middot; Applies to the Nomkin mobile app on iOS and Android
+        Last updated 16 August 2026 &middot; Applies to the Nomkin mobile app on iOS and Android
       </p>
 
       <p class="doc__lede">
-        Nomkin keeps everything on your phone. There is no account, no server of ours, and nothing
-        that follows you around. Nothing you log is ever sent to us, because there is nowhere for it
-        to be sent.
+        Nomkin keeps everything on your phone. There is no account until you ask for one, and if you
+        do, all it does is keep one copy of your data safe so a new phone can pick up where the old
+        one left off. Nothing else is ever sent to us, and nothing about you is sold, shared or
+        tracked.
       </p>
 
-      <h2>Who this is from</h2>
+      <h2 id="who">Who this is from</h2>
       <p>
-        Nomkin is made and published in Australia by an independent developer. For anything in this
-        policy, write to <a href="mailto:hello@nomkin.app">hello@nomkin.app</a>.
+        Nomkin is made and published in Australia by an independent developer, who is the data
+        controller for the optional account described below. For anything in this policy, write to
+        <a href="mailto:hello@nomkin.app">hello@nomkin.app</a>.
       </p>
 
-      <h2>What Nomkin collects, how, and what it is used for</h2>
+      <h2 id="on-your-phone">What Nomkin keeps on your phone</h2>
       <p>
         Everything in this table is created on your device and stored on your device, in the app's
-        own private storage. None of it is transmitted to us or to anyone else.
+        own private storage. Unless you make an account, none of it is transmitted to us or to
+        anyone else.
       </p>
 
       <div class="doc__table-wrap">
@@ -56,7 +59,7 @@
                 weight, activity level and goal
               </td>
               <td>You enter it during setup, and can change it in Settings</td>
-              <td>Working out your daily calorie and step targets</td>
+              <td>Working out your daily calorie, water and step targets</td>
             </tr>
             <tr>
               <td>
@@ -64,6 +67,11 @@
               </td>
               <td>You add it by scanning, searching, or typing an estimate</td>
               <td>Filling the Food bar and showing your day and your history</td>
+            </tr>
+            <tr>
+              <td><strong>Water you tick off</strong></td>
+              <td>You tap the droplet</td>
+              <td>Filling the water tank for the day</td>
             </tr>
             <tr>
               <td><strong>Weight check-ins</strong>, if you choose to do them</td>
@@ -76,7 +84,8 @@
               <td>Filling the Move bar</td>
             </tr>
             <tr>
-              <td><strong>Coins and collected items</strong></td>
+              <td><strong>Coins and collected items</strong>, and the record of coins earned or
+                bought</td>
               <td>Earned in the app, or bought through the App Store or Google Play</td>
               <td>The shop and the things your pet wears</td>
             </tr>
@@ -95,12 +104,106 @@
       </div>
 
       <p>
-        Nomkin does not collect your name, email address, phone number, contacts, photos, precise
-        location, advertising identifier, or any other device identifier. It has no sign-in and no
-        user account of any kind.
+        Nomkin does not collect your name, phone number, contacts, photos, precise location,
+        advertising identifier, or any other device identifier. It asks for no email address and has
+        no sign-in unless you go looking for the backup account.
       </p>
 
-      <h2>Health and step data</h2>
+      <h3>The quiet copy on your phone</h3>
+      <p>
+        Nomkin also writes a copy of all of the above into its own private storage on the phone, so
+        that your phone's own backup — iCloud Backup on iPhone, Google One backup on Android —
+        carries it, and a reinstall on the same handset picks up where you left off. That copy never
+        comes to us. If it travels at all, it travels inside your device backup, which is governed by
+        <a href="https://www.apple.com/legal/privacy/" rel="noopener">Apple's privacy policy</a> or
+        <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a> and
+        is under your control in your phone's settings.
+      </p>
+
+      <h2 id="account">The optional backup account</h2>
+      <p>
+        This is the one part of Nomkin where your own data leaves your phone, and it only happens
+        if you ask for it. The account is free, it is offered nowhere near the start, nothing in the
+        app is gated behind it, and you can use Nomkin for years without one. It exists for a single
+        purpose: if your phone is lost, broken or replaced, your nomkin comes back.
+      </p>
+
+      <h3>What you give us to make one</h3>
+      <p>
+        An email address and a password, and nothing else. No name, no date of birth, no phone
+        number. The account is created and held by
+        <a href="https://firebase.google.com/support/privacy" rel="noopener">Google Firebase</a>
+        (Firebase Authentication) acting as our processor. Nomkin never sees your password after you
+        type it; Firebase stores it hashed. Your email address is used for exactly two things —
+        signing you in, and sending you a link if you forget your password or need to confirm the
+        address. There is no mailing list, no newsletter, and nothing to unsubscribe from.
+      </p>
+
+      <h3>What gets backed up</h3>
+      <p>
+        One copy of everything Nomkin holds on the phone, in the same shape the app's own export
+        produces. That means:
+      </p>
+      <ul>
+        <li>your profile — pet name and species, date of birth, sex, height, weight, activity level
+          and goal;</li>
+        <li>every day you have logged, <strong>including the day's step total</strong>, because the
+          step count is part of the day like everything else on it;</li>
+        <li>the food you logged, with portions, calories and timestamps, and the cached food items
+          behind them;</li>
+        <li>the water you ticked off;</li>
+        <li>your weight check-ins;</li>
+        <li>your coins, your collection, and the record of coins earned or bought — which includes
+          which coin packs you have purchased;</li>
+        <li>your settings and progress counters.</li>
+      </ul>
+      <p>
+        Because that includes food and weight records, which the GDPR treats as special-category
+        health data, sign-up asks for a specific tick that names them rather than a general
+        &ldquo;accept&rdquo;. Under the GDPR our legal basis for holding this copy is your
+        <strong>explicit consent</strong> (Article 6(1)(a) and Article 9(2)(a)), and you can withdraw
+        it at any time by deleting the account.
+      </p>
+
+      <h3>How and when it is sent</h3>
+      <ul>
+        <li>Over HTTPS, so it is encrypted in transit, and compressed before it is sent.</li>
+        <li>At most once a day, plus once when you leave the app, plus immediately after you buy
+          coins, plus once when you first create the account. You can also send one at any moment
+          with <strong>Back up now</strong>.</li>
+        <li>It is stored as <strong>one document belonging to your account</strong>, replaced whole
+          each time. There is no version history and no trail of old copies — one copy, and that is
+          all.</li>
+        <li>Never over a wipe: if you have deleted your data on the phone, Nomkin will not replace a
+          good copy with the emptiness that replaced it.</li>
+      </ul>
+
+      <h3>Who can reach it, and where it lives</h3>
+      <p>
+        The copy is held in Google Firestore, in a document reachable only by somebody signed in as
+        you. The server-side rules permit each account to read and write its own document and no
+        other. It is encrypted in transit and encrypted at rest by Google. The developer does not
+        read it, and nothing is done with it other than handing it back to you on request.
+      </p>
+      <p>
+        Firebase is Google's infrastructure, so this copy is stored on Google's servers and
+        <strong>may be held or processed outside Australia</strong>, including in the United States.
+        Google is bound by its own
+        <a href="https://firebase.google.com/terms/data-processing-terms" rel="noopener">data
+        processing terms</a> and standard contractual clauses for international transfers, and acts
+        only on our instructions.
+      </p>
+
+      <h3>Signing out, and deleting</h3>
+      <p>
+        <strong>Sign out</strong> stops this phone sending any more copies. The stored copy stays,
+        and so does everything on the phone. <strong>Delete the account</strong> removes the stored
+        copy and the account itself, permanently, and leaves everything on your phone exactly where
+        it is. Both are in Settings &rarr; Cloud backup. Full steps are on the
+        <a href="/delete-account/">delete your account page</a>.
+      </p>
+
+      <h2 id="health">Health and step data</h2>
       <p>
         Nomkin asks your phone's health store — Apple Health on iPhone, Health Connect on Android —
         for <strong>one thing</strong>: the number of steps taken during the day currently on
@@ -110,10 +213,14 @@
         <li>It reads step counts only. It requests no other category of health or fitness data.</li>
         <li>It only ever reads. Nomkin never writes anything back to your health store.</li>
         <li>
-          The step count stays on your device and is used solely to fill the Move bar. It is
-          <strong>never</strong> used for advertising, marketing, or any use-based data mining, and
-          it is never sold, shared, or disclosed to any third party — including any service provider
-          or data broker.
+          The step count is used solely to fill the Move bar. It is <strong>never</strong> used for
+          advertising, marketing, or any use-based data mining, and it is never sold, shared, or
+          disclosed to any third party — including any service provider or data broker.
+        </li>
+        <li>
+          If you have made an account, the day's step total travels inside the backup copy described
+          above, because it is part of your day. It goes nowhere else, and nothing is done with it
+          other than handing it back to you on a new phone.
         </li>
         <li>
           Connecting is entirely optional. Decline, and Nomkin works exactly as before; you top up
@@ -128,7 +235,7 @@
         goes quiet until you say yes again.
       </p>
 
-      <h2>The camera</h2>
+      <h2 id="camera">The camera</h2>
       <p>
         If you scan a barcode, Nomkin uses your camera to read the barcode number and nothing else.
         The barcode is decoded on your device by the operating system's own scanner. No photograph
@@ -136,12 +243,14 @@
         skip scanning entirely and search or quick-add.
       </p>
 
-      <h2>The one thing that leaves your phone</h2>
+      <h2 id="food-lookup">Looking a food up</h2>
       <p>
-        When you scan a barcode or search for a food, Nomkin asks
-        <a href="https://world.openfoodfacts.org/" rel="noopener">Open Food Facts</a> — a free, open
-        food database run by a French non-profit — what that product is.
+        Nomkin carries a large slice of the
+        <a href="https://world.openfoodfacts.org/" rel="noopener">Open Food Facts</a> database — a
+        free, open food database run by a French non-profit — inside the app, so most barcodes are
+        answered on the phone itself with no network at all.
       </p>
+      <p>When a barcode or a search is not in there, Nomkin asks Open Food Facts.</p>
       <ul>
         <li>
           What travels is the barcode number, or the words you typed, and nothing else. No profile,
@@ -155,7 +264,6 @@
           What comes back is cached on your device, so scanning the same item again works with no
           network at all.
         </li>
-        <li>This is the only network request Nomkin makes for its own features.</li>
       </ul>
       <p>
         Open Food Facts has its own
@@ -164,46 +272,94 @@
         do not receive any user data from them.
       </p>
 
-      <h2>If you buy coins</h2>
+      <h2 id="purchases">If you buy coins</h2>
       <p>
         Optional coin packs are sold through Apple's App Store on iPhone and Google Play on Android.
         The payment is handled entirely by Apple or Google. Nomkin never sees and never receives
         your card details, billing address, or store account. It is told which pack was purchased so
-        it can add the coins, and that is the whole of it. Those purchases are governed by
+        it can add the coins, and that is the whole of it. That record of which pack you bought is
+        kept on your phone, and travels in the backup copy if you have an account, so a new phone
+        does not start from zero. Those purchases are governed by
         <a href="https://www.apple.com/legal/privacy/" rel="noopener">Apple's privacy policy</a> and
         <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>.
       </p>
 
-      <h2>Third parties, and the protection they give your data</h2>
+      <h2 id="feedback">If you send feedback</h2>
       <p>
-        Nomkin shares user data with no one. There are no analytics services, no advertising
-        networks, no crash reporting, no attribution or marketing SDKs, and no third-party tracking
-        libraries inside the app. Nothing counts how often you open it or what you tap. Nomkin does
-        not track you across other apps or websites, and does not use the App Tracking Transparency
-        framework because it has nothing to ask for.
-      </p>
-      <p>
-        The only outside parties involved at all are the two described above — Open Food Facts,
-        which receives a barcode or a search term and no user data, and Apple or Google, which
-        process a purchase if you make one. There are no parent, subsidiary, or related entities
-        with access to user data, because there is no user data held anywhere but your own phone. To
-        the extent any of these parties receives anything in connection with Nomkin, they are
-        required to provide the same or equal protection of user data as is stated in this policy
-        and as required by the App Store Review Guidelines.
+        Settings has a Send feedback row. It opens your own email app with a message already written
+        out, and nothing goes anywhere until you send it yourself. Nomkin cannot send an email on its
+        own. The message ends with the app's version number and which kind of phone it is on, so a
+        report is easier to place — that is the whole of what it carries, and you can read all of it,
+        and change any of it, before it leaves. If you do write to us, we hold your email and what
+        you said for as long as it takes to answer you and to keep a record of the issue.
       </p>
 
-      <h2>Notifications</h2>
+      <h2 id="notifications">Notifications</h2>
       <p>
         If you turn reminders on, Nomkin schedules them on your device using the operating system's
         local notification service. They are composed and delivered on the phone itself. No push
         server is involved, and no notification token or message content is sent anywhere.
       </p>
 
-      <h2>How long it is kept, and how to delete it</h2>
+      <h2 id="third-parties">Third parties, and the protection they give your data</h2>
       <p>
-        Your data is kept on your device for as long as you keep the app, and we have no ability to
-        access, retain, or recover any of it. There is no backup on our side, because there is no
-        side.
+        Nomkin sells user data to no one and shares it with no one for their own purposes. There are
+        no analytics services, no advertising networks, no crash reporting, no attribution or
+        marketing SDKs, and no third-party tracking libraries inside the app. Nothing counts how
+        often you open it or what you tap. Nomkin does not track you across other apps or websites,
+        and does not use the App Tracking Transparency framework because it has nothing to ask for.
+      </p>
+      <p>The only outside parties involved at all are:</p>
+      <ul>
+        <li>
+          <strong>Google Firebase</strong> — our processor, and only if you make an account. It holds
+          the sign-in credential and the single backup document on our behalf, acts on our
+          instructions, and does not use the contents for its own purposes.
+        </li>
+        <li>
+          <strong>Open Food Facts</strong> — receives a barcode or a search term, and no user data.
+        </li>
+        <li>
+          <strong>Apple or Google</strong> — process a purchase if you make one, and carry your
+          phone's own device backup if you have that switched on.
+        </li>
+      </ul>
+      <p>
+        There are no parent, subsidiary, or related entities with access to user data. To the extent
+        any of these parties receives anything in connection with Nomkin, they are required to
+        provide the same or equal protection of user data as is stated in this policy and as required
+        by the App Store Review Guidelines. We may also disclose data where the law requires it.
+      </p>
+
+      <h2 id="retention">How long things are kept</h2>
+      <ul>
+        <li>
+          <strong>On your phone:</strong> for as long as you keep the app. We have no ability to
+          access, retain, or recover any of it.
+        </li>
+        <li>
+          <strong>The backup copy, if you made an account:</strong> one copy, replaced each time a
+          new one is sent, kept for as long as the account exists. There is no version history and
+          no archive of previous copies.
+        </li>
+        <li>
+          <strong>When you delete the account:</strong> the copy and the account are removed
+          immediately and permanently — the stored document is deleted first, then the account
+          itself. Neither is retained afterwards, and there is no grace period, no deactivated state,
+          and no way for us to restore it. Residual copies may persist for a short time in Google's
+          own routine system backups before being overwritten in the ordinary course.
+        </li>
+        <li>
+          <strong>Email you send us:</strong> kept for as long as it takes to answer and to keep a
+          record of the issue.
+        </li>
+      </ul>
+
+      <h2 id="delete">Deleting your data</h2>
+      <p>
+        There is a
+        <a href="/delete-account/">short page with the exact steps for deleting your account and the
+        backup copy</a>. In summary, everything is in your hands:
       </p>
       <ul>
         <li>
@@ -211,47 +367,62 @@
           irreversible in the way that matters, and yesterday can be edited too.
         </li>
         <li>
-          <strong>Export everything:</strong> Settings has an export that writes everything Nomkin
-          holds into one file you can keep or move elsewhere.
+          <strong>Delete everything on the phone:</strong> Settings &rarr; Your data &rarr; Start
+          over, or delete &rarr; <strong>Delete everything</strong>. This permanently empties all
+          Nomkin data from the phone. It does not touch the backup copy, because a delete that took
+          the way back with it would not be much of a safety net.
         </li>
         <li>
-          <strong>Delete everything:</strong> next to it is a delete that permanently empties all
-          Nomkin data from the phone.
+          <strong>Delete the account and the backup copy:</strong> Settings &rarr; Cloud backup
+          &rarr; <strong>Delete the account</strong>. This removes the stored copy and the account
+          permanently, and leaves everything on the phone alone.
         </li>
         <li>
           <strong>Withdraw a permission:</strong> steps, camera and notification permissions can all
           be withdrawn in your phone's settings at any time, and Nomkin keeps working without them.
         </li>
         <li>
-          <strong>Uninstall:</strong> removing the app removes everything it holds along with it.
+          <strong>Uninstall:</strong> removing the app removes everything it holds on the phone along
+          with it. If you have an account, uninstalling does <em>not</em> delete the backup copy —
+          delete the account first if that is what you want.
         </li>
       </ul>
-      <p>
-        Because none of your data reaches us, requests to us for access, correction, or erasure are
-        not something we can act on — the controls above are the whole of it, and they are in your
-        hands. If you have any doubt about that, please write and ask.
-      </p>
 
-      <h2>Your rights</h2>
+      <h2 id="rights">Your rights</h2>
       <p>
         Australian privacy law — the Privacy Act 1988 and the Australian Privacy Principles — gives
         you rights of access to and correction of personal information held about you, and requires
         that a policy like this one explain how it is handled. If you are in the United Kingdom or
         the European Union, the UK GDPR and the EU GDPR give you further rights of erasure,
-        restriction, objection and portability. Nomkin is built so that all of those rights are
-        exercised directly, by you, on your own device: everything it holds is visible in the app,
-        editable in the app, exportable in one tap and deletable in another. We hold no copy to act
-        on.
+        restriction, objection and portability, and the right to complain to your local supervisory
+        authority.
       </p>
-
-      <h2>Children</h2>
       <p>
-        Nomkin is not directed at children under 13, and we do not knowingly collect any personal
-        data from them — or from anyone else. Since nothing leaves the device, there is nothing for
-        us to hold or to delete.
+        Nomkin is built so that all of those rights are exercised directly, by you, on your own
+        device: everything it holds is visible in the app, editable in the app, and deletable in one
+        tap. If you have an account, the backup copy is a copy of that same data — you can bring it
+        back to a phone whenever you like, which is portability, and delete it whenever you like,
+        which is erasure, both without asking anyone. If you would rather we did it, or you cannot
+        sign in, write to <a href="mailto:hello@nomkin.app">hello@nomkin.app</a> and we will act on
+        it. For anything you have never uploaded to an account, there is nothing for us to act on,
+        because we hold no copy of it.
+      </p>
+      <p>
+        If you are in Australia and are unhappy with how we have handled a privacy matter, you may
+        complain to the
+        <a href="https://www.oaic.gov.au/" rel="noopener">Office of the Australian Information
+        Commissioner</a>.
       </p>
 
-      <h2>Changes to this policy</h2>
+      <h2 id="children">Children</h2>
+      <p>
+        Nomkin is not directed at children under 13, and the backup account is not offered to them:
+        you must be at least 13 to create one. We do not knowingly collect personal data from
+        children. If you believe a child has made an account, write to
+        <a href="mailto:hello@nomkin.app">hello@nomkin.app</a> and it will be deleted.
+      </p>
+
+      <h2 id="changes">Changes to this policy</h2>
       <p>
         If Nomkin ever changes what it does with your data, this page changes first, and the date at
         the top changes with it. A change that materially affects your privacy will also be surfaced
@@ -259,7 +430,7 @@
       </p>
 
       <div class="doc__contact">
-        <h2 style="margin-top: 0">Contact</h2>
+        <h2 id="contact" style="margin-top: 0">Contact</h2>
         <p>Questions about privacy, or about anything in this policy:</p>
         <p>
           <strong><a href="mailto:hello@nomkin.app">hello@nomkin.app</a></strong>
@@ -269,7 +440,9 @@
 
       <p class="doc__foot">
         A shorter, plain-language summary of this policy is shown inside the app, in Settings &rarr;
-        Your data. It says the same things in fewer words; this page is the full version.
+        Your data. It says the same things in fewer words; this page is the full version. See also
+        the <a href="/terms/">terms of use</a> and
+        <a href="/delete-account/">how to delete your account</a>.
       </p>
     </main>
   </body>

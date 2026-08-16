@@ -2,7 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": true,
-  "redirects": [{ "source": "/privacy.html", "destination": "/privacy/", "permanent": true }],
+  "redirects": [
+    { "source": "/privacy.html", "destination": "/privacy/", "permanent": true },
+    { "source": "/terms.html", "destination": "/terms/", "permanent": true },
+    { "source": "/delete-account.html", "destination": "/delete-account/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",
