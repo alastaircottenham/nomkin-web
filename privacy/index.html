@@ -6,7 +6,7 @@
     <title>Privacy policy — Nomkin</title>
     <meta
       name="description"
-      content="Nomkin's privacy policy. Everything stays on your phone unless you choose to make a free backup account, and that account holds one copy of your data and nothing else."
+      content="Nomkin's privacy policy. Everything stays on your phone unless you choose to make a free backup account or to watch a video for coins, and both are off until you ask for them."
     />
     <link rel="canonical" href="https://nomkin.app/privacy/" />
     <link rel="icon" href="/assets/app-icon.png" />
@@ -19,14 +19,14 @@
 
       <h1>Privacy policy</h1>
       <p class="doc__dates">
-        Last updated 16 August 2026 &middot; Applies to the Nomkin mobile app on iOS and Android
+        Last updated 18 August 2026 &middot; Applies to the Nomkin mobile app on iOS and Android
       </p>
 
       <p class="doc__lede">
         Nomkin keeps everything on your phone. There is no account until you ask for one, and if you
         do, all it does is keep one copy of your data safe so a new phone can pick up where the old
-        one left off. Nothing else is ever sent to us, and nothing about you is sold, shared or
-        tracked.
+        one left off. There are no adverts until you switch them on, and if you do, nothing you have
+        logged goes with them. Nothing about you is sold, and nothing about you is tracked.
       </p>
 
       <h2 id="who">Who this is from</h2>
@@ -84,15 +84,25 @@
               <td>Filling the Move bar</td>
             </tr>
             <tr>
-              <td><strong>Coins and collected items</strong>, and the record of coins earned or
-                bought</td>
-              <td>Earned in the app, or bought through the App Store or Google Play</td>
+              <td><strong>Coins and collected items</strong>, and the record of coins earned,
+                bought, or paid for by a video</td>
+              <td>Earned in the app, bought through the App Store or Google Play, or paid for by
+                watching a video if you have switched that on</td>
               <td>The shop and the things your pet wears</td>
             </tr>
             <tr>
               <td><strong>Settings</strong> — reminders, units, reduced motion and the like</td>
               <td>You choose them</td>
               <td>Making the app behave the way you asked</td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Whether videos for coins are switched on</strong>, and which of today's two
+                have already paid
+              </td>
+              <td>You turn the switch on in Settings; the rest is the record of coins already paid
+                out</td>
+              <td>Knowing whether to offer a video, and holding the two-a-day limit</td>
             </tr>
             <tr>
               <td><strong>A cache of food data</strong> you have looked up</td>
@@ -106,7 +116,10 @@
       <p>
         Nomkin does not collect your name, phone number, contacts, photos, precise location,
         advertising identifier, or any other device identifier. It asks for no email address and has
-        no sign-in unless you go looking for the backup account.
+        no sign-in unless you go looking for the backup account. If you switch on videos for coins,
+        Google's ad software — not Nomkin — sees your phone's internet address and some
+        technical detail about the device. That is set out in full under
+        <a href="#ads">If you watch a video for coins</a>.
       </p>
 
       <h3>The quiet copy on your phone</h3>
@@ -284,6 +297,106 @@
         <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>.
       </p>
 
+      <h2 id="ads">If you watch a video for coins</h2>
+      <p>
+        Nomkin can show you a short video from Google in exchange for coins — twice a day, twenty
+        coins a time. It is <strong>off until you turn it on</strong>, in Settings. Nothing in the app
+        is held back if you never do, you are not nagged about it, and there are no adverts anywhere
+        else in Nomkin: no banners, no interstitials, nothing between you and your day.
+      </p>
+      <p>
+        Until you turn that switch on, the part of Nomkin that talks to Google
+        <strong>has not been started at all</strong>. The advertising software is not set running at
+        launch to sit waiting on a flag — the first thing that ever reaches Google's ad network is
+        the video you asked for.
+      </p>
+
+      <h3>What Google is told</h3>
+      <p>
+        The videos come from Google's AdMob network, through Google's Mobile Ads SDK inside the app.
+        To choose a video, deliver it, and bill the advertiser for it, Google receives:
+      </p>
+      <ul>
+        <li>
+          your phone's <strong>IP address</strong>, as every website you visit receives, from which
+          Google works out an approximate location no finer than a city;
+        </li>
+        <li>
+          <strong>technical detail about the device and the app</strong> — things like the model,
+          the operating system version, the language, the screen, and which app made the request;
+        </li>
+        <li>
+          <strong>what happened to the video</strong> — that it was requested, that it was shown,
+          whether it was watched to the end or closed early, and how many you have been shown, so the
+          same one is not put in front of you again.
+        </li>
+      </ul>
+      <p>
+        That is the whole of it. <strong>Nothing you have logged goes with it.</strong> Not your food,
+        not your calories, not your weight, not your steps, not your profile, not your nomkin, not
+        your coins, and nothing that says who you are. There is no identifier that could tie an ad
+        request to your Nomkin data, because Nomkin does not send one.
+      </p>
+
+      <h3>The adverts are not aimed at you</h3>
+      <ul>
+        <li>
+          Every request is made <strong>non-personalised</strong> — on every request, always,
+          whatever any consent form came back with. Google is not permitted to use profile or
+          interest data to choose what you see. The videos are the same ones for everybody.
+        </li>
+        <li>
+          <strong>On iPhone, Nomkin never asks to track you.</strong> The App Tracking Transparency
+          prompt is never shown, and cannot be: the app deliberately ships without the tracking
+          usage-description that iOS requires before an app is allowed to ask. The IDFA — the
+          phone's advertising identifier — is therefore never available to it and never read.
+        </li>
+        <li>
+          <strong>On Android, the advertising ID is switched off.</strong> Nomkin explicitly strips
+          out the advertising-ID permission that Google's own SDK would otherwise add to the app, so
+          the SDK cannot read the Google Advertising ID at all.
+        </li>
+        <li>
+          Nomkin runs no attribution, no revenue reporting per advert, and no analytics of any kind
+          around this. It is told one thing: whether a video was watched to the end, so it knows
+          whether to pay the coins.
+        </li>
+      </ul>
+      <p>
+        Google does still use limited signals of its own to cap how often an advert is repeated, to
+        report to advertisers in aggregate, and to detect fraud and invalid traffic. That is Google's
+        own processing, described in
+        <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">how Google
+        uses information from sites or apps that use its services</a>, and for it Google acts as an
+        independent controller rather than on our instructions. Nothing about you comes back to us in
+        return — no report, no profile, no list, not even a count that could be tied to a person.
+      </p>
+      <p>
+        On iPhone, Nomkin also carries Apple's SKAdNetwork list, which is the privacy-preserving way
+        an advertiser learns that an advert led to an install. It reports in aggregate, with no
+        identifier for the person and nothing for Nomkin to store or see.
+      </p>
+
+      <h3>Consent, and taking it back</h3>
+      <p>
+        Turning the switch on is your consent, and consent is the legal basis for everything above.
+        In the European Economic Area and the United Kingdom, Google's own consent form is shown as
+        well, through Google's User Messaging Platform. If you decline it, or it cannot be completed
+        for any reason, <strong>no advert is requested</strong> — &ldquo;we could not ask&rdquo; is
+        not permission.
+      </p>
+      <p>
+        The same switch in Settings turns it all off again, for good, in one tap. Coins you have
+        already earned stay exactly where they are. There is a row there too for telling us about a
+        video that was unpleasant, so it can be reported to Google.
+      </p>
+      <p>
+        Whether the switch is on lives only on this phone. It is not part of the backup copy, so a
+        new phone starts with videos off until you say otherwise. Which of today's two videos have
+        already paid is part of your coin record, and that does travel in the backup, so a restored
+        phone cannot be paid twice for the same day.
+      </p>
+
       <h2 id="feedback">If you send feedback</h2>
       <p>
         Settings has a Send feedback row. It opens your own email app with a message already written
@@ -303,11 +416,19 @@
 
       <h2 id="third-parties">Third parties, and the protection they give your data</h2>
       <p>
-        Nomkin sells user data to no one and shares it with no one for their own purposes. There are
-        no analytics services, no advertising networks, no crash reporting, no attribution or
-        marketing SDKs, and no third-party tracking libraries inside the app. Nothing counts how
-        often you open it or what you tap. Nomkin does not track you across other apps or websites,
-        and does not use the App Tracking Transparency framework because it has nothing to ask for.
+        Nomkin sells user data to no one. There are no analytics services, no crash reporting, no
+        attribution or marketing SDKs, and no third-party tracking libraries inside the app. Nothing
+        counts how often you open it or what you tap. Nomkin does not track you across other apps or
+        websites, and it does not use the App Tracking Transparency framework — on iPhone it cannot,
+        because it deliberately carries nothing to ask with.
+      </p>
+      <p>
+        There is one advertising network, Google AdMob, and it is
+        <a href="#ads">off until you switch it on</a>. While it is on, it receives an ad request and
+        the technical detail set out above, and nothing you have logged. Because every request is
+        non-personalised and carries no advertising identifier, this is not a sale of personal
+        information, and not a sharing of it for cross-context behavioural advertising, under the
+        United States state privacy laws that use those terms.
       </p>
       <p>The only outside parties involved at all are:</p>
       <ul>
@@ -315,6 +436,10 @@
           <strong>Google Firebase</strong> — our processor, and only if you make an account. It holds
           the sign-in credential and the single backup document on our behalf, acts on our
           instructions, and does not use the contents for its own purposes.
+        </li>
+        <li>
+          <strong>Google AdMob</strong> — only if you switch on videos for coins. Receives the ad
+          request described above, as an independent controller, and nothing you have logged.
         </li>
         <li>
           <strong>Open Food Facts</strong> — receives a barcode or a search term, and no user data.
@@ -350,6 +475,12 @@
           own routine system backups before being overwritten in the ordinary course.
         </li>
         <li>
+          <strong>If you have switched on videos for coins:</strong> the switch itself, and the
+          record of which of today's videos have paid, live on your phone with everything else.
+          Whatever Google logs about an ad request is held by Google under its own retention policy,
+          not ours — we hold no copy of it and cannot reach it.
+        </li>
+        <li>
           <strong>Email you send us:</strong> kept for as long as it takes to answer and to keep a
           record of the issue.
         </li>
@@ -380,6 +511,8 @@
         <li>
           <strong>Withdraw a permission:</strong> steps, camera and notification permissions can all
           be withdrawn in your phone's settings at any time, and Nomkin keeps working without them.
+          Videos for coins have their own switch in Settings, and turning it off stops any further ad
+          request at once.
         </li>
         <li>
           <strong>Uninstall:</strong> removing the app removes everything it holds on the phone along
@@ -418,7 +551,10 @@
       <p>
         Nomkin is not directed at children under 13, and the backup account is not offered to them:
         you must be at least 13 to create one. We do not knowingly collect personal data from
-        children. If you believe a child has made an account, write to
+        children. Videos for coins fall under the same line: they are an opt-in feature of an app
+        that is not for under-13s, and because every request is non-personalised and carries no
+        advertising identifier, nothing about whoever watches one is profiled in any case. If you
+        believe a child has made an account, write to
         <a href="mailto:hello@nomkin.app">hello@nomkin.app</a> and it will be deleted.
       </p>
 
