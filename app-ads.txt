@@ -1,0 +1,3 @@
+# app-ads.txt for Nomkin (https://nomkin.app)
+# Spec: https://iabtechlab.com/ads-txt/
+google.com, pub-7406576201752464, DIRECT, f08c47fec0942fa0
