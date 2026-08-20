@@ -17,7 +17,8 @@ vercel.json                security headers and the canonical-host redirect
 ```
 
 Every heading on the privacy page carries an `id`, so a reviewer or a store form can deep-link
-straight at a section — `/privacy/#account`, `/privacy/#retention`, `/privacy/#delete`.
+straight at a section — `/privacy/#account`, `/privacy/#usage`, `/privacy/#retention`,
+`/privacy/#delete`.
 
 ## Deploying to Vercel
 
@@ -47,6 +48,11 @@ So: any change to what the app does with data means editing **both** — `policy
 this way, still claiming "no account, no server of ours" after the backup account shipped, which is
 precisely the contradiction a store reviewer cross-checks against the data-safety form.
 
+`policy.test.ts` in the app repo walks `USAGE_FIELDS` and fails the build if the in-app copy has no
+word for a field the daily usage note carries. Nothing does that for this page, so the field table
+under `/privacy/#usage` has to be checked by hand against `src/core/usage.ts` whenever the note
+changes.
+
 ## Before submitting to Apple
 
 - The privacy policy URL must be **publicly reachable with no login and no redirect chain**. Load
@@ -61,8 +67,8 @@ precisely the contradiction a store reviewer cross-checks against the data-safet
   the account, the coins or the fact that Nomkin is not medical advice.
 - The policy is one half of the job. The other half is the **App Privacy** questionnaire in App
   Store Connect (the nutrition label) and the **privacy manifest** in the app. The backup account
-  changed the honest answer: it is no longer "Data Not Collected" across the board. See the table
-  below.
+  and the daily usage note changed the honest answer: it is no longer "Data Not Collected" across
+  the board. See the table below.
 - Google Play needs the same URL in **Play Console → Policy → App content → Privacy policy**, and
   Health Connect additionally requires the policy to be reachable **from inside the app** — which
   is what `scripts/buildPrivacy.mjs` in the app repo handles, via its own offline copy.
@@ -70,30 +76,50 @@ precisely the contradiction a store reviewer cross-checks against the data-safet
   Data deletion**, and the same page linked from somewhere findable on the site — which is why it
   is in the site footer.
 
-## The store data forms, since the account shipped
+## The store data forms, since the account and the usage note shipped
 
 The rule that decides every row: **only what leaves the device counts as collected**. Everything
-Nomkin does locally is not collected. Everything below leaves the device *only* if the user opts
-into a backup account — so every row is **Optional**, purpose **App functionality**, and
-**Shared: No** (Firebase is a processor, not a third party).
+Nomkin does locally is not collected. Three things leave, and they are answered differently:
+
+1. **The backup account**, only if the user asks for one.
+2. **The anonymous daily usage note**, on by default and switchable off.
+3. **An ad request**, only if the user switches on videos for coins.
+
+Rows 1 and 2 are **Optional**, **Shared: No** (Firebase is a processor, not a third party). Row 1 is
+purpose **App functionality**; row 2 is purpose **Analytics**.
 
 | Data type                            | Collected | Where from                                              |
 | ------------------------------------ | --------- | ------------------------------------------------------- |
-| Personal info → Email address        | Yes       | Firebase Auth                                            |
+| Personal info → Email address        | Yes       | Firebase Auth, backup account only                       |
 | Personal info → User IDs             | Yes       | the Firebase uid, which is the Firestore document key    |
 | Health & fitness → Health info       | Yes       | profile, weight logs, food entries in the backup copy    |
 | Health & fitness → Fitness info      | Yes       | the day's step total, which travels inside the copy      |
 | Financial info → Purchase history    | Yes       | the coin ledger is part of the export, so it uploads too |
-| Location, contacts, photos, messages, files, calendar, app activity, crash logs, diagnostics, advertising ID | No | — |
+| App activity → App interactions      | Yes       | the daily usage note: opens, screens, logging counts     |
+| Location, contacts, photos, messages, files, calendar, crash logs, diagnostics, advertising ID | No | — |
 
-Two of those are easy to get wrong. **Steps** are collected now, not "not collected" — the old
+Apple's side of the same answers: **Usage Data → Product Interaction**, purpose **Analytics**,
+**Not Linked to You**, **Not Used for Tracking**. "Not linked" is the honest answer and not a
+convenient one — there is no identifier in a note at all, which `firestore.usage.rules` in the app
+repo enforces field by field.
+
+Three of those are easy to get wrong. **Steps** are collected now, not "not collected" — the old
 posture predates the backup. **Purchase history** is collected because the coin ledger is part of
-`NomkinExport`, and the policy already admits the store "is told which pack was bought".
+`NomkinExport`, and the policy already admits the store "is told which pack was bought". **App
+activity** is collected because of the usage note, even though nothing in it identifies anyone;
+"collected" is about leaving the device, not about being identifiable.
 
 Play's "Does your app provide a way to delete data without deleting the account?" is **No**. The
 shim only has `deleteAccount(password)`; there is no control that removes the uploaded copy while
 keeping the account, and the in-app "delete everything" wipes the phone, which is not data we hold.
 That question is optional and carries no penalty — claiming yes with no such control is the risk.
+
+For the usage note, "can users request deletion?" is honestly **no**, for the opposite reason: no
+identifier means nothing to look up. The control that exists is the switch, and the policy says so
+in those words rather than implying a request would be honoured.
+
+Third-party advertising rows (**Identifiers · Usage Data · Diagnostics** against AdMob) are a
+separate matter and belong to the rewarded-video feature, not to any of the above.
 
 ## Before launch day
 
