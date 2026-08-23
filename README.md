@@ -200,13 +200,26 @@ Written out because the privacy policy is not allowed to imply more than is here
 | Mechanism                     | Real?                                                                                                   |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------- |
 | Resend's free tier, 100 a day | **Yes, and it fails closed.** Past it Resend refuses, the relay 502s, the app offers the composer         |
-| Body ceiling before the read  | **Yes.** Checked on `content-length` before the body is touched, which is what makes a large upload free |
+| Body ceiling, 3 MB            | **Yes**, but it is checked on the body's real length after reading it, not on `content-length` before. See below |
+| Vercel's own payload limit    | **Yes**, and it is the one that genuinely stops a huge upload: about 4.5 MB, refused before this code runs |
 | Per-address limiter           | **No.** Module memory in one warm instance: a cold start forgets it and two instances do not share it    |
 | Honeypot field                | **Barely.** There is no HTML form to scrape. It costs one line and stays                                 |
 | A shared secret in the app    | **Deliberately absent.** A secret inside a phone is the thing this whole design exists to avoid          |
 
 The per-address limiter reads `cf-connecting-ip` first, because this site is proxied through
 Cloudflare in front of Vercel and `x-forwarded-for` at the edge is Cloudflare's own chain.
+
+**The body ceiling was written the other way round first, and the deployed endpoint proved it
+wrong.** It used to read `content-length` and return 413 *before* touching the body, on the
+reasoning that refusing a large upload should not cost what accepting one costs. In production that
+turned every oversized request into a 500: returning from an Edge function while the client is
+still uploading abandons the request stream, and the runtime reports `FUNCTION_INVOCATION_FAILED`.
+It was measured rather than guessed — 2,999,000 bytes answered 400 and 3,010,000 answered 500,
+landing exactly on the constant, which is what told a code bug apart from a platform limit. The
+saving was mostly imaginary anyway: the bytes reach the edge whether or not the function reads
+them, so a pre-read check avoids parsing them, not receiving them. Reading the body once and
+checking its real length also closes a smaller hole, since `content-length` is a claim and
+`raw.length` is a fact.
 
 If the endpoint is ever found and hammered, the lever is Vercel's **Attack Challenge Mode**.
 

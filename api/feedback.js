@@ -30,8 +30,9 @@
  *   - **Resend's own free tier is the real cap and it fails closed.** A hundred a day. Past it
  *     Resend refuses, this answers 502, and the app offers the user's own email app instead.
  *     Unlike a limiter of ours, it cannot be wrong.
- *   - **The body ceiling is checked before the body is read**, which is what stops a large upload
- *     costing anything at all.
+ *   - **The body ceiling** refuses anything over 3 MB with a 413, and Vercel's own platform limit
+ *     refuses anything over about 4.5 MB before this code runs at all. The ceiling is checked
+ *     against the body's real length rather than its declared one; the handler says why.
  *   - **The per-address limiter below is a speed bump and nothing more.** It lives in the memory of
  *     one warm instance, so a cold start forgets it and two instances do not share it. It is here
  *     because it is nearly free, not because it is a control.
@@ -62,7 +63,10 @@ const FROM = 'Nomkin feedback <feedback@mail.nomkin.app>';
 const MAX_BODY_BYTES = 3_000_000;
 const MAX_IMAGE_BYTES = 2_000_000;
 const MAX_MESSAGE_LENGTH = 4_000;
-const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+/* The allowed types, and the extension each one is attached under. One object rather than a list
+   plus a lookup, so a fourth type cannot be allowed without being given a filename. */
+const EXTENSIONS = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
+const ALLOWED_IMAGE_TYPES = Object.keys(EXTENSIONS);
 
 /* Mirrors `osLabel` in the app's `src/core/feedback.ts`. Duplicated rather than shared because
    this file is a separate deployment in a separate repository with no access to that source, and
@@ -211,8 +215,16 @@ async function sendEmail(report, key) {
 
   if (report.attachment !== null) {
     /* An attachment rather than an inline image, so an enormous screenshot does not have to render
-       before the words beside it can be read. */
-    body.attachments = [{ filename: 'screenshot.jpg', content: report.attachment.data }];
+       before the words beside it can be read.
+
+       The extension follows the actual type. Resend derives `content_type` from the filename when
+       it is not given, so a PNG called `.jpg` would arrive mislabelled and some clients would
+       refuse to preview it. The app always sends JPEG, because `shrinkImage` re-encodes everything
+       to it, but this endpoint accepts three types and should not assume the app is the only thing
+       that ever posts to it. */
+    body.attachments = [
+      { filename: `screenshot.${EXTENSIONS[report.attachment.mime]}`, content: report.attachment.data },
+    ];
   }
 
   return fetch('https://api.resend.com/emails', {
@@ -228,19 +240,41 @@ export default async function handler(request) {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
   if (request.method !== 'POST') return reply(405, { ok: false, reason: 'method' });
 
-  /* Read the declared length before reading the body, which is the difference between refusing a
-     large upload and paying for one. */
-  const declared = Number(request.headers.get('content-length') || '0');
-  if (declared > MAX_BODY_BYTES) return reply(413, { ok: false, reason: 'tooBig' });
-
   const key = process.env.RESEND_API_KEY;
   /* 503 rather than 500: a deploy made before the key was set is not broken code, and the app
      reads any non-2xx as "not sent" and offers the composer. */
   if (!key) return reply(503, { ok: false, reason: 'relay' });
 
+  /*
+   * The body is read once, and its real size is checked rather than its declared one.
+   *
+   * This began as a `content-length` check that returned 413 *before* reading anything, on the
+   * reasoning that refusing a large upload should not cost what accepting one costs. Deployed, that
+   * turned every oversized request into a 500: returning from an Edge function while the client is
+   * still uploading abandons the request stream mid-flight, and the runtime reports
+   * `FUNCTION_INVOCATION_FAILED`. Measured at exactly this constant — 2,999,000 bytes answered 400
+   * and 3,010,000 answered 500 — which is how a platform quirk was told apart from a size limit.
+   *
+   * The saving was mostly imaginary anyway. The bytes reach Vercel's edge whether or not this
+   * function reads them, so what a pre-read check avoids is parsing them, not receiving them. What
+   * genuinely stops an enormous upload is the platform's own limit, which answers a clean 413
+   * (`FUNCTION_PAYLOAD_TOO_LARGE`) at about 4.5 MB without this code running at all.
+   *
+   * Checking the real length also closes a smaller hole: a `content-length` header is a claim, and
+   * `raw.length` is a fact.
+   */
+  let raw;
+  try {
+    raw = await request.text();
+  } catch {
+    return reply(400, { ok: false, reason: 'shape' });
+  }
+
+  if (raw.length > MAX_BODY_BYTES) return reply(413, { ok: false, reason: 'tooBig' });
+
   let payload;
   try {
-    payload = await request.json();
+    payload = JSON.parse(raw);
   } catch {
     return reply(400, { ok: false, reason: 'shape' });
   }
