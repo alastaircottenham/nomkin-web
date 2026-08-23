@@ -16,8 +16,14 @@ puzzles/terms/index.html   the submission terms, versioned separately from /term
 puzzles/thanks/index.html  where Tally redirects after a submission (noindex)
 styles.css                 every page
 assets/                    the dog, and the app icon (used as the favicon)
+api/feedback.js            the feedback relay — the one executable thing here
 vercel.json                security headers and the canonical-host redirect
 ```
+
+**`api/feedback.js` is the only non-static file on the site**, and it is the reason this repo is no
+longer purely a brochure: Settings' Send feedback form in the app posts to it, and it turns the post
+into an email. It has its own section below. Everything in the tree above it remains plain HTML with
+no build step.
 
 Every heading on the privacy page carries an `id`, so a reviewer or a store form can deep-link
 straight at a section — `/privacy/#account`, `/privacy/#usage`, `/privacy/#retention`,
@@ -29,8 +35,23 @@ straight at a section — `/privacy/#account`, `/privacy/#usage`, `/privacy/#ret
 2. In Vercel, **Add New → Project** and import it.
 3. Framework preset: **Other**. Leave the build command and output directory **empty** — Vercel
    serves the repository root as static files.
-4. **Settings → Domains**, add `nomkin.app` and `www.nomkin.app`, and set `nomkin.app` as primary.
-   Point the registrar's records at Vercel as it instructs.
+4. **Settings → Domains**, add `nomkin.app` and `www.nomkin.app`. Point the registrar's records at
+   Vercel as it instructs.
+5. **Settings → Environment Variables**, add `RESEND_API_KEY` for the feedback relay. See
+   [The feedback relay](#the-feedback-relay) below — without it the relay answers 503 and the app
+   falls back to the user's own email app.
+
+**As deployed today, `www.nomkin.app` is the primary and the apex 308-redirects to it.** That is
+the opposite of what this file used to say, and it is worth knowing rather than discovering:
+
+- The app posts feedback to `https://www.nomkin.app/api/feedback/`, on the canonical host, because
+  a redirected CORS preflight is not followed by any browser.
+- The store URLs below are written on the apex and therefore **each begin with a redirect**. Apple
+  asks for a privacy policy URL "publicly reachable with no login and no redirect chain", and a
+  single 308 to `www` has never been the thing that fails a review — but if it is ever worth
+  removing, the fix is either to paste the `www` URLs into both consoles or to make the apex
+  primary in Vercel and let `www` redirect the other way. Pick one deliberately; do not leave the
+  two halves disagreeing.
 
 The URLs the stores need are then:
 
@@ -71,6 +92,142 @@ The overlay still exists as an internal tool for vetting a submission against th
 `src/features/coins/puzzleShapes.ts` so it cannot drift from the actual cutter. Copy it back here if
 it is ever published again, and never redraw it by hand.
 
+## The feedback relay
+
+`api/feedback.js` receives the Send feedback form from inside the app and turns it into an email to
+`hello@nomkin.app`. It exists for one reason: an API key shipped inside a phone is a key everybody
+has, so the key lives here and the app has no copy of it. The app repo's `DECISIONS.md`, under
+"Send feedback, the second time", has the full reasoning and what it cost.
+
+**It is Edge runtime with no dependencies, and it must stay that way.** This repo has no
+`package.json`, and adding one flips Vercel from "static site" to "Node project" and starts running
+installs on every deploy of what is otherwise a handful of HTML files. Resend has a Node SDK; it is
+not needed, because the integration is one `POST` to `api.resend.com` with a JSON body.
+
+### Setting it up in Vercel
+
+**Settings → Environment Variables**, on this project:
+
+| Name             | Value                        | Environments          |
+| ---------------- | ---------------------------- | --------------------- |
+| `RESEND_API_KEY` | the key from Resend          | Production, Preview    |
+| `FEEDBACK_TO`    | optional; overrides the destination | Production, Preview |
+
+`FEEDBACK_TO` defaults **in code** to `hello@nomkin.app`, so a fresh clone works without it. It
+exists so the destination can be repointed without a deploy.
+
+Without `RESEND_API_KEY` the function answers **503**, which the app reads as "not sent" and falls
+back to the user's own email app. A deploy made before the key is set degrades rather than breaks,
+which is deliberate.
+
+### Setting it up in Resend
+
+1. **Add a domain**, and add `mail.nomkin.app` rather than `nomkin.app`. The apex is where mail is
+   *received*, at Proton, and it must not be touched. See the DNS table below.
+2. Put the records Resend gives you into Cloudflare, and wait for it to report the domain verified.
+   Nothing is delivered until it does, and the relay answers 502 in the meantime.
+3. **Create an API key** with **Sending access** only. It does not need full access, and a sending
+   key is the one to paste into Vercel.
+4. The `from` address in `api/feedback.js` is `feedback@mail.nomkin.app`. Nothing receives mail
+   there and nothing needs to: replies go to the `reply_to`, which is whatever address the person
+   typed into the form. If the sending subdomain is ever renamed, that constant changes with it.
+
+The free tier is 100 emails a day and 3,000 a month. **That cap is the real rate limit on this
+endpoint**, and it fails closed: past it Resend refuses, the relay answers 502, and the app offers
+the email composer instead.
+
+### The DNS, given Cloudflare in front and Proton behind
+
+**Nothing about the apex changes.** `nomkin.app` receives its mail at Proton and carries Proton's
+MX, SPF and DKIM records, and none of them are edited. Resend is verified against a separate
+sending subdomain instead, which is its own recommended shape and which is why there is no
+conflict: a domain may hold only one SPF record **per name**, and `mail.nomkin.app` is a different
+name from `nomkin.app`.
+
+Four records in Cloudflare, all **DNS only** (grey cloud, though MX and TXT cannot be proxied
+anyway). Take the exact values from Resend's console rather than typing them:
+
+| Name                                | Type   | Value                                  | Note                                                                                              |
+| ----------------------------------- | ------ | -------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `mail.nomkin.app`                   | MX(10) | `feedback-smtp.<region>.amazonses.com` | **Bounces and complaints only.** Mail to `hello@nomkin.app` is untouched and still goes to Proton |
+| `mail.nomkin.app`                   | TXT    | `v=spf1 include:amazonses.com ~all`    | The subdomain's own SPF                                                                           |
+| `resend._domainkey.mail.nomkin.app` | TXT    | the 2048-bit DKIM key Resend generates |                                                                                                   |
+| `_dmarc.mail.nomkin.app`            | TXT    | **optional**                           | Only for `rua=` reports on the subdomain separately from the apex                                 |
+
+**DMARC already passes without the fourth row.** A receiver that finds no `_dmarc.mail.nomkin.app`
+falls back to the organizational domain's `_dmarc.nomkin.app`, so its `p=quarantine` applies, and
+alignment holds because the `From:` domain, the DKIM `d=` and the SPF Return-Path are all
+`mail.nomkin.app` — strict alignment rather than merely relaxed. **Do not add
+`include:amazonses.com` to the apex SPF.** It is not needed, and editing the record the actual inbox
+depends on, to fix a problem it does not have, is how mail breaks.
+
+Afterwards, confirm the apex is undisturbed: `dig MX nomkin.app` must still return both Proton
+hosts and `dig TXT nomkin.app` must still return Proton's SPF unchanged.
+
+Deliverability is a smaller worry here than for bulk mail: one message at a time, from a domain we
+control, to a mailbox we control. Belt and braces is a Proton filter on the `Nomkin bug` and
+`Nomkin idea` subject prefixes, marking them never-spam.
+
+### Two things about the URL that will silently break it
+
+**The canonical host is `www.nomkin.app`, not the apex.** The apex 308-redirects to `www`, so the
+app posts to `https://www.nomkin.app/api/feedback/`. That constant is `FEEDBACK_RELAY_URL` in
+`src/platform/feedbackRelay.ts` in the app repo.
+
+**And the trailing slash is load-bearing.** `vercel.json` sets `trailingSlash: true`, and
+`/api/feedback` really does 308 to `/api/feedback/` — verified with `curl` before the function
+existed. A redirected POST would survive, but a redirected **CORS preflight is not followed by any
+browser**, so the slash-less form would work in every desktop test and fail on every phone. Hence
+both the trailing slash in the app's URL and the `rewrites` entry in `vercel.json` that maps
+`/api/feedback/` onto the function.
+
+After deploying, the check that settles it:
+
+```
+curl -i -X OPTIONS https://www.nomkin.app/api/feedback/ \
+  -H 'Origin: capacitor://localhost' \
+  -H 'Access-Control-Request-Method: POST' \
+  -H 'Access-Control-Request-Headers: content-type'
+```
+
+It must answer **204 with the `Access-Control-Allow-*` headers and no `location`**. A 308 there is
+the failure this section exists to prevent.
+
+### What limits it, honestly
+
+Written out because the privacy policy is not allowed to imply more than is here:
+
+| Mechanism                     | Real?                                                                                                   |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Resend's free tier, 100 a day | **Yes, and it fails closed.** Past it Resend refuses, the relay 502s, the app offers the composer         |
+| Body ceiling before the read  | **Yes.** Checked on `content-length` before the body is touched, which is what makes a large upload free |
+| Per-address limiter           | **No.** Module memory in one warm instance: a cold start forgets it and two instances do not share it    |
+| Honeypot field                | **Barely.** There is no HTML form to scrape. It costs one line and stays                                 |
+| A shared secret in the app    | **Deliberately absent.** A secret inside a phone is the thing this whole design exists to avoid          |
+
+The per-address limiter reads `cf-connecting-ip` first, because this site is proxied through
+Cloudflare in front of Vercel and `x-forwarded-for` at the edge is Cloudflare's own chain.
+
+If the endpoint is ever found and hammered, the lever is Vercel's **Attack Challenge Mode**.
+
+### Testing it without deploying
+
+`npx vercel dev` in this folder serves the function on `http://localhost:3000`. Put
+`RESEND_API_KEY` in a local `.env` (which `.gitignore` must cover), then in the app's dev console:
+
+```js
+localStorage.setItem('nomkin.web.feedback.live', 'on');
+localStorage.setItem('nomkin.web.feedback.url', 'http://localhost:3000/api/feedback');
+```
+
+That sends a real message, with its attachment, end to end from Windows. Without those two keys the
+app's web shim prints what it would have sent and posts nothing, which is what stops a dev server
+reloading all afternoon from filling the inbox and spending the daily quota on the word "test".
+
+The relay has **no automated test**. This repo has no test runner and should not grow one; its
+validation is short enough to read, and its real check is a curl against `vercel dev`. Recorded here
+rather than left to look like an oversight.
+
 ## Keeping this in step with the app
 
 The hosted policy and the one inside the app are **two renderings of the same promises** and they
@@ -84,9 +241,10 @@ this way, still claiming "no account, no server of ours" after the backup accoun
 precisely the contradiction a store reviewer cross-checks against the data-safety form.
 
 `policy.test.ts` in the app repo walks `USAGE_FIELDS` and fails the build if the in-app copy has no
-word for a field the daily usage note carries. Nothing does that for this page, so the field table
-under `/privacy/#usage` has to be checked by hand against `src/core/usage.ts` whenever the note
-changes.
+word for a field the daily usage note carries. It now walks `FEEDBACK_FIELDS` the same way, for
+what a feedback report carries. Nothing does that for this page, so the field table under
+`/privacy/#usage` and the list under `/privacy/#feedback` both have to be checked by hand against
+`src/core/usage.ts` and `src/core/feedback.ts` whenever either changes.
 
 ## Before submitting to Apple
 
@@ -119,19 +277,39 @@ Nomkin does locally is not collected. Three things leave, and they are answered 
 1. **The backup account**, only if the user asks for one.
 2. **The anonymous daily usage note**, on by default and switchable off.
 3. **An ad request**, only if the user switches on videos for coins.
+4. **A feedback report**, only if the user fills the form in and presses send.
 
-Rows 1 and 2 are **Optional**, **Shared: No** (Firebase is a processor, not a third party). Row 1 is
-purpose **App functionality**; row 2 is purpose **Analytics**.
+Rows 1, 2 and 4 are **Optional**, **Shared: No** (Firebase and Resend are processors, not third
+parties). Row 1 is purpose **App functionality**; row 2 is purpose **Analytics**; row 4 is purpose
+**App functionality**, specifically customer support.
 
-| Data type                            | Collected | Where from                                              |
-| ------------------------------------ | --------- | ------------------------------------------------------- |
-| Personal info → Email address        | Yes       | Firebase Auth, backup account only                       |
-| Personal info → User IDs             | Yes       | the Firebase uid, which is the Firestore document key    |
-| Health & fitness → Health info       | Yes       | profile, weight logs, food entries in the backup copy    |
-| Health & fitness → Fitness info      | Yes       | the day's step total, which travels inside the copy      |
-| Financial info → Purchase history    | Yes       | the coin ledger is part of the export, so it uploads too |
-| App activity → App interactions      | Yes       | the daily usage note: opens, screens, logging counts     |
-| Location, contacts, photos, messages, files, calendar, crash logs, diagnostics, advertising ID | No | — |
+| Data type                                                                          | Collected | Where from                                                    |
+| ---------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------- |
+| Personal info → Email address                                                      | Yes       | Firebase Auth for the backup account, **and the feedback form's reply-to** |
+| Personal info → User IDs                                                           | Yes       | the Firebase uid, which is the Firestore document key          |
+| Health & fitness → Health info                                                     | Yes       | profile, weight logs, food entries in the backup copy          |
+| Health & fitness → Fitness info                                                    | Yes       | the day's step total, which travels inside the copy            |
+| Financial info → Purchase history                                                  | Yes       | the coin ledger is part of the export, so it uploads too       |
+| App activity → App interactions                                                    | Yes       | the daily usage note: opens, screens, logging counts           |
+| **Messages → Other in-app messages**                                               | **Yes**   | **what somebody typed into the feedback box**                  |
+| **Photos and videos → Photos**                                                     | **Yes**   | **only a screenshot somebody chose to attach to feedback**     |
+| Location, contacts, files, calendar, crash logs, diagnostics, advertising ID       | No        | —                                                              |
+
+**Photos and Messages moved off the "No" line, and only the feedback form moved them.** Nomkin has
+no photo-library access: the form uses the phone's own picker, which hands over the one file the
+user chose. "Collected" is about leaving the device, though, not about how it was obtained, so both
+are Yes and both are Optional.
+
+Apple's side of those two rows is **User Content → Photos or Videos** and **User Content → Other
+User Content**, plus **Contact Info → Email Address** for the reply-to. All three are purpose **App
+Functionality**, **Not Used for Tracking**, and — unlike everything else in this table —
+**Linked to You**. That is not pessimism: an email address identifies a person and the message is
+attached to it, and Apple's question is association with an identity rather than profile-building.
+They are the first Linked rows in either listing.
+
+**The health categories are unaffected and must stay that way.** Nothing from HealthKit or Health
+Connect can reach a feedback report: its six fields are enumerated in `src/core/feedback.ts` in the
+app repo, and three separate tests fail the build if a seventh appears.
 
 Apple's side of the same answers: **Usage Data → Product Interaction**, purpose **Analytics**,
 **Not Linked to You**, **Not Used for Tracking**. "Not linked" is the honest answer and not a
@@ -152,6 +330,11 @@ That question is optional and carries no penalty — claiming yes with no such c
 For the usage note, "can users request deletion?" is honestly **no**, for the opposite reason: no
 identifier means nothing to look up. The control that exists is the switch, and the policy says so
 in those words rather than implying a request would be honoured.
+
+For **feedback**, the same question is honestly **yes** — a message has an address attached, so it
+can be found and deleted on request, and `/privacy/#feedback` says so in those words. That is the
+opposite of the note's answer, and the two sitting side by side is correct rather than
+inconsistent.
 
 Third-party advertising rows (**Identifiers · Usage Data · Diagnostics** against AdMob) are a
 separate matter and belong to the rewarded-video feature, not to any of the above.

@@ -133,10 +133,12 @@
       </div>
 
       <p>
-        Nomkin does not collect your name, phone number, contacts, photos, precise location,
+        Nomkin does not collect your name, phone number, contacts, photo library, precise location,
         advertising identifier, or any other device identifier. It asks for no email address and has
-        no sign-in unless you go looking for the backup account. If you switch on videos for coins,
-        Google's ad software — not Nomkin — sees your phone's internet address and some
+        no sign-in unless you go looking for the backup account, or write to us through the
+        <a href="#feedback">feedback form</a> &mdash; which is also the only place a picture is ever
+        sent anywhere, and only ever the single one you picked yourself. If you switch on videos for
+        coins, Google's ad software — not Nomkin — sees your phone's internet address and some
         technical detail about the device. That is set out in full under
         <a href="#ads">If you watch a video for coins</a>.
       </p>
@@ -273,6 +275,13 @@
         The barcode is decoded on your device by the operating system's own scanner. No photograph
         or video is taken, stored, or transmitted, and you can always type the numbers instead — or
         skip scanning entirely and search or quick-add.
+      </p>
+      <p>
+        There is one other place a camera can be involved, and Nomkin is not the one asking. If you
+        add a picture to the <a href="#feedback">feedback form</a>, your phone's own picker opens,
+        and on some phones that picker offers to take a new photograph as well as to choose an
+        existing one. Either way the app receives only the single file you chose, and only after you
+        have chosen it.
       </p>
 
       <h2 id="food-lookup">Looking a food up</h2>
@@ -621,12 +630,47 @@
 
       <h2 id="feedback">If you send feedback</h2>
       <p>
-        Settings has a Send feedback row. It opens your own email app with a message already written
-        out, and nothing goes anywhere until you send it yourself. Nomkin cannot send an email on its
-        own. The message ends with the app's version number and which kind of phone it is on, so a
-        report is easier to place — that is the whole of what it carries, and you can read all of it,
-        and change any of it, before it leaves. If you do write to us, we hold your email and what
-        you said for as long as it takes to answer you and to keep a record of the issue.
+        Settings has a Send feedback row with a small form on it: whether it is an idea or something
+        that broke, what you want to say, an email address to reply to, and a picture if you would
+        like to add one. Pressing send is what sends it, and nothing goes before that. The screen
+        names all of this in a sentence directly above the button, so you are not asked to go and
+        find this page first.
+      </p>
+      <p>
+        <strong>What travels</strong> is what you typed, your email address, the picture if you
+        added one, and the app's version number and which kind of phone it is on. Nothing from your
+        day goes with it: no food, no calories, no weight, no steps, and nothing from your phone's
+        health store. Those six things are the whole of it, and they are the whole of it by
+        construction rather than by intention &mdash; they are listed in one place in the app's
+        source, and three separate tests fail the build if a seventh is ever added.
+      </p>
+      <p>
+        It is sent over an encrypted connection to a small program at
+        <code>nomkin.app/api/feedback</code>, whose only job is to turn it into an email to the
+        address at the bottom of this page. That program is ours. It passes the message to
+        <strong>Resend</strong>, an email delivery provider, which acts as our processor and makes
+        no other use of what it carries. We use your address to write back to you and for nothing
+        else: there is no mailing list, and nothing to unsubscribe from.
+      </p>
+      <p>
+        <strong>Nomkin does not have access to your photo library.</strong> Adding a picture opens
+        your phone's own picker, which hands the app the single file you chose and nothing else. The
+        app then makes it smaller before it is sent, on your phone. What you attach is entirely your
+        choice, and a screenshot can show whatever was on your screen when you took it, so it is
+        worth a glance before you send one.
+      </p>
+      <p>
+        We hold your email and what you sent for as long as it takes to answer you and to keep a
+        record of the issue. Write to
+        <a href="mailto:hello@nomkin.app">hello@nomkin.app</a> at any time to have a message and its
+        picture deleted.
+      </p>
+      <p>
+        <strong>Your own email app still works, and it always will.</strong> The address is printed
+        on the same screen, next to a button that opens a draft in whatever mail app you already
+        have. That route is there whether or not the form is working, and whether or not you have a
+        connection &mdash; if you would rather write to us yourself, nothing about the form is in
+        the way.
       </p>
 
 
@@ -701,6 +745,12 @@
           <strong>Apple or Google</strong> — process a purchase if you make one, and carry your
           phone's own device backup if you have that switched on.
         </li>
+        <li>
+          <strong>Resend</strong> — our processor, and only if you use the
+          <a href="#feedback">feedback form</a>. Receives what you typed, your email address and any
+          picture you attached, in order to deliver it to us as an email, and makes no other use of
+          it.
+        </li>
       </ul>
       <p>
         There are no parent, subsidiary, or related entities with access to user data. To the extent
@@ -741,8 +791,11 @@
           are dropped as soon as the note goes, and dropped unsent if you turn the switch off.
         </li>
         <li>
-          <strong>Email you send us:</strong> kept for as long as it takes to answer and to keep a
-          record of the issue.
+          <strong>Email you send us, and anything sent through the
+          <a href="#feedback">feedback form</a>:</strong> kept for as long as it takes to answer and
+          to keep a record of the issue, and deleted on request. A picture attached to a report is
+          kept and deleted with the message it came with. Resend holds a copy in transit under its
+          own retention policy while it delivers.
         </li>
       </ul>
 

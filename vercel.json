@@ -7,6 +7,7 @@
     { "source": "/terms.html", "destination": "/terms/", "permanent": true },
     { "source": "/delete-account.html", "destination": "/delete-account/", "permanent": true }
   ],
+  "rewrites": [{ "source": "/api/feedback/", "destination": "/api/feedback" }],
   "headers": [
     {
       "source": "/(.*)",

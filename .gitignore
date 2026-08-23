@@ -1,0 +1,12 @@
+# The feedback relay's key, when running `npx vercel dev` locally.
+# RESEND_API_KEY belongs in Vercel's own environment variables for the deployed
+# site; a local .env exists only so the function can be exercised on a laptop.
+# There was no .gitignore here at all until the relay arrived, because a site
+# made entirely of static HTML had nothing worth withholding.
+.env
+.env.*
+
+# `vercel dev` and `vercel link` write here.
+.vercel
+
+.DS_Store
