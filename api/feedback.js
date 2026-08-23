@@ -71,7 +71,30 @@ const ALLOWED_IMAGE_TYPES = Object.keys(EXTENSIONS);
 /* Mirrors `osLabel` in the app's `src/core/feedback.ts`. Duplicated rather than shared because
    this file is a separate deployment in a separate repository with no access to that source, and
    three words are a cheaper duplication than a build step between two repos. */
-const OS_LABELS = { ios: 'iPhone', android: 'Android', web: 'the web build' };
+const OS_LABELS = { __proto__: null, ios: 'iPhone', android: 'Android', web: 'the web build' };
+
+/*
+ * The two kinds, and the word each puts in the subject line.
+ *
+ * `idea` and `bug` were the original values, from when the form's two options
+ * read "An idea" and "Something broke". The labels became "Feature Request" and
+ * "Feedback" and the app's values were renamed to match, because a subject
+ * reading "Nomkin bug" on a report somebody labelled "Feedback" defeats the one
+ * thing the split is for. The old names are still accepted, and cost two lines:
+ * without them the deploy order matters, and a relay that only speaks the new
+ * language rejects every send from an app build that has not caught up yet.
+ */
+const KINDS = {
+  /* Null-prototype, and not decoration. A plain object literal inherits
+     `constructor`, `toString` and the rest, all of which match the `PLAIN`
+     pattern below and would sail through as a valid kind, putting a function's
+     source into a mail subject. The same reason `OS_LABELS` has it. */
+  __proto__: null,
+  feedback: 'feedback',
+  feature: 'feature request',
+  bug: 'feedback',
+  idea: 'feature request',
+};
 
 const CORS = {
   /* `*` on purpose. The app's origin is `capacitor://localhost` on iOS and `https://localhost` on
@@ -158,7 +181,7 @@ function validate(payload) {
      caught. */
   if (typeof hp === 'string' && hp.length > 0) return bad(200, 'thanks');
 
-  if (kind !== 'idea' && kind !== 'bug') return bad(400, 'shape');
+  if (typeof kind !== 'string' || !KINDS[kind]) return bad(400, 'shape');
 
   if (typeof message !== 'string') return bad(400, 'shape');
   const trimmed = message.trim().slice(0, MAX_MESSAGE_LENGTH);
@@ -193,9 +216,8 @@ function validate(payload) {
 /* --- The email ------------------------------------------------------------ */
 
 function subjectFor(report) {
-  const word = report.kind === 'bug' ? 'bug' : 'idea';
   const os = OS_LABELS[report.os] || report.os;
-  return `Nomkin ${word} (${report.app}, ${os})`;
+  return `Nomkin ${KINDS[report.kind]} (${report.app}, ${os})`;
 }
 
 async function sendEmail(report, key) {
