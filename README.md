@@ -11,6 +11,9 @@ index.html                 the landing page — the app's first screen, plus "co
 privacy/index.html         the privacy policy submitted to Apple and Google
 terms/index.html           the terms of use, which double as the Apple EULA
 delete-account/index.html  the account/data deletion steps Play asks for by URL
+puzzles/index.html         the invitation to send in a drawing, and the embedded Tally form
+puzzles/terms/index.html   the submission terms, versioned separately from /terms/
+puzzles/thanks/index.html  where Tally redirects after a submission (noindex)
 styles.css                 every page
 assets/                    the dog, and the app icon (used as the favicon)
 vercel.json                security headers and the canonical-host redirect
@@ -35,6 +38,38 @@ The URLs the stores need are then:
 - Marketing URL: `https://nomkin.app/`
 - Terms of use / EULA: `https://nomkin.app/terms/`
 - Account deletion (Play): `https://nomkin.app/delete-account/`
+
+The app links out to one more, from Settings and from the puzzle screen:
+
+- Puzzle submissions: `https://nomkin.app/puzzles/`
+
+## The puzzle submission form
+
+`/puzzles/` embeds a [Tally](https://tally.so) form, form id `D4RQNN`, as an iframe plus Tally's
+own loader script. That script is the only third party on the site. `vercel.json` sets no
+Content-Security-Policy, so nothing needed an allowlist entry — **if a CSP is ever added,
+`tally.so` has to be on it or the form silently disappears.**
+
+Two things about the form live in Tally rather than here, and both will be invisible from this repo:
+
+- **The completion redirect points at `/puzzles/thanks/`.** Tally's free plan has no custom
+  thank-you screen. That page must stay deployed, or a successful submission lands on a 404.
+- **The email notification** goes to `hello@nomkin.app`. There is deliberately no `puzzles@`
+  address: every page here points submissions, credit changes and withdrawal requests at the one
+  inbox the rest of the site already uses.
+
+The terms the form's checkbox names are **versioned**, and the version is written into the checkbox
+label itself so that the wording somebody agreed to is stored with their response. When they change:
+publish the new version, leave the old one online at a stable URL, and update the label in Tally.
+
+**The site no longer offers a cutting template**, and `/puzzles/` no longer explains how a picture
+is divided. Anybody who plays the app has already watched one come apart into five, so the page
+says what a drawing has to be and leaves the mechanics to the app itself.
+
+The overlay still exists as an internal tool for vetting a submission against the real seams:
+`node scripts/makePuzzleTemplate.mjs` in the **app** repo, which generates it from
+`src/features/coins/puzzleShapes.ts` so it cannot drift from the actual cutter. Copy it back here if
+it is ever published again, and never redraw it by hand.
 
 ## Keeping this in step with the app
 

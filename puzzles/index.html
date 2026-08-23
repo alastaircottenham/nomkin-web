@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Send us a drawing &middot; Nomkin</title>
+    <meta
+      name="description"
+      content="Nomkin's daily puzzle is a picture cut into five. If you draw by hand and you are 18 or over, send us one. You keep the copyright, we credit you by name, and you can take it back out at any time."
+    />
+    <link rel="canonical" href="https://nomkin.app/puzzles/" />
+    <link rel="icon" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+
+    <!--
+      Tally's embed loader. In the markup and deferred, rather than injected by
+      a script at the end of the body: it wires the form up on DOMContentLoaded,
+      and a copy appended after that event has already fired never gets one. See
+      the note by the form itself.
+    -->
+    <script src="https://tally.so/widgets/embed.js" defer></script>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nomkin.app/puzzles/" />
+    <meta property="og:title" content="Draw a puzzle for Nomkin" />
+    <meta
+      property="og:description"
+      content="Hand-drawn pictures only. You keep the copyright, we credit you by name."
+    />
+    <meta property="og:image" content="https://nomkin.app/assets/app-icon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+
+  <body class="doc">
+    <main class="doc__inner">
+      <a class="doc__back" href="/">&larr; Nomkin</a>
+
+      <h1>Send us a drawing</h1>
+      <p class="doc__dates">
+        For artists 18 and over &middot; Drawn by hand &middot; You keep the copyright
+      </p>
+
+      <p class="doc__lede">
+        Every day, Nomkin shows one picture cut into five pieces, and the pieces turn over as the
+        day goes along. Those pictures have to come from somewhere. If you draw, we would love it to
+        be you. You keep your drawing and your copyright, your name goes under it in the app, and
+        you can ask for it back out whenever you like.
+      </p>
+
+      <!--
+        The hand-drawn rule comes before the size requirements on purpose.
+        Somebody who generates images should find that out in the first ten
+        seconds, not after reading a template spec. See the plan in the app repo.
+      -->
+      <h2 id="by-hand">Drawn by hand, by a person</h2>
+      <div class="doc__callout">
+        <p>
+          <strong>We don't accept AI-generated pictures.</strong> Not as a technicality, and not
+          because of where the training data came from. The
+          pictures in Nomkin are drawn by people, and somebody opening the app on a Tuesday is
+          looking at a thing another person made. A generated image cannot do that job, however good
+          it looks.
+        </p>
+        <p>
+          The same goes for tracing somebody else's work, and for photographs. Pencil, ink, paint,
+          crayon, a drawing tablet, vectors, pixels: all of that is drawing, and all of it is
+          welcome. Prompting is not.
+        </p>
+      </div>
+
+      <h2 id="who">Who can send one</h2>
+      <p>
+        You need to be <strong>18 or over</strong>. Sending us a drawing means agreeing to the
+        <a href="/puzzles/terms/">submission terms</a>.
+      </p>
+      <p>
+        <strong>If you are under 18, please keep drawing.</strong> We would genuinely love to see
+        your work when you are old enough to send it in.
+      </p>
+      <p>
+        You do not need to be a professional, or to have drawn anything for anybody before. Plenty
+        of the best pictures for something like this come from people who draw for themselves.
+      </p>
+
+      <h2 id="size">The size and the file</h2>
+      <ul>
+        <li><strong>2400 by 1600 pixels</strong>, landscape.</li>
+        <li>
+          <strong>PNG, under 10 MB.</strong> One file. Please don't send a folder of layers or a
+          project file.
+        </li>
+        <li>
+          <strong>Edge to edge.</strong> The drawing fills the whole rectangle. No border, no white
+          frame, no transparent margin around it, and nothing important right against the outside
+          edge.
+        </li>
+        <li>
+          <strong>Flat colour works best.</strong> The app's own art is flat and vector-ish with warm
+          colour, and that is the company your picture will be keeping. Heavy photographic texture
+          tends to go muddy once it is scaled down to phone size.
+        </li>
+      </ul>
+
+      <h2 id="yours">Your drawing stays yours</h2>
+      <p>
+        You keep the copyright. We are asking to borrow it, not to own it, and the permission you
+        give is non&#8209;exclusive: you can sell it, print it, post it or license it to somebody
+        else, and you never need to ask us. If you want it out of the app, write to us and it comes
+        out of the next update, no reason needed.
+      </p>
+      <p>
+        <strong>Submissions are unpaid.</strong> Nomkin is free, it sells an in&#8209;app currency
+        and it can show rewarded videos to people who have switched them on, so it can make money on
+        a day your drawing is showing, and you get no share of that.
+      </p>
+      <p>
+        The full detail, including what the app does to the file and what we cannot undo once
+        somebody has installed an old version, is in the
+        <a href="/puzzles/terms/">submission terms</a>. They are short, and worth the two minutes.
+      </p>
+
+      <h2 id="next">What happens after you send it</h2>
+      <p>
+        We review every submission. We cannot use them all, and a drawing that does not go in is
+        usually about fit rather than quality: the style, or the way it sits in five pieces, or
+        simply that we already have plenty in hand.
+      </p>
+      <p>
+        We are not able to give feedback on individual submissions, and we cannot promise a reply
+        either way, so please don't read anything into a quiet inbox. If yours is going in, we will
+        email you.
+      </p>
+      <p>
+        The pictures are built into the app itself, so even a yes means a future update rather than
+        tomorrow. There is no limit on how many you send, and no advantage in sending them all at
+        once.
+      </p>
+
+      <h2 id="form">Submission form</h2>
+
+      <div class="doc__form">
+        <!--
+          The height is measured, not guessed: the Submit button's bottom edge
+          sits at 938px on a 375px-wide phone and 880px in this column, so 1100
+          clears both with room for a validation message and for the upload
+          block growing once a file is picked. `dynamicHeight=1` is still asked
+          for in the URL, and if Tally ever starts honouring it the frame simply
+          gets more accurate. Nothing depends on it: the container is
+          transparent, so height left over reads as whitespace rather than as an
+          empty box.
+
+          The id is the form id, which is how Tally's script finds an embed again
+          when the form posts its height back out. Without it the frame keeps
+          whatever height the attribute below says and a long form is scrolled
+          inside a short box.
+        -->
+        <iframe
+          id="D4RQNN"
+          data-tally-src="https://tally.so/embed/D4RQNN?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1"
+          loading="lazy"
+          width="100%"
+          height="1100"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          title="Send Nomkin a puzzle drawing"
+        ></iframe>
+        <noscript>
+          <p>
+            The form needs JavaScript. You can
+            <a href="https://tally.so/r/D4RQNN" rel="noopener">open it in a new tab</a> instead, or
+            write to <a href="mailto:hello@nomkin.app">hello@nomkin.app</a>.
+          </p>
+        </noscript>
+      </div>
+
+      <p class="doc__foot">
+        By sending a drawing you agree to the <a href="/puzzles/terms/">submission terms</a>. See
+        also the <a href="/privacy/#puzzles">privacy policy</a> for what happens to your details.
+      </p>
+    </main>
+
+    <!--
+      Tally's standard embed loader. It swaps `data-tally-src` onto `src` once
+      the widget script is up, and the script is the only third party on the
+      site. `vercel.json` sets no Content-Security-Policy, so nothing here needs
+      an allowlist entry; if one is ever added, tally.so has to be on it.
+    -->
+    <script>
+      /*
+       * The safety net under the form, and it is not decoration.
+       *
+       * Tally publishes a snippet that injects its loader and then calls
+       * `Tally.loadEmbeds()` to fill in each iframe's `src`. That call was
+       * tested on this page and does nothing at all: the frame matches the
+       * selector the library looks for, and the src is never set. A page that
+       * trusted it would show an empty box where the form should be, which is
+       * the worst thing that could go wrong here.
+       *
+       * So: the script above is given its proper chance to wire the frame up,
+       * including the resizer that makes the form grow to fit its own content.
+       * Then, once everything has loaded, anything still without a `src` gets
+       * one directly. If Tally worked, this finds nothing to do. If it did not,
+       * the form still loads and simply scrolls inside the fixed height below.
+       */
+      window.addEventListener('load', function () {
+        document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function (frame) {
+          frame.src = frame.dataset.tallySrc;
+        });
+      });
+    </script>
+  </body>
+</html>
