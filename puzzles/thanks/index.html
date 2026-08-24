@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Thanks for your drawing &middot; Nomkin</title>
+    <title>Thanks for your submission &middot; Nomkin</title>
     <!--
       A destination rather than a page anybody should arrive at from a search:
       Tally sends people here when a submission goes through, and it says
@@ -13,38 +13,107 @@
     <meta name="description" content="Your puzzle drawing reached us." />
     <link rel="canonical" href="https://nomkin.app/puzzles/thanks/" />
     <link rel="icon" href="/assets/app-icon.png" />
+    <meta name="theme-color" content="#ef9f27" />
+
+    <!-- The heading is the first thing drawn and the page is one card long, so
+         the display face is on the critical path rather than swapped in late.
+         Only the latin subset: no glyph on this page falls outside it. -->
+    <link
+      rel="preload"
+      href="/assets/fonts/grandstander-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="/styles.css" />
   </head>
 
-  <body class="doc">
-    <main class="doc__inner">
-      <a class="doc__back" href="/">&larr; Nomkin</a>
+  <body class="page">
+    <header class="topbar">
+      <div class="topbar__inner">
+        <a class="topbar__back" href="/">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M15 5 8 12l7 7" />
+          </svg>
+          Nomkin
+        </a>
+        <nav class="topbar__links" aria-label="Related pages">
+          <a href="/puzzles/terms/">Submission terms</a>
+          <a href="/privacy/#puzzles">Privacy</a>
+        </nav>
+      </div>
+    </header>
 
-      <h1>Thanks. It reached us.</h1>
+    <main class="thanks">
+      <!--
+        One card, and the same cream sticker the submission form sits in — a
+        person who has just sent a drawing arrives here straight from that page,
+        and the two should read as one object handing over to the next.
+      -->
+      <div class="receipt">
+        <div class="stamp">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 12.5l5 5L20 6.5" />
+          </svg>
+        </div>
 
-      <p class="doc__lede">
-        Your drawing is in, and a person will look at it. If it is going into the app we will email
-        you, and you will see it in a future update with your name underneath it.
-      </p>
+        <h1>Thanks for your submission!</h1>
 
-      <h2 id="next">What happens now</h2>
-      <p>
-        Every drawing is looked at by hand, which takes as long as it takes. We cannot use all of
-        them, and we are not able to give feedback on individual submissions, so please don't read
-        anything into a quiet inbox. It is not a comment on your work.
-      </p>
+        <p class="receipt__lede">We've received your drawing and can't wait to have a look.</p>
 
-      <h2 id="mind">If you change your mind</h2>
-      <p>
-        You can withdraw a drawing at any time, for any reason, without explaining it. Write to
-        <a href="mailto:hello@nomkin.app">hello@nomkin.app</a> and it comes out of the next
-        update. The <a href="/puzzles/terms/">submission terms</a> set out exactly what that means.
-      </p>
+        <!--
+          What happens next, as three beats rather than a paragraph. The first
+          dot is filled and the other two are not, so where this submission has
+          got to is readable without reading anything.
+        -->
+        <ol class="steps">
+          <li class="step step--done">
+            <span class="step__rail" aria-hidden="true"><span class="step__dot"></span></span>
+            <div class="step__body">
+              <h2>We have it</h2>
+              <p>Nothing else for you to do.</p>
+            </div>
+          </li>
 
-      <p class="doc__foot">
-        Got another one in you? The <a href="/puzzles/">submission page</a> is still there. There is
-        no limit on how many you send, and no advantage to sending them all at once.
-      </p>
+          <li class="step">
+            <span class="step__rail" aria-hidden="true"><span class="step__dot"></span></span>
+            <div class="step__body">
+              <h2>We will review your drawing</h2>
+              <p>
+                We cannot use all submitted drawings for various reasons though appreciate every
+                submission. We also cannot give feedback on individual submissions so don't read
+                anything into a quiet inbox.
+              </p>
+            </div>
+          </li>
+
+          <li class="step">
+            <span class="step__rail" aria-hidden="true"><span class="step__dot"></span></span>
+            <div class="step__body">
+              <h2>If it is going in, we will email you</h2>
+              <p>
+                The pictures are built into the app, so it would appear in a future update, name and
+                all :)
+              </p>
+            </div>
+          </li>
+        </ol>
+
+        <p class="receipt__note">
+          <strong>Changed your mind?</strong> You can withdraw a drawing at any time. Write to
+          <a href="mailto:hello@nomkin.app">hello@nomkin.app</a> and it comes out of the next update,
+          the <a href="/puzzles/terms/">submission terms</a> set out exactly what that means.
+        </p>
+
+        <a class="sticker sticker--amber" href="/puzzles/">
+          Send another drawing
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+
+        <p class="receipt__foot">No limit on how many you send.</p>
+      </div>
     </main>
   </body>
 </html>

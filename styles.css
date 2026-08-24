@@ -23,7 +23,44 @@
   /* Move — teal */
   --color-move-fill: #1d9e75;
 
+  --color-move-track: #e1f5ee;
+  /* The app's ink for anything drawn on the Move fill. */
+  --color-move-text-on: #012a22;
+
   --color-pet-cream: #fff6e8;
+  --color-pet-ink: #3a2a18;
+
+  /* Amber tokens the puzzle page adds. The track is the bar background in the
+     app and the fill behind the age rule here; the recess is the amber wash
+     darkened, and it is the one hole in a jigsaw that never gets filled in. */
+  --color-food-track: #faeeda;
+  --color-food-recess: #c4801c;
+
+  /*
+   * `--color-food-line`, for the surfaces that do not follow the OS theme.
+   *
+   * The ordinary one lightens to a pale amber in dark mode, which is right on a
+   * dark page and wrong on the two cream cards, where a link would be pale amber
+   * on cream. Those cards are fixed colour on purpose, so their ink has to be
+   * fixed too, and this is the same value the light scheme uses everywhere else.
+   */
+  --color-food-line-fixed: #854f0b;
+
+  /*
+   * The ink inside the two rule blocks, and the reason it is four tokens rather
+   * than reusing --color-food-text-on and --color-move-text-on.
+   *
+   * Those two are near-blacks that never flip, because in the app they are read
+   * against a bright fill that never flips either — and this page still uses
+   * --color-food-text-on that way, on the amber wash and the cream form card.
+   * The rule blocks are different: their fill IS a surface, dark in dark mode,
+   * and a near-black title on a dark brown track is invisible. So the blocks
+   * get their own pair each, and those are the ones the scheme flips.
+   */
+  --rule-hand-title: #012a22;
+  --rule-hand-body: #12463a;
+  --rule-age-title: #412402;
+  --rule-age-body: #5b3606;
 
   /* Document surfaces — light */
   --color-surface: #fffdf9;
@@ -36,6 +73,52 @@
   --font-sans:
     ui-rounded, 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', system-ui, sans-serif;
+
+  /*
+   * The app's own face, for pages that are meant to feel like the app rather
+   * than like paperwork. The privacy and terms pages keep --font-sans: they are
+   * documents, and the system stack is what a document should be set in.
+   */
+  --font-display: 'Grandstander', var(--font-sans);
+
+  /* Shared page furniture. One column width and one gutter, so the header, the
+     hero, every section and the footer line up down the whole page. */
+  --wrap-max: 76rem;
+  --wrap-pad: clamp(1.25rem, 5vw, 4.5rem);
+}
+
+/*
+ * Grandstander, self-hosted, copied from `src/design/fonts/` in the app repo.
+ *
+ * Not linked from Google's CDN: the app bundles its faces because spec §13
+ * allows it one network call, and a marketing site that pulled the same face
+ * from a third party would be handing that visitor to Google for nothing. Two
+ * files, same as the app — `-ext` is only fetched if a glyph outside basic
+ * latin is drawn, which on these pages does not happen.
+ *
+ * Variable, 400 through 800, so the whole weight range is one request.
+ */
+@font-face {
+  font-family: 'Grandstander';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/assets/fonts/grandstander-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Grandstander';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/assets/fonts/grandstander-latin-ext.woff2') format('woff2');
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
 }
 
 *,
@@ -176,19 +259,84 @@ svg {
   opacity: 0.85;
 }
 
+/*
+ * Two lines, not one run of five. Everything in the footer used to sit in a
+ * single wrapping row at the same size and colour, which made the copyright
+ * look like a fifth link and left the real links dangling wherever the row
+ * happened to break. The links are now their own row and the legal line sits
+ * under them, so a narrow phone that wraps still reads as links-then-copyright.
+ */
 .site-footer {
   padding-top: 2rem;
   font-size: 0.85rem;
   color: var(--color-food-ink-soft);
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  /* Wider than the widest link run, so `justify-content: center` inside the
+     nav centres against the page rather than against the text. */
+  width: 100%;
+}
+
+.site-footer__links {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  /* The gap between links is smaller than the gap to the legal line above, so
+     the four of them group as one thing however many rows they take. */
+  column-gap: 1.5rem;
+  row-gap: 0.35rem;
 }
 
 .site-footer a {
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
+  /* A softer rule under each link at rest, full strength on hover: four
+     underlines at full weight is a lot of line for one row of small text. */
+  text-decoration-color: rgba(91, 54, 6, 0.45);
+  /* Height for a fingertip without pushing the rows apart visually. */
+  padding: 0.25rem 0;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.site-footer :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/*
+ * Under about 25rem the four links stop fitting on one line, and a single flex
+ * row leaves the last one stranded by itself underneath. Two even pairs is the
+ * same four links with nothing orphaned, and it holds to the narrowest phone.
+ */
+@media (max-width: 25rem) {
+  .site-footer__links {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    justify-items: center;
+    column-gap: 1.75rem;
+  }
+
+  /* The second row costs height on a screen that has little to spare, so the
+     space around the block gives some of it back. */
+  .site-footer {
+    padding-top: 1.5rem;
+    gap: 0.6rem;
+  }
+}
+
+/* Same ink as the links — it has to stay legible on the amber — and set apart
+   by size and position instead of by going pale. */
+.site-footer__legal {
+  margin: 0;
+  font-size: 0.8rem;
 }
 
 /* --- The privacy page: a document ----------------------------------------- */
@@ -326,53 +474,726 @@ svg {
 /* --- The puzzle submission page ------------------------------------------- */
 
 /*
- * The one rule on the page that has to be read, given its own block.
+ * This page is not a document, and it is the one page here that isn't.
  *
- * `doc__lede` is already the amber-bordered pull-out at the top of every
- * document here, so this takes the teal instead: two pull-outs in the same
- * colour on the same page reads as decoration, and the point of this one is
- * that it is not the lede saying it again.
+ * Privacy and terms are things you are made to read; this one is asking a
+ * favour of somebody who draws, and it has to look like the app they would be
+ * drawing for. So it takes the app's face, the app's amber, and the app's
+ * stickers, and it is built mobile-first — the link is opened from a phone, out
+ * of the app itself (`PUZZLE_SUBMISSION_URL` in the app repo).
  */
-.doc__callout {
-  background: var(--color-surface-sunken);
-  border-left: 4px solid var(--color-move-fill);
-  border-radius: 0 12px 12px 0;
-  padding: 1.1rem 1.25rem;
-  margin: 1.25rem 0 2rem;
+.page {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  min-height: 100svh;
 }
 
-.doc__callout p {
-  margin: 0 0 0.75rem;
-}
-
-.doc__callout p:last-child {
-  margin-bottom: 0;
+.page h1,
+.page h2,
+.page h3 {
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 /*
- * The embedded form.
+ * The page's link colour.
  *
- * Deliberately undecorated: no border, no background, no padding. Tally does
- * not size the frame to its content here. Its own loader turned out to be a
- * no-op in testing, and the resizer its iframe is ready for never gets wired
- * up, so the frame carries a measured height with room to spare instead. A
- * bordered box would then draw a line around the leftover, which reads as
- * something having failed to load. On the page background, spare height is
- * just whitespace.
+ * Deliberately left at one class and one element. Several things on these pages
+ * are an `<a>` without being a link — the stickers, the cards' own fixed-colour
+ * prose — and each overrides this from its own rule further down the file, on
+ * the same specificity, by source order. Adding so much as a `:not()` here
+ * out-ranks all of them at once and silently repaints them.
  */
-.doc__form {
-  margin: 1.5rem 0 1rem;
+.page a {
+  color: var(--color-food-line);
+  text-underline-offset: 3px;
 }
 
-.doc__form iframe {
+.page :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* For the heading a screen reader wants over the two rule blocks and a sighted
+   reader does not — the blocks say what they are in their own titles. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- Header --- */
+
+.topbar {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.topbar__inner {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: max(0.875rem, env(safe-area-inset-top)) var(--wrap-pad) 0.875rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.topbar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-food-line);
+  text-decoration: none;
+}
+
+.topbar__back svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.topbar__links {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.topbar__links a {
+  color: var(--color-food-line);
+  text-decoration: none;
+}
+
+.topbar__back:hover,
+.topbar__links a:hover {
+  text-decoration: underline;
+}
+
+/* --- Hero --- */
+
+/*
+ * A full amber wash, and it does not follow the OS theme — the same decision
+ * the landing page makes, for the same reason: this is a moment in the app's
+ * own colour rather than a surface. Every ink on it is therefore fixed too.
+ */
+.hero {
+  background: var(--color-food-fill);
+  color: var(--color-food-text-on);
+}
+
+.hero__inner {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 4rem) var(--wrap-pad) clamp(2.75rem, 7vw, 4.5rem);
+  display: grid;
+  gap: clamp(2.25rem, 6vw, 3.5rem);
+}
+
+.hero__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.125rem, 9vw, 3.625rem);
+  line-height: 1.03;
+  font-weight: 800;
+  margin: 0;
+  color: var(--color-food-text-on);
+}
+
+.hero__lede {
+  font-size: clamp(1.0625rem, 4vw, 1.1875rem);
+  line-height: 1.5;
+  color: var(--color-food-ink-soft);
+  max-width: 34ch;
+  margin: 0;
+}
+
+/*
+ * The sticker: a solid edge with a hard offset under it, which is how every
+ * pressable thing in the app is drawn (`.ob__primary` there). Cream rather than
+ * amber because it is standing on the amber — a fill matching its ground would
+ * be an outline, not a button.
+ */
+.sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3.5rem;
+  padding: 0 1.75rem;
+  background: var(--color-pet-cream);
+  color: var(--color-food-text-on);
+  border: 2px solid var(--color-food-text-on);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--color-food-text-on);
+  font-family: inherit;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sticker svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/*
+ * The same sticker with the fills swapped, for when it is standing on cream
+ * rather than on the amber wash. A button has to be a different colour from
+ * whatever it is sitting on, or it reads as an outline rather than an object.
+ */
+.sticker--amber {
+  background: var(--color-food-fill);
+}
+
+/*
+ * The label, restated against `.page a`.
+ *
+ * Both stickers are anchors, so the page's link colour applies to them at the
+ * same specificity this selector has — and this one is further down the file,
+ * which is the whole of why it wins. Without it the button label goes link
+ * brown in light and pale amber in dark, the second of which is 1.2:1 on cream.
+ */
+a.sticker {
+  color: var(--color-food-text-on);
+}
+
+@media (hover: hover) {
+  .sticker:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.sticker:active {
+  transform: translateY(1px);
+}
+
+/* --- The cut --- */
+
+.hero__art {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cut {
   display: block;
   width: 100%;
+  height: auto;
+}
+
+.cut__hole {
+  fill: var(--color-food-recess);
+}
+
+/*
+ * Every piece carries its own outline rather than the frame carrying a set of
+ * seams, which is what gives the empty space an edge as well: the hole is
+ * bounded by the four pieces around it, and it reads as a hole because of them.
+ *
+ * `--color-pet-ink` because a jigsaw piece is an object in the world rather
+ * than chrome, and it is the same argument (and the same token) that keeps the
+ * animal one colour in both schemes.
+ */
+.cut__seams path,
+.cut__lift-edge {
+  fill: none;
+  stroke: var(--color-pet-ink);
+  stroke-linejoin: round;
+}
+
+.cut__seams path {
+  stroke-width: 1.1;
+}
+
+.cut__lift-edge {
+  stroke-width: 1.6;
+}
+
+.cut__lift-shadow {
+  fill: rgb(65 36 2 / 32%);
+}
+
+.hero__art figcaption {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-food-ink-soft);
+  text-align: center;
+}
+
+@media (min-width: 60rem) {
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+    align-items: center;
+  }
+}
+
+/* --- Sections --- */
+
+.section {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 4.5rem) var(--wrap-pad) 0;
+}
+
+
+.section > h2 {
+  font-size: clamp(1.5rem, 5.5vw, 1.875rem);
+  font-weight: 800;
+  margin: 0;
+}
+
+/* --- What to send --- */
+
+.spec__grid {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--color-surface-sunken);
+  border: 1.5px solid var(--color-border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.card__icon {
+  width: 1.625rem;
+  height: 1.625rem;
+  fill: none;
+  stroke: var(--color-food-line);
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.card h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+@media (min-width: 40rem) {
+  .spec__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .spec__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* --- The two rules --- */
+
+.rules__grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.rule {
+  border: 2px solid;
+  border-radius: 16px;
+  padding: 1.375rem 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.rule__icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rule h3 {
+  font-size: clamp(1.1875rem, 4.5vw, 1.3125rem);
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+}
+
+.rule p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.rule--hand {
+  background: var(--color-move-track);
+  border-color: var(--color-move-fill);
+  color: var(--rule-hand-body);
+}
+
+.rule--hand h3,
+.rule--hand .rule__icon {
+  color: var(--rule-hand-title);
+}
+
+.rule--age {
+  background: var(--color-food-track);
+  border-color: var(--color-food-line);
+  color: var(--rule-age-body);
+}
+
+.rule--age h3,
+.rule--age .rule__icon {
+  color: var(--rule-age-title);
+}
+
+.rule a {
+  color: inherit;
+}
+
+@media (min-width: 64rem) {
+  .rules__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* --- The form --- */
+
+/*
+ * The card is cream in both schemes, and that is a fix rather than a whim.
+ *
+ * The embed is asked for with `transparentBackground=1`, so Tally paints its
+ * own labels and nothing behind them, and those labels are dark. On a dark
+ * surface that is dark text on a dark page — which is what the old undecorated
+ * container did in dark mode. Pinning the card to the app's cream gives the
+ * form the one ground its ink was drawn for, in either scheme, and it is the
+ * same reasoning as the pet's palette: an object, not chrome.
+ */
+/*
+ * `--tally-height` is two jobs in one number: the height the frame starts at,
+ * and the height below which it is never allowed to end up.
+ *
+ * Tally's resizer is what sets the height in the end, and what it reports is
+ * exact — *once the form has finished rendering*. It reports from inside a
+ * frame this page cannot see into, and if it measures while the form is still
+ * coming up it reports short. The frame is `scrolling="no"`, so a short height
+ * does not become a scrollbar: the bottom of the form is simply gone, and the
+ * Submit button with it. That is a race, which is why it shows up on one
+ * machine and not another.
+ *
+ * So the frame carries this as a `min-height` as well. The resizer can still
+ * grow it — for a validation message, or the upload block once a file is
+ * picked — it just cannot shrink it into hiding anything.
+ *
+ * The floors are deliberately a little over the measured worst case in each
+ * band, because the two failures are not equal: spare cream at the bottom of a
+ * cream card costs nothing, and an invisible Submit button costs a submission.
+ * Measured, by frame width — the card is the full column now, so the frame is
+ * the viewport less both gutters:
+ *
+ *   frame 248px (320px phone) → 1153px     frame 476px  → 1030px
+ *   frame 303px (375px phone) → 1153px     frame 534px  → 1012px
+ *   frame 355px (430px phone) → 1095px     frame 640px+ → 1012px
+ *   frame 399px               → 1077px
+ *
+ * Re-measure if a question is ever added to the form.
+ */
+.formcard {
+  --tally-height: 1160px;
+
+  /* No cap: the card is one of the page's columns and lines up with the spec
+     cards and the rule blocks above it. Tally has no maximum width of its own,
+     so the fields run as wide as the card does. */
+  background: var(--color-pet-cream);
+  color: #241a0e;
+  border: 2px solid var(--color-food-text-on);
+  border-radius: 20px;
+  box-shadow: 0 5px 0 var(--color-food-text-on);
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(0.875rem, 3vw, 3rem) clamp(1.5rem, 4vw, 2.75rem);
+}
+
+@media (min-width: 27rem) {
+  .formcard {
+    --tally-height: 1105px;
+  }
+}
+
+@media (min-width: 37.5rem) {
+  .formcard {
+    --tally-height: 1040px;
+  }
+}
+
+.formcard h2 {
+  font-size: clamp(1.5rem, 5.5vw, 1.875rem);
+  font-weight: 800;
+  margin: 0 0 1.25rem;
+  color: inherit;
+}
+
+.formcard__frame iframe {
+  display: block;
+  width: 100%;
+  height: var(--tally-height);
+  /* The floor the resizer cannot go under — see the note on `.formcard`. It has
+     to be a separate declaration rather than part of `height`, because the
+     resizer sets an inline height and an inline style beats this rule. */
+  min-height: var(--tally-height);
   border: 0;
 }
 
-.doc__form noscript p {
-  padding: 1rem;
+.formcard__frame noscript p {
   margin: 0;
+  color: inherit;
+}
+
+/* Fixed rather than themed, because the card it sits on is — see the note by
+   `--color-food-line-fixed`. */
+.formcard a {
+  color: var(--color-food-line-fixed);
+}
+
+
+/* --- The thanks page ------------------------------------------------------ */
+
+.thanks {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 4rem) var(--wrap-pad)
+    max(clamp(2.5rem, 6vw, 4rem), env(safe-area-inset-bottom));
+}
+
+/*
+ * The card, cream in both schemes for the same reason `.formcard` is: somebody
+ * lands here the instant they leave that card, and two surfaces that disagree
+ * about which scheme they are in would read as two different products. The inks
+ * inside it are literal rather than tokens for the same reason — the ground
+ * under them never flips, so nothing keyed to the OS theme belongs on it.
+ */
+.receipt {
+  max-width: 38rem;
+  margin-inline: auto;
+  background: var(--color-pet-cream);
+  color: #241a0e;
+  border: 2px solid var(--color-food-text-on);
+  border-radius: 22px;
+  box-shadow: 0 5px 0 var(--color-food-text-on);
+  padding: clamp(1.75rem, 5vw, 2.75rem) clamp(1.25rem, 4vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.875rem;
+}
+
+/* The one green thing on the site, and it only appears once something has
+   actually happened. Teal is the app's Move colour; here it is just done. */
+.stamp {
+  width: clamp(4.125rem, 12vw, 4.625rem);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--color-move-fill);
+  border: 2px solid var(--color-move-text-on);
+  box-shadow: 0 4px 0 var(--color-move-text-on);
+  display: grid;
+  place-items: center;
+  margin-bottom: 0.25rem;
+}
+
+/*
+ * The tick takes the app's own ink for the Move fill rather than the cream the
+ * conventional success badge would use. Cream on this green is 3.16:1 — over
+ * the bar for a graphic and no more than that — where the token pair the app
+ * already trusts for exactly this job clears 7:1.
+ */
+.stamp svg {
+  width: 52%;
+  height: 52%;
+  fill: none;
+  stroke: var(--color-move-text-on);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.receipt h1 {
+  font-size: clamp(1.75rem, 6.5vw, 2.375rem);
+  line-height: 1.1;
+  font-weight: 800;
+  margin: 0;
+}
+
+.receipt__lede {
+  font-size: clamp(1rem, 4vw, 1.0625rem);
+  line-height: 1.5;
+  color: #5c4f41;
+  max-width: 40ch;
+  margin: 0;
+}
+
+/* --- What happens next --- */
+
+.steps {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.step {
+  display: flex;
+  gap: 0.875rem;
+}
+
+/*
+ * The rail is a column so the connector can simply take the space left under
+ * the dot: `flex: 1` against a row whose height is set by the text beside it.
+ * That way a step whose paragraph runs to four lines gets a longer line without
+ * anything measuring anything.
+ */
+.step__rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1.25rem;
+  flex-shrink: 0;
+}
+
+.step__dot {
+  width: 0.9375rem;
+  height: 0.9375rem;
+  border-radius: 999px;
+  background: #fffdf9;
+  border: 2px solid var(--color-food-line-fixed);
+  margin-top: 0.3rem;
+}
+
+.step--done .step__dot {
+  background: var(--color-move-fill);
+  border-color: #012a22;
+}
+
+.step:not(:last-child) .step__rail::after {
+  content: '';
+  width: 2px;
+  flex: 1;
+  background: #e6ded2;
+}
+
+.step:not(:last-child) .step__body {
+  padding-bottom: 1.375rem;
+}
+
+.step h2 {
+  font-size: 1.03125rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.step p {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #5c4f41;
+  margin: 0;
+}
+
+/* --- The small print and the ask --- */
+
+.receipt__note {
+  width: 100%;
+  text-align: left;
+  margin: 0.5rem 0 0;
+  padding-top: 1.125rem;
+  border-top: 1px solid #e6ded2;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #7a6a58;
+}
+
+.receipt__note strong {
+  color: #241a0e;
+}
+
+/*
+ * Scoped to the note rather than the whole card, and that matters: the button
+ * below is an `<a>` too, and a rule on `.receipt a` out-ranks `.sticker` — which
+ * repainted the button's label in link brown, on amber, at 3.1:1.
+ */
+.receipt__note a {
+  color: var(--color-food-line-fixed);
+}
+
+.receipt .sticker {
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.receipt__foot {
+  font-size: 0.8125rem;
+  color: #7a6a58;
+  margin: 0;
+}
+
+@media (min-width: 30rem) {
+  .receipt .sticker {
+    width: auto;
+  }
+}
+
+/* --- Foot --- */
+
+.page__foot {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3rem) var(--wrap-pad)
+    max(clamp(2.5rem, 6vw, 3.5rem), env(safe-area-inset-bottom));
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker {
+    transition: none;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -384,5 +1205,21 @@ svg {
     --color-text-secondary: #ded2c2;
     --color-text-muted: #b3a692;
     --color-food-line: #f0b45a;
+
+    /*
+     * The two rule blocks, inverted. The tracks come straight from the app's
+     * own dark tokens; the four inks are this file's, because the app never
+     * sets type on a track and so has no pair to copy.
+     *
+     * Everything else on this page that is amber — the hero wash, the sticker,
+     * the form card and its edge — is deliberately absent from this block. It
+     * is fixed colour in both schemes, and that is the point of it.
+     */
+    --color-food-track: #3d2c10;
+    --color-move-track: #113b31;
+    --rule-hand-title: #d9f2e8;
+    --rule-hand-body: #b9ddd1;
+    --rule-age-title: #f7e6cd;
+    --rule-age-body: #ddc9a7;
   }
 }

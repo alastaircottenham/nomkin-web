@@ -3,13 +3,30 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Send us a drawing &middot; Nomkin</title>
+    <title>Submit your drawing &middot; Nomkin</title>
     <meta
       name="description"
-      content="Nomkin's daily puzzle is a picture cut into five. If you draw by hand and you are 18 or over, send us one. You keep the copyright, we credit you by name, and you can take it back out at any time."
+      content="Nomkin's daily puzzle is a hand-drawn picture cut into five. If you draw by hand and you are 18 or over, send us one for review."
     />
     <link rel="canonical" href="https://nomkin.app/puzzles/" />
     <link rel="icon" href="/assets/app-icon.png" />
+    <meta name="theme-color" content="#ef9f27" />
+
+    <!--
+      Grandstander is the app's own face and now this page's, so it is on the
+      critical path rather than swapped in late: the headline is the first thing
+      rendered and the fallback stack sets a good deal wider. Only the latin
+      subset is preloaded — `-ext` is declared in the stylesheet and fetched
+      only if a glyph outside basic latin is actually drawn, which on this page
+      is never.
+    -->
+    <link
+      rel="preload"
+      href="/assets/fonts/grandstander-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="/styles.css" />
 
     <!--
@@ -22,161 +39,293 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nomkin.app/puzzles/" />
-    <meta property="og:title" content="Draw a puzzle for Nomkin" />
+    <meta property="og:title" content="Submit your drawing to Nomkin" />
     <meta
       property="og:description"
-      content="Hand-drawn pictures only. You keep the copyright, we credit you by name."
+      content="Hand-drawn pictures only. Your artwork, cut into five, in the daily puzzle rotation."
     />
     <meta property="og:image" content="https://nomkin.app/assets/app-icon.png" />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
 
-  <body class="doc">
-    <main class="doc__inner">
-      <a class="doc__back" href="/">&larr; Nomkin</a>
+  <body class="page">
+    <header class="topbar">
+      <div class="topbar__inner">
+        <a class="topbar__back" href="/">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M15 5 8 12l7 7" />
+          </svg>
+          Nomkin
+        </a>
+        <nav class="topbar__links" aria-label="Related pages">
+          <a href="/puzzles/terms/">Submission terms</a>
+          <a href="/privacy/#puzzles">Privacy</a>
+        </nav>
+      </div>
+    </header>
 
-      <h1>Send us a drawing</h1>
-      <p class="doc__dates">
-        For artists 18 and over &middot; Drawn by hand &middot; You keep the copyright
-      </p>
+    <main>
+      <!--
+        The hero keeps the app's amber wash rather than the document surface the
+        rest of this page uses, for the reason the landing page does: this is a
+        moment in the app's own colour, and it does not follow the OS theme.
+      -->
+      <section class="hero">
+        <div class="hero__inner">
+          <div class="hero__copy">
+            <h1>Submit your drawing</h1>
+            <p class="hero__lede">
+              Want to see your artwork featured in Nomkin as part of the daily puzzle rotation? Have
+              a read below and send it through for review.
+            </p>
+            <a class="sticker" href="#form">
+              Send us a drawing
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 5v14M5 12l7 7 7-7" />
+              </svg>
+            </a>
+          </div>
 
-      <p class="doc__lede">
-        Every day, Nomkin shows one picture cut into five pieces, and the pieces turn over as the
-        day goes along. Those pictures have to come from somewhere. If you draw, we would love it to
-        be you. You keep your drawing and your copyright, your name goes under it in the app, and
-        you can ask for it back out whenever you like.
-      </p>
+          <!--
+            The cut, drawn rather than described.
+
+            The five outlines are the *real* ones: `puzzleShapes.ts` in the app
+            repo generates them, and the path data here is that generator's
+            output at its own 300 × 200 frame, which is why every knob meets its
+            neighbour exactly. The viewBox is wider and taller than the frame to
+            leave room for the piece that has come out of it.
+
+            The lifted piece shows the card *back*, because a piece that has
+            turned over is what the app actually shows — the whole mechanic of
+            the daily puzzle is pieces turning face up as the day goes on.
+          -->
+          <figure class="hero__art">
+            <!--
+              The viewBox is the 300 × 200 frame plus the room the lifted piece
+              needs: it is rotated and offset, and its shadow and stroke reach
+              further still, so the drawn content runs from -25.9 to 204.7 down
+              and out to 340.7 across. Six units of margin on each side of that.
+            -->
+            <svg class="cut" viewBox="-6 -32 353 244" role="img" aria-labelledby="cut-title">
+              <title id="cut-title">
+                A hand-drawn picture cut into five jigsaw pieces, with the top-right piece lifted
+                out and turned face down
+              </title>
+
+              <defs>
+                <clipPath id="cut-a" clipPathUnits="userSpaceOnUse">
+                  <path
+                    d="M 0.00 0.00 L 150.00 0.00 L 150.00 34.96 C 147.24 29.44 140.80 27.60 138.04 34.96 C 134.36 42.32 134.36 49.68 138.04 57.04 C 140.80 64.40 147.24 62.56 150.00 57.04 L 150.00 92.00 L 100.00 92.00 L 62.00 92.00 C 68.00 95.00 70.00 102.00 62.00 105.00 C 54.00 109.00 46.00 109.00 38.00 105.00 C 30.00 102.00 32.00 95.00 38.00 92.00 L 0.00 92.00 Z"
+                  />
+                </clipPath>
+                <clipPath id="cut-b" clipPathUnits="userSpaceOnUse">
+                  <path
+                    d="M 150.00 0.00 L 300.00 0.00 L 300.00 92.00 L 262.00 92.00 C 268.00 95.00 270.00 102.00 262.00 105.00 C 254.00 109.00 246.00 109.00 238.00 105.00 C 230.00 102.00 232.00 95.00 238.00 92.00 L 200.00 92.00 L 181.00 92.00 C 184.00 90.50 185.00 87.00 181.00 85.50 C 177.00 83.50 173.00 83.50 169.00 85.50 C 165.00 87.00 166.00 90.50 169.00 92.00 L 150.00 92.00 L 150.00 57.04 C 147.24 62.56 140.80 64.40 138.04 57.04 C 134.36 49.68 134.36 42.32 138.04 34.96 C 140.80 27.60 147.24 29.44 150.00 34.96 L 150.00 0.00 Z"
+                  />
+                </clipPath>
+                <clipPath id="cut-c" clipPathUnits="userSpaceOnUse">
+                  <path
+                    d="M 0.00 92.00 L 38.00 92.00 C 32.00 95.00 30.00 102.00 38.00 105.00 C 46.00 109.00 54.00 109.00 62.00 105.00 C 70.00 102.00 68.00 95.00 62.00 92.00 L 100.00 92.00 L 100.00 133.04 C 103.24 126.56 110.80 124.40 114.04 133.04 C 118.36 141.68 118.36 150.32 114.04 158.96 C 110.80 167.60 103.24 165.44 100.00 158.96 L 100.00 200.00 L 0.00 200.00 Z"
+                  />
+                </clipPath>
+                <clipPath id="cut-d" clipPathUnits="userSpaceOnUse">
+                  <path
+                    d="M 100.00 92.00 L 150.00 92.00 L 169.00 92.00 C 166.00 90.50 165.00 87.00 169.00 85.50 C 173.00 83.50 177.00 83.50 181.00 85.50 C 185.00 87.00 184.00 90.50 181.00 92.00 L 200.00 92.00 L 200.00 133.04 C 196.76 126.56 189.20 124.40 185.96 133.04 C 181.64 141.68 181.64 150.32 185.96 158.96 C 189.20 167.60 196.76 165.44 200.00 158.96 L 200.00 200.00 L 100.00 200.00 L 100.00 158.96 C 103.24 165.44 110.80 167.60 114.04 158.96 C 118.36 150.32 118.36 141.68 114.04 133.04 C 110.80 124.40 103.24 126.56 100.00 133.04 L 100.00 92.00 Z"
+                  />
+                </clipPath>
+                <clipPath id="cut-e" clipPathUnits="userSpaceOnUse">
+                  <path
+                    d="M 200.00 92.00 L 238.00 92.00 C 232.00 95.00 230.00 102.00 238.00 105.00 C 246.00 109.00 254.00 109.00 262.00 105.00 C 270.00 102.00 268.00 95.00 262.00 92.00 L 300.00 92.00 L 300.00 200.00 L 200.00 200.00 L 200.00 158.96 C 196.76 165.44 189.20 167.60 185.96 158.96 C 181.64 150.32 181.64 141.68 185.96 133.04 C 189.20 124.40 196.76 126.56 200.00 133.04 L 200.00 92.00 Z"
+                  />
+                </clipPath>
+              </defs>
+
+              <!-- The recess the lifted piece came out of. -->
+              <path
+                class="cut__hole"
+                d="M 150.00 0.00 L 300.00 0.00 L 300.00 92.00 L 262.00 92.00 C 268.00 95.00 270.00 102.00 262.00 105.00 C 254.00 109.00 246.00 109.00 238.00 105.00 C 230.00 102.00 232.00 95.00 238.00 92.00 L 200.00 92.00 L 181.00 92.00 C 184.00 90.50 185.00 87.00 181.00 85.50 C 177.00 83.50 173.00 83.50 169.00 85.50 C 165.00 87.00 166.00 90.50 169.00 92.00 L 150.00 92.00 L 150.00 57.04 C 147.24 62.56 140.80 64.40 138.04 57.04 C 134.36 49.68 134.36 42.32 138.04 34.96 C 140.80 27.60 147.24 29.44 150.00 34.96 L 150.00 0.00 Z"
+              />
+
+              <!--
+                The four pieces still in the frame. Each is the whole picture,
+                clipped to its own silhouette — the same thing `Puzzle.tsx` does,
+                and the reason the artwork lines up across a seam.
+              -->
+              <image href="/assets/puzzle/puzzle-front-1200.webp" x="0" y="0" width="300" height="200" clip-path="url(#cut-a)" />
+              <image href="/assets/puzzle/puzzle-front-1200.webp" x="0" y="0" width="300" height="200" clip-path="url(#cut-c)" />
+              <image href="/assets/puzzle/puzzle-front-1200.webp" x="0" y="0" width="300" height="200" clip-path="url(#cut-d)" />
+              <image href="/assets/puzzle/puzzle-front-1200.webp" x="0" y="0" width="300" height="200" clip-path="url(#cut-e)" />
+
+              <!-- Each piece outlined in full, so the hole gets an edge too. -->
+              <g class="cut__seams">
+                <path
+                  d="M 0.00 0.00 L 150.00 0.00 L 150.00 34.96 C 147.24 29.44 140.80 27.60 138.04 34.96 C 134.36 42.32 134.36 49.68 138.04 57.04 C 140.80 64.40 147.24 62.56 150.00 57.04 L 150.00 92.00 L 100.00 92.00 L 62.00 92.00 C 68.00 95.00 70.00 102.00 62.00 105.00 C 54.00 109.00 46.00 109.00 38.00 105.00 C 30.00 102.00 32.00 95.00 38.00 92.00 L 0.00 92.00 Z"
+                />
+                <path
+                  d="M 0.00 92.00 L 38.00 92.00 C 32.00 95.00 30.00 102.00 38.00 105.00 C 46.00 109.00 54.00 109.00 62.00 105.00 C 70.00 102.00 68.00 95.00 62.00 92.00 L 100.00 92.00 L 100.00 133.04 C 103.24 126.56 110.80 124.40 114.04 133.04 C 118.36 141.68 118.36 150.32 114.04 158.96 C 110.80 167.60 103.24 165.44 100.00 158.96 L 100.00 200.00 L 0.00 200.00 Z"
+                />
+                <path
+                  d="M 100.00 92.00 L 150.00 92.00 L 169.00 92.00 C 166.00 90.50 165.00 87.00 169.00 85.50 C 173.00 83.50 177.00 83.50 181.00 85.50 C 185.00 87.00 184.00 90.50 181.00 92.00 L 200.00 92.00 L 200.00 133.04 C 196.76 126.56 189.20 124.40 185.96 133.04 C 181.64 141.68 181.64 150.32 185.96 158.96 C 189.20 167.60 196.76 165.44 200.00 158.96 L 200.00 200.00 L 100.00 200.00 L 100.00 158.96 C 103.24 165.44 110.80 167.60 114.04 158.96 C 118.36 150.32 118.36 141.68 114.04 133.04 C 110.80 124.40 103.24 126.56 100.00 133.04 L 100.00 92.00 Z"
+                />
+                <path
+                  d="M 200.00 92.00 L 238.00 92.00 C 232.00 95.00 230.00 102.00 238.00 105.00 C 246.00 109.00 254.00 109.00 262.00 105.00 C 270.00 102.00 268.00 95.00 262.00 92.00 L 300.00 92.00 L 300.00 200.00 L 200.00 200.00 L 200.00 158.96 C 196.76 165.44 189.20 167.60 185.96 158.96 C 181.64 150.32 181.64 141.68 185.96 133.04 C 189.20 124.40 196.76 126.56 200.00 133.04 L 200.00 92.00 Z"
+                />
+              </g>
+
+              <!--
+                The piece that has turned over. The shadow is a second copy of
+                the same path rather than a blur filter, because every raised
+                thing in this app casts a hard offset — see `.sticker` below and
+                `.ob__primary` in the app.
+              -->
+              <g class="cut__lift" transform="translate(22 -18) rotate(-6 225 46)">
+                <path
+                  class="cut__lift-shadow"
+                  transform="translate(3 5)"
+                  d="M 150.00 0.00 L 300.00 0.00 L 300.00 92.00 L 262.00 92.00 C 268.00 95.00 270.00 102.00 262.00 105.00 C 254.00 109.00 246.00 109.00 238.00 105.00 C 230.00 102.00 232.00 95.00 238.00 92.00 L 200.00 92.00 L 181.00 92.00 C 184.00 90.50 185.00 87.00 181.00 85.50 C 177.00 83.50 173.00 83.50 169.00 85.50 C 165.00 87.00 166.00 90.50 169.00 92.00 L 150.00 92.00 L 150.00 57.04 C 147.24 62.56 140.80 64.40 138.04 57.04 C 134.36 49.68 134.36 42.32 138.04 34.96 C 140.80 27.60 147.24 29.44 150.00 34.96 L 150.00 0.00 Z"
+                />
+                <image href="/assets/puzzle/puzzle-back-1200.webp" x="0" y="0" width="300" height="200" clip-path="url(#cut-b)" />
+                <path
+                  class="cut__lift-edge"
+                  d="M 150.00 0.00 L 300.00 0.00 L 300.00 92.00 L 262.00 92.00 C 268.00 95.00 270.00 102.00 262.00 105.00 C 254.00 109.00 246.00 109.00 238.00 105.00 C 230.00 102.00 232.00 95.00 238.00 92.00 L 200.00 92.00 L 181.00 92.00 C 184.00 90.50 185.00 87.00 181.00 85.50 C 177.00 83.50 173.00 83.50 169.00 85.50 C 165.00 87.00 166.00 90.50 169.00 92.00 L 150.00 92.00 L 150.00 57.04 C 147.24 62.56 140.80 64.40 138.04 57.04 C 134.36 49.68 134.36 42.32 138.04 34.96 C 140.80 27.60 147.24 29.44 150.00 34.96 L 150.00 0.00 Z"
+                />
+              </g>
+            </svg>
+
+            <figcaption>Donut Give Up &middot; Artist: AJ</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section spec">
+        <h2>What to send</h2>
+        <ul class="spec__grid">
+          <li class="card">
+            <svg class="card__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="2" y="5" width="20" height="14" rx="2" />
+              <path d="M2 9h4M18 9h4M2 15h4M18 15h4" />
+            </svg>
+            <h3>2400 &times; 1600 px</h3>
+            <p>Landscape, that exact size. It drops straight into the frame with nothing cropped off.</p>
+          </li>
+          <li class="card">
+            <svg class="card__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+              <path d="M14 3v5h5" />
+            </svg>
+            <h3>PNG, under 10 MB</h3>
+            <p>One flat file. Not a folder of layers, and not the project file it came out of.</p>
+          </li>
+          <li class="card">
+            <svg class="card__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="3" y="4" width="18" height="16" rx="2" />
+              <path d="M7 8h10v8H7z" stroke-dasharray="2 2.5" />
+            </svg>
+            <h3>Edge to edge</h3>
+            <p>
+              The drawing fills the whole rectangle. No border, no white frame, nothing vital against
+              the outside edge.
+            </p>
+          </li>
+          <li class="card">
+            <svg class="card__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 3a9 9 0 0 1 0 18" />
+              <path d="M12 3v18" />
+            </svg>
+            <h3>Flat colour</h3>
+            <p>The app's art is flat and warm. Heavy photographic texture goes muddy at phone size.</p>
+          </li>
+        </ul>
+      </section>
 
       <!--
-        The hand-drawn rule comes before the size requirements on purpose.
-        Somebody who generates images should find that out in the first ten
-        seconds, not after reading a template spec. See the plan in the app repo.
+        The two rules that stop a submission dead, given the page's only two
+        strong colours. They are blocks rather than prose because somebody
+        skimming has to hit them before they hit the upload field.
       -->
-      <h2 id="by-hand">Drawn by hand, by a person</h2>
-      <div class="doc__callout">
-        <p>
-          <strong>We don't accept AI-generated pictures.</strong> Not as a technicality, and not
-          because of where the training data came from. The
-          pictures in Nomkin are drawn by people, and somebody opening the app on a Tuesday is
-          looking at a thing another person made. A generated image cannot do that job, however good
-          it looks.
-        </p>
-        <p>
-          The same goes for tracing somebody else's work, and for photographs. Pencil, ink, paint,
-          crayon, a drawing tablet, vectors, pixels: all of that is drawing, and all of it is
-          welcome. Prompting is not.
-        </p>
-      </div>
+      <section class="section rules">
+        <h2 class="visually-hidden">Before you draw</h2>
+        <div class="rules__grid">
+          <div class="rule rule--hand">
+            <svg class="rule__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M15.5 3.5a2.1 2.1 0 0 1 3 3L8 17l-4 1 1-4z" />
+              <path d="M13 6l3 3" />
+            </svg>
+            <div>
+              <h3>Hand-drawn by a person</h3>
+              <p>
+                No AI-generated pictures, no tracing somebody else's work, and no photographs. We
+                pride ourselves on using real artwork in Nomkin, giving it character AI can never
+                create.
+              </p>
+            </div>
+          </div>
 
-      <h2 id="who">Who can send one</h2>
-      <p>
-        You need to be <strong>18 or over</strong>. Sending us a drawing means agreeing to the
-        <a href="/puzzles/terms/">submission terms</a>.
-      </p>
-      <p>
-        <strong>If you are under 18, please keep drawing.</strong> We would genuinely love to see
-        your work when you are old enough to send it in.
-      </p>
-      <p>
-        You do not need to be a professional, or to have drawn anything for anybody before. Plenty
-        of the best pictures for something like this come from people who draw for themselves.
-      </p>
+          <div class="rule rule--age">
+            <svg class="rule__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 8v5M12 16.5v.01" />
+            </svg>
+            <div>
+              <h3>18 and over</h3>
+              <p>
+                Sending a drawing means agreeing to the <a href="/puzzles/terms/">submission terms</a>,
+                so we need you to be an adult.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <h2 id="size">The size and the file</h2>
-      <ul>
-        <li><strong>2400 by 1600 pixels</strong>, landscape.</li>
-        <li>
-          <strong>PNG, under 10 MB.</strong> One file. Please don't send a folder of layers or a
-          project file.
-        </li>
-        <li>
-          <strong>Edge to edge.</strong> The drawing fills the whole rectangle. No border, no white
-          frame, no transparent margin around it, and nothing important right against the outside
-          edge.
-        </li>
-        <li>
-          <strong>Flat colour works best.</strong> The app's own art is flat and vector-ish with warm
-          colour, and that is the company your picture will be keeping. Heavy photographic texture
-          tends to go muddy once it is scaled down to phone size.
-        </li>
-      </ul>
+      <section class="section" id="form">
+        <div class="formcard">
+          <h2>Submit your drawing</h2>
 
-      <h2 id="yours">Your drawing stays yours</h2>
-      <p>
-        You keep the copyright. We are asking to borrow it, not to own it, and the permission you
-        give is non&#8209;exclusive: you can sell it, print it, post it or license it to somebody
-        else, and you never need to ask us. If you want it out of the app, write to us and it comes
-        out of the next update, no reason needed.
-      </p>
-      <p>
-        <strong>Submissions are unpaid.</strong> Nomkin is free, it sells an in&#8209;app currency
-        and it can show rewarded videos to people who have switched them on, so it can make money on
-        a day your drawing is showing, and you get no share of that.
-      </p>
-      <p>
-        The full detail, including what the app does to the file and what we cannot undo once
-        somebody has installed an old version, is in the
-        <a href="/puzzles/terms/">submission terms</a>. They are short, and worth the two minutes.
-      </p>
+          <div class="formcard__frame">
+            <!--
+              `dynamicHeight=1` genuinely works, so the height below is only ever
+              the height *before* Tally's resizer reports in — see the script at
+              the end of the body for why the old page never got that far. It is
+              still measured rather than guessed, because a bad guess is a visible
+              jump: the Submit button's bottom edge sits at 1117px once the form
+              is down to 323px wide and at 994px from about 480px up, and
+              `--tally-height` carries those two numbers so the frame starts at
+              very nearly its final size in both cases.
 
-      <h2 id="next">What happens after you send it</h2>
-      <p>
-        We review every submission. We cannot use them all, and a drawing that does not go in is
-        usually about fit rather than quality: the style, or the way it sits in five pieces, or
-        simply that we already have plenty in hand.
-      </p>
-      <p>
-        We are not able to give feedback on individual submissions, and we cannot promise a reply
-        either way, so please don't read anything into a quiet inbox. If yours is going in, we will
-        email you.
-      </p>
-      <p>
-        The pictures are built into the app itself, so even a yes means a future update rather than
-        tomorrow. There is no limit on how many you send, and no advantage in sending them all at
-        once.
-      </p>
+              Those are also the sizes the form needs if the resizer never runs at
+              all, which is the case the attribute here covers. 1100 was under the
+              phone figure, so the old page clipped its own Submit button on a
+              narrow screen.
 
-      <h2 id="form">Submission form</h2>
+              The id is the form id, which is how Tally's script finds an embed
+              again when the form posts its height back out.
+            -->
+            <iframe
+              id="D4RQNN"
+              data-tally-src="https://tally.so/embed/D4RQNN?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1"
+              loading="lazy"
+              width="100%"
+              height="1150"
+              frameborder="0"
+              marginheight="0"
+              marginwidth="0"
+              title="Send Nomkin a puzzle drawing"
+            ></iframe>
+            <noscript>
+              <p>
+                The form needs JavaScript. You can
+                <a href="https://tally.so/r/D4RQNN" rel="noopener">open it in a new tab</a> instead,
+                or write to <a href="mailto:hello@nomkin.app">hello@nomkin.app</a>.
+              </p>
+            </noscript>
+          </div>
+        </div>
+      </section>
 
-      <div class="doc__form">
-        <!--
-          The height is measured, not guessed: the Submit button's bottom edge
-          sits at 938px on a 375px-wide phone and 880px in this column, so 1100
-          clears both with room for a validation message and for the upload
-          block growing once a file is picked. `dynamicHeight=1` is still asked
-          for in the URL, and if Tally ever starts honouring it the frame simply
-          gets more accurate. Nothing depends on it: the container is
-          transparent, so height left over reads as whitespace rather than as an
-          empty box.
-
-          The id is the form id, which is how Tally's script finds an embed again
-          when the form posts its height back out. Without it the frame keeps
-          whatever height the attribute below says and a long form is scrolled
-          inside a short box.
-        -->
-        <iframe
-          id="D4RQNN"
-          data-tally-src="https://tally.so/embed/D4RQNN?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1"
-          loading="lazy"
-          width="100%"
-          height="1100"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          title="Send Nomkin a puzzle drawing"
-        ></iframe>
-        <noscript>
-          <p>
-            The form needs JavaScript. You can
-            <a href="https://tally.so/r/D4RQNN" rel="noopener">open it in a new tab</a> instead, or
-            write to <a href="mailto:hello@nomkin.app">hello@nomkin.app</a>.
-          </p>
-        </noscript>
-      </div>
-
-      <p class="doc__foot">
-        By sending a drawing you agree to the <a href="/puzzles/terms/">submission terms</a>. See
-        also the <a href="/privacy/#puzzles">privacy policy</a> for what happens to your details.
+      <p class="page__foot">
+        By sending a drawing you agree to the <a href="/puzzles/terms/">submission terms</a>. See the
+        <a href="/privacy/#puzzles">privacy policy</a> for how we use your data.
       </p>
     </main>
 
@@ -188,25 +337,41 @@
     -->
     <script>
       /*
-       * The safety net under the form, and it is not decoration.
+       * Loading the form, by Tally's back door, and both halves are deliberate.
        *
-       * Tally publishes a snippet that injects its loader and then calls
-       * `Tally.loadEmbeds()` to fill in each iframe's `src`. That call was
-       * tested on this page and does nothing at all: the frame matches the
-       * selector the library looks for, and the src is never set. A page that
-       * trusted it would show an empty box where the form should be, which is
-       * the worst thing that could go wrong here.
+       * `Tally.loadEmbeds()` has two branches. The one it is documented for
+       * takes `iframe[data-tally-src]:not([src])` and fills the `src` in behind
+       * an IntersectionObserver. That branch does not work here: with the frame
+       * scrolled to the middle of the viewport and matching the selector
+       * exactly, the observer never fires and no `src` is ever set. That is the
+       * failure the previous version of this page found, and its fix — set the
+       * `src` here instead — is why the form has always loaded.
        *
-       * So: the script above is given its proper chance to wire the frame up,
-       * including the resizer that makes the form grow to fit its own content.
-       * Then, once everything has loaded, anything still without a `src` gets
-       * one directly. If Tally worked, this finds nothing to do. If it did not,
-       * the form still loads and simply scrolls inside the fixed height below.
+       * What that fix cost was the resizing. `c(frame)`, the function the
+       * observer would have called, is also where the iframe-resizer child gets
+       * wired up, and a frame that already has a `src` no longer matches the
+       * selector that reaches it. So `dynamicHeight=1` did nothing and the
+       * frame stayed at whatever height the markup said.
+       *
+       * The other branch is the way through. It takes iframes that have a `src`
+       * and *no* `data-tally-src`, and it wires the resizer for any of them
+       * pointing at an embed asking for `dynamicHeight=1` — which is this one.
+       * So: set the `src` as before, drop the attribute that would send the
+       * frame back down the branch that does not work, and hand it over.
+       *
+       * If the script never arrived at all — blocked by an extension, say — the
+       * first half still runs on its own and the form loads at the fixed height
+       * above.
        */
       window.addEventListener('load', function () {
         document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function (frame) {
           frame.src = frame.dataset.tallySrc;
+          frame.removeAttribute('data-tally-src');
         });
+
+        if (window.Tally) {
+          window.Tally.loadEmbeds();
+        }
       });
     </script>
   </body>

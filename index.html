@@ -134,15 +134,19 @@
     </main>
 
     <footer class="site-footer">
-      <a href="/privacy/">Privacy</a>
-      <a href="/terms/">Terms</a>
-      <!-- An invitation rather than a section name: nobody outside the app knows
-           what "Puzzles" would mean, and the page is asking for something. -->
-      <a href="/puzzles/">Draw a puzzle</a>
-      <!-- Google Play requires the account-deletion page to be readily discoverable,
-           which means linked from the site and not only from the console. -->
-      <a href="/delete-account/">Delete account</a>
-      <span>&copy; 2026 Nomkin</span>
+      <!-- The four links are one row of equals; the copyright is not one of
+           them, so it sits on its own line rather than in the same run. -->
+      <nav class="site-footer__links" aria-label="Site">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <!-- An invitation rather than a section name: nobody outside the app knows
+             what "Puzzles" would mean, and the page is asking for something. -->
+        <a href="/puzzles/">Draw a puzzle</a>
+        <!-- Google Play requires the account-deletion page to be readily discoverable,
+             which means linked from the site and not only from the console. -->
+        <a href="/delete-account/">Delete account</a>
+      </nav>
+      <p class="site-footer__legal">&copy; 2026 Nomkin</p>
     </footer>
   </body>
 </html>
