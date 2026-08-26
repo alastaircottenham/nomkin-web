@@ -37,10 +37,16 @@ straight at a section — `/privacy/#account`, `/privacy/#usage`, `/privacy/#ret
 
 1. Push this folder to its own GitHub repository.
 2. In Vercel, **Add New → Project** and import it.
-3. Framework preset: **Other**. Leave the output directory **empty** — Vercel serves the repository
-   root as static files. `vercel.json` sets the build command to `npm run build`, which runs
-   `build.mjs` and writes the six translated trees into that root before it is served. There is no
-   `node_modules` to install; the script has no dependencies.
+3. Framework preset: **Other**. Everything else comes from `vercel.json` — leave the build command
+   and output directory **empty in the dashboard**, because a value typed there overrides the file
+   and the two will disagree silently.
+
+   `vercel.json` sets `buildCommand` to `npm run build`, which runs `build.mjs` and writes the six
+   translated trees, and `outputDirectory` to `"."`, which is the site. **That second line is not
+   optional.** Vercel serves the repository root only while no build command is set; the moment one
+   is, it starts looking for a directory called `public` and fails the deploy without it. There is
+   no `node_modules` to install — the script has no dependencies — and `api/` is still picked up
+   from the root, so the feedback relay is unaffected.
 4. **Settings → Domains**, add `nomkin.app` and `www.nomkin.app`. Point the registrar's records at
    Vercel as it instructs.
 5. **Settings → Environment Variables**, add `RESEND_API_KEY` for the feedback relay. See

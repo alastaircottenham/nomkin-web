@@ -37,6 +37,20 @@ import { LOCALES, PAGES, SOURCE, ORIGIN, localePath } from './i18n/locales.mjs';
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const STRICT = process.argv.includes('--strict');
 
+/*
+ * Everything is read as LF, whatever it is on disk.
+ *
+ * Git is commonly set to hand Windows a working tree with CRLF endings, and
+ * this script writes LF. Left alone that mismatch does two quiet things: the
+ * check below compares a CRLF page against an LF string and reports every
+ * selector as out of date, and a generated page ends up with CRLF around the
+ * blocks and LF inside them. Normalising on the way in makes the output the
+ * same bytes on every machine, which is what a build should be.
+ */
+async function read(file) {
+  return (await readFile(file, 'utf8')).replace(/\r\n/g, '\n');
+}
+
 let warnings = 0;
 function warn(message) {
   warnings += 1;
@@ -204,7 +218,7 @@ let attrsUsed = new Set();
 
 async function buildPage(page, locale, meta, partial) {
   const label = `${locale.code} ${page.path}`;
-  const source = await readFile(join(ROOT, page.file), 'utf8');
+  const source = await read(join(ROOT, page.file));
   const keys = blockKeys(source);
   let html = source;
 
@@ -356,7 +370,7 @@ async function buildPage(page, locale, meta, partial) {
  */
 async function checkSource(page) {
   const label = `en ${page.path}`;
-  const html = await readFile(join(ROOT, page.file), 'utf8');
+  const html = await read(join(ROOT, page.file));
   const english = LOCALES.find((l) => l.code === SOURCE);
 
   const bar = html.match(blockPattern('langbar'));
@@ -377,7 +391,7 @@ async function syncSource() {
   const english = LOCALES.find((l) => l.code === SOURCE);
   for (const page of PAGES) {
     const file = join(ROOT, page.file);
-    const before = await readFile(file, 'utf8');
+    const before = await read(file);
     const after = before
       .replace(blockPattern('langbar'), (_, o, __, c) => o + langbar(page, english) + c)
       .replace(blockPattern('alternates'), (_, o, __, c) => o + alternates(page) + c);
@@ -448,7 +462,7 @@ async function main() {
      */
     let meta = { pages: {}, attrs: [] };
     try {
-      meta = JSON.parse(await readFile(join(ROOT, 'i18n', locale.dir, 'meta.json'), 'utf8'));
+      meta = JSON.parse(await read(join(ROOT, 'i18n', locale.dir, 'meta.json')));
     } catch {
       warn(`${locale.code}: no i18n/${locale.dir}/meta.json — heads left in English`);
     }
@@ -457,7 +471,7 @@ async function main() {
       const file = join(ROOT, 'i18n', locale.dir, page.translated);
       let partial;
       try {
-        partial = parsePartial(await readFile(file, 'utf8'), `${locale.code}/${page.translated}`);
+        partial = parsePartial(await read(file), `${locale.code}/${page.translated}`);
       } catch {
         warn(`${locale.code} ${page.path}: no ${page.translated} — page left in English`);
         partial = new Map();

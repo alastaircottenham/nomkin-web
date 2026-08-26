@@ -1,6 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
+  "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": true,
   "redirects": [
@@ -28,6 +29,10 @@
     { "source": "/fr/(.*)", "headers": [{ "key": "Content-Language", "value": "fr" }] },
     { "source": "/pt-br/(.*)", "headers": [{ "key": "Content-Language", "value": "pt-BR" }] },
     { "source": "/ja/(.*)", "headers": [{ "key": "Content-Language", "value": "ja" }] },
-    { "source": "/ko/(.*)", "headers": [{ "key": "Content-Language", "value": "ko" }] }
+    { "source": "/ko/(.*)", "headers": [{ "key": "Content-Language", "value": "ko" }] },
+    {
+      "source": "/i18n/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    }
   ]
 }

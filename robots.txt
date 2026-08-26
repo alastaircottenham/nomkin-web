@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+# The translation sources, which the build reads and nothing serves as a page.
+Disallow: /i18n/
 
 Sitemap: https://nomkin.app/sitemap.xml

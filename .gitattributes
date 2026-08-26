@@ -1,0 +1,10 @@
+# The working tree is LF on every machine, including Windows.
+#
+# `build.mjs` writes LF, and it compares the generated language selector and
+# hreflang set against what is already in the English pages. A checkout that
+# converted those pages to CRLF made every one of those comparisons fail, and
+# would have written pages with CRLF around the translated blocks and LF inside
+# them. The build now normalises what it reads, so this is belt as well as
+# braces — but a repository whose files are one thing in git and another on
+# disk has a whole category of problem available to it, and this closes it.
+* text=auto eol=lf
