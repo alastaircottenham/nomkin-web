@@ -9,6 +9,16 @@
       content="Nomkin's daily puzzle is a hand-drawn picture cut into five. If you draw by hand and you are 18 or over, send us one for review."
     />
     <link rel="canonical" href="https://nomkin.app/puzzles/" />
+    <!--i18n:alternates-->
+    <link rel="alternate" hreflang="en" href="https://nomkin.app/puzzles/" />
+    <link rel="alternate" hreflang="de" href="https://nomkin.app/de/puzzles/" />
+    <link rel="alternate" hreflang="es" href="https://nomkin.app/es/puzzles/" />
+    <link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/puzzles/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/puzzles/" />
+    <link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/puzzles/" />
+    <link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/puzzles/" />
+    <link rel="alternate" hreflang="x-default" href="https://nomkin.app/puzzles/" />
+    <!--/i18n:alternates-->
     <link rel="icon" href="/assets/app-icon.png" />
     <meta name="theme-color" content="#ef9f27" />
 
@@ -46,6 +56,87 @@
     />
     <meta property="og:image" content="https://nomkin.app/assets/app-icon.png" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!--
+      Which language to show, and who gets to decide.
+
+      Three answers, in that order of authority. A language picked from the
+      selector at the foot of the page wins, on this visit and on every later
+      one: it is the only signal here that is somebody actually saying what they
+      want. Failing that, the browser's own list of languages, which is the
+      nearest thing to an answer from a reader who has not been asked yet.
+      Failing both, English, by doing nothing at all.
+
+      The guessing half runs on the English pages only. `build.mjs` rewrites
+      `data-lang` for the rest, and a reader already on `/ja/` has asked, so
+      there is nothing left to guess and a page that guessed anyway would be
+      arguing with them. `?lang=en` forces English past a browser that says
+      otherwise, and is remembered like any other choice.
+    -->
+    <script data-lang="en">
+      (function () {
+        /* Language tag to URL prefix. English is the empty one, because English
+           lives at the root and every other language hangs off it. */
+        var DIRS = { en: '', de: 'de', es: 'es', fr: 'fr', pt: 'pt-br', ja: 'ja', ko: 'ko' };
+        var KEY = 'nomkin-lang';
+        var here = document.currentScript.getAttribute('data-lang');
+
+        function keep(code) {
+          try {
+            window.localStorage.setItem(KEY, code);
+          } catch (error) {
+            /* Private browsing, or storage switched off. The choice still works
+               for the page being opened; it just is not there the next time. */
+          }
+        }
+
+        /* A browser sends `de-AT` or `pt-PT` as readily as `de`, so only the
+           first part is looked at. Both Portugueses land on the Brazilian
+           translation, which is a great deal nearer either than English is.
+           Anything we do not publish returns null, meaning "keep looking". */
+        function dirFor(tag) {
+          var base = String(tag || '').toLowerCase().split('-')[0];
+          return Object.prototype.hasOwnProperty.call(DIRS, base) ? DIRS[base] : null;
+        }
+
+        document.addEventListener('click', function (event) {
+          var node = event.target;
+          var picked = node && node.closest && node.closest('[data-lang-pick]');
+          if (picked) keep(picked.getAttribute('data-lang-pick'));
+        });
+
+        if (here !== 'en') return;
+
+        var wanted = null;
+
+        var forced = /[?&]lang=([a-z-]+)/i.exec(location.search);
+        if (forced) {
+          wanted = dirFor(forced[1]);
+          if (wanted !== null) keep(forced[1].toLowerCase());
+        }
+
+        if (wanted === null) {
+          try {
+            wanted = dirFor(window.localStorage.getItem(KEY));
+          } catch (error) {
+            /* As above: unreadable storage is not an answer, so fall through. */
+          }
+        }
+
+        if (wanted === null) {
+          var offered = navigator.languages || [navigator.language];
+          for (var i = 0; i < offered.length && wanted === null; i++) {
+            wanted = dirFor(offered[i]);
+          }
+        }
+
+        /* '' is English and null is a language we do not publish. Both stay. */
+        if (!wanted) return;
+
+        var search = location.search.replace(/([?&])lang=[a-z-]+&?/i, '$1').replace(/[?&]$/, '');
+        location.replace('/' + wanted + location.pathname + search + location.hash);
+      })();
+    </script>
   </head>
 
   <body class="page">
@@ -57,10 +148,12 @@
           </svg>
           Nomkin
         </a>
+        <!--i18n:topbar-->
         <nav class="topbar__links" aria-label="Related pages">
           <a href="/puzzles/terms/">Submission terms</a>
           <a href="/privacy/#puzzles">Privacy</a>
         </nav>
+        <!--/i18n:topbar-->
       </div>
     </header>
 
@@ -72,6 +165,7 @@
       -->
       <section class="hero">
         <div class="hero__inner">
+          <!--i18n:hero-->
           <div class="hero__copy">
             <h1>Submit your drawing</h1>
             <p class="hero__lede">
@@ -85,6 +179,7 @@
               </svg>
             </a>
           </div>
+          <!--/i18n:hero-->
 
           <!--
             The cut, drawn rather than described.
@@ -107,10 +202,12 @@
               and out to 339 across. Six units of margin on each side of that.
             -->
             <svg class="cut" viewBox="-6 -32 353 244" role="img" aria-labelledby="cut-title">
+              <!--i18n:cut-title-->
               <title id="cut-title">
                 A hand-drawn picture cut into five jigsaw pieces, with the top-right piece lifted
                 out and turned face down
               </title>
+              <!--/i18n:cut-title-->
 
               <defs>
                 <clipPath id="cut-a" clipPathUnits="userSpaceOnUse">
@@ -192,40 +289,50 @@
               </g>
             </svg>
 
+            <!--i18n:figcaption-->
             <figcaption>Donut Give Up &middot; Artist: AJ</figcaption>
+            <!--/i18n:figcaption-->
           </figure>
         </div>
       </section>
 
       <section class="section spec">
+        <!--i18n:spec-h-->
         <h2>What to send</h2>
+        <!--/i18n:spec-h-->
         <ul class="spec__grid">
           <li class="card">
             <svg class="card__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <rect x="2" y="5" width="20" height="14" rx="2" />
               <path d="M2 9h4M18 9h4M2 15h4M18 15h4" />
             </svg>
+            <!--i18n:spec-size-->
             <h3>2400 &times; 1600 px</h3>
             <p>Landscape, that exact size. It drops straight into the frame with nothing cropped off.</p>
+            <!--/i18n:spec-size-->
           </li>
           <li class="card">
             <svg class="card__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
               <path d="M14 3v5h5" />
             </svg>
+            <!--i18n:spec-file-->
             <h3>PNG, under 10 MB</h3>
             <p>One flat file. Not a folder of layers, and not the project file it came out of.</p>
+            <!--/i18n:spec-file-->
           </li>
           <li class="card">
             <svg class="card__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <rect x="3" y="4" width="18" height="16" rx="2" />
               <path d="M7 8h10v8H7z" stroke-dasharray="2 2.5" />
             </svg>
+            <!--i18n:spec-bleed-->
             <h3>Edge to edge</h3>
             <p>
               The drawing fills the whole rectangle. No border, no white frame, nothing vital against
               the outside edge.
             </p>
+            <!--/i18n:spec-bleed-->
           </li>
           <li class="card">
             <svg class="card__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -233,8 +340,10 @@
               <path d="M12 3a9 9 0 0 1 0 18" />
               <path d="M12 3v18" />
             </svg>
+            <!--i18n:spec-flat-->
             <h3>Flat colour</h3>
             <p>The app's art is flat and warm. Heavy photographic texture goes muddy at phone size.</p>
+            <!--/i18n:spec-flat-->
           </li>
         </ul>
       </section>
@@ -245,7 +354,9 @@
         skimming has to hit them before they hit the upload field.
       -->
       <section class="section rules">
+        <!--i18n:rules-h-->
         <h2 class="visually-hidden">Before you draw</h2>
+        <!--/i18n:rules-h-->
         <div class="rules__grid">
           <div class="rule rule--hand">
             <svg class="rule__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -253,12 +364,14 @@
               <path d="M13 6l3 3" />
             </svg>
             <div>
+              <!--i18n:rule-hand-->
               <h3>Hand-drawn by a person</h3>
               <p>
                 No AI-generated pictures, no tracing somebody else's work, and no photographs. We
                 pride ourselves on using real artwork in Nomkin, giving it character AI can never
                 create.
               </p>
+              <!--/i18n:rule-hand-->
             </div>
           </div>
 
@@ -268,11 +381,13 @@
               <path d="M12 8v5M12 16.5v.01" />
             </svg>
             <div>
+              <!--i18n:rule-age-->
               <h3>18 and over</h3>
               <p>
                 Sending a drawing means agreeing to the <a href="/puzzles/terms/">submission terms</a>,
                 so we need you to be an adult.
               </p>
+              <!--/i18n:rule-age-->
             </div>
           </div>
         </div>
@@ -280,7 +395,9 @@
 
       <section class="section" id="form">
         <div class="formcard">
+          <!--i18n:form-h-->
           <h2>Submit your drawing</h2>
+          <!--/i18n:form-h-->
 
           <div class="formcard__frame">
             <!--
@@ -312,6 +429,7 @@
               marginwidth="0"
               title="Send Nomkin a puzzle drawing"
             ></iframe>
+            <!--i18n:noscript-->
             <noscript>
               <p>
                 The form needs JavaScript. You can
@@ -319,14 +437,49 @@
                 or write to <a href="mailto:hello@nomkin.app">hello@nomkin.app</a>.
               </p>
             </noscript>
+            <!--/i18n:noscript-->
           </div>
         </div>
       </section>
 
+      <!--i18n:page-foot-->
       <p class="page__foot">
         By sending a drawing you agree to the <a href="/puzzles/terms/">submission terms</a>. See the
         <a href="/privacy/#puzzles">privacy policy</a> for how we use your data.
       </p>
+      <!--/i18n:page-foot-->
+    <!--i18n:langbar-->
+      <nav class="langbar" aria-label="Language">
+        <svg class="langbar__globe" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3.2 9h17.6M3.2 15h17.6" />
+          <path d="M12 3.2a13.5 13.5 0 0 1 0 17.6 13.5 13.5 0 0 1 0-17.6z" />
+        </svg>
+        <ul class="langbar__list">
+          <li class="langbar__item langbar__item--current">
+            <span lang="en" aria-current="true">English</span>
+          </li>
+          <li class="langbar__item">
+            <a href="/de/puzzles/" lang="de" hreflang="de" data-lang-pick="de">Deutsch</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/es/puzzles/" lang="es" hreflang="es" data-lang-pick="es">Español</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/fr/puzzles/" lang="fr" hreflang="fr" data-lang-pick="fr">Français</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/pt-br/puzzles/" lang="pt-BR" hreflang="pt-BR" data-lang-pick="pt-br">Português (Brasil)</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/ja/puzzles/" lang="ja" hreflang="ja" data-lang-pick="ja">日本語</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/ko/puzzles/" lang="ko" hreflang="ko" data-lang-pick="ko">한국어</a>
+          </li>
+        </ul>
+      </nav>
+    <!--/i18n:langbar-->
     </main>
 
     <!--

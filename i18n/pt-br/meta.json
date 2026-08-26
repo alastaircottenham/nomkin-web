@@ -1,0 +1,54 @@
+{
+  "_note": [
+    "O que vai no <head>, e os poucos atributos traduzíveis que não caem em",
+    "nenhum bloco. Todo o resto está nos .html ao lado.",
+    "",
+    "Tratamento: 'você' em todo o site. Português do Brasil — 'celular' e não",
+    "'telemóvel', 'tela' e não 'ecrã', e a ortografia daqui."
+  ],
+  "pages": {
+    "index.html": {
+      "title": "Nomkin &middot; Contar calorias de um jeito simples e divertido",
+      "description": "Um jeito calmo e amigo do TDAH de registrar o que você come e o quanto você se move. Alimente um bichinho em vez de esvaziar um número. Em breve para iPhone e Android.",
+      "og:title": "Nomkin",
+      "og:description": "Contar calorias de um jeito simples e divertido."
+    },
+    "privacy.html": {
+      "title": "Política de privacidade — Nomkin",
+      "description": "A política de privacidade do Nomkin. Tudo o que você registra fica no seu celular, a menos que você escolha criar uma conta de backup gratuita ou assistir a um vídeo por moedas. A única outra coisa que sai é uma nota anônima por dia sobre como o app é usado, e nos Ajustes há uma chave que interrompe isso."
+    },
+    "terms.html": {
+      "title": "Termos de uso — Nomkin",
+      "description": "Os termos de uso do app Nomkin: a conta de backup opcional, a compra de moedas, assistir a um vídeo por moedas, a nota anônima sobre como o app é usado, o que o Nomkin não é, e as partes jurídicas de sempre."
+    },
+    "delete-account.html": {
+      "title": "Excluir sua conta e seus dados do Nomkin",
+      "description": "Como excluir sua conta de backup do Nomkin e a cópia dos seus dados que ela guarda, e como apagar tudo o que o Nomkin mantém no seu celular."
+    },
+    "puzzles.html": {
+      "title": "Envie seu desenho &middot; Nomkin",
+      "description": "O quebra-cabeça diário do Nomkin é um desenho feito à mão e cortado em cinco peças. Se você desenha à mão e tem 18 anos ou mais, mande um para a gente avaliar.",
+      "og:title": "Envie seu desenho para o Nomkin",
+      "og:description": "Quer ver sua arte no Nomkin, fazendo parte do rodízio do quebra-cabeça diário?"
+    },
+    "puzzles-terms.html": {
+      "title": "Termos de envio de quebra-cabeças &middot; Nomkin",
+      "description": "Os termos para mandar um desenho ao Nomkin para uso como quebra-cabeça diário: você continua com os direitos autorais, precisa ter 18 anos ou mais, a obra tem que ser desenhada à mão, e você pode pedir a retirada quando quiser."
+    },
+    "puzzles-thanks.html": {
+      "title": "Obrigado pelo seu envio &middot; Nomkin",
+      "description": "Seu desenho para o quebra-cabeça chegou até nós."
+    }
+  },
+  "attrs": [
+    [
+      "aria-label=\"Coming soon to the Apple App Store\"",
+      "aria-label=\"Em breve na App Store da Apple\""
+    ],
+    ["aria-label=\"Coming soon to Google Play\"", "aria-label=\"Em breve no Google Play\""],
+    [
+      "title=\"Send Nomkin a puzzle drawing\"",
+      "title=\"Enviar ao Nomkin um desenho para o quebra-cabeça\""
+    ]
+  ]
+}

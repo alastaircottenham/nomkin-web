@@ -12,6 +12,16 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="Your puzzle drawing reached us." />
     <link rel="canonical" href="https://nomkin.app/puzzles/thanks/" />
+    <!--i18n:alternates-->
+    <link rel="alternate" hreflang="en" href="https://nomkin.app/puzzles/thanks/" />
+    <link rel="alternate" hreflang="de" href="https://nomkin.app/de/puzzles/thanks/" />
+    <link rel="alternate" hreflang="es" href="https://nomkin.app/es/puzzles/thanks/" />
+    <link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/puzzles/thanks/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/puzzles/thanks/" />
+    <link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/puzzles/thanks/" />
+    <link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/puzzles/thanks/" />
+    <link rel="alternate" hreflang="x-default" href="https://nomkin.app/puzzles/thanks/" />
+    <!--/i18n:alternates-->
     <link rel="icon" href="/assets/app-icon.png" />
     <meta name="theme-color" content="#ef9f27" />
 
@@ -26,6 +36,87 @@
       crossorigin
     />
     <link rel="stylesheet" href="/styles.css" />
+
+    <!--
+      Which language to show, and who gets to decide.
+
+      Three answers, in that order of authority. A language picked from the
+      selector at the foot of the page wins, on this visit and on every later
+      one: it is the only signal here that is somebody actually saying what they
+      want. Failing that, the browser's own list of languages, which is the
+      nearest thing to an answer from a reader who has not been asked yet.
+      Failing both, English, by doing nothing at all.
+
+      The guessing half runs on the English pages only. `build.mjs` rewrites
+      `data-lang` for the rest, and a reader already on `/ja/` has asked, so
+      there is nothing left to guess and a page that guessed anyway would be
+      arguing with them. `?lang=en` forces English past a browser that says
+      otherwise, and is remembered like any other choice.
+    -->
+    <script data-lang="en">
+      (function () {
+        /* Language tag to URL prefix. English is the empty one, because English
+           lives at the root and every other language hangs off it. */
+        var DIRS = { en: '', de: 'de', es: 'es', fr: 'fr', pt: 'pt-br', ja: 'ja', ko: 'ko' };
+        var KEY = 'nomkin-lang';
+        var here = document.currentScript.getAttribute('data-lang');
+
+        function keep(code) {
+          try {
+            window.localStorage.setItem(KEY, code);
+          } catch (error) {
+            /* Private browsing, or storage switched off. The choice still works
+               for the page being opened; it just is not there the next time. */
+          }
+        }
+
+        /* A browser sends `de-AT` or `pt-PT` as readily as `de`, so only the
+           first part is looked at. Both Portugueses land on the Brazilian
+           translation, which is a great deal nearer either than English is.
+           Anything we do not publish returns null, meaning "keep looking". */
+        function dirFor(tag) {
+          var base = String(tag || '').toLowerCase().split('-')[0];
+          return Object.prototype.hasOwnProperty.call(DIRS, base) ? DIRS[base] : null;
+        }
+
+        document.addEventListener('click', function (event) {
+          var node = event.target;
+          var picked = node && node.closest && node.closest('[data-lang-pick]');
+          if (picked) keep(picked.getAttribute('data-lang-pick'));
+        });
+
+        if (here !== 'en') return;
+
+        var wanted = null;
+
+        var forced = /[?&]lang=([a-z-]+)/i.exec(location.search);
+        if (forced) {
+          wanted = dirFor(forced[1]);
+          if (wanted !== null) keep(forced[1].toLowerCase());
+        }
+
+        if (wanted === null) {
+          try {
+            wanted = dirFor(window.localStorage.getItem(KEY));
+          } catch (error) {
+            /* As above: unreadable storage is not an answer, so fall through. */
+          }
+        }
+
+        if (wanted === null) {
+          var offered = navigator.languages || [navigator.language];
+          for (var i = 0; i < offered.length && wanted === null; i++) {
+            wanted = dirFor(offered[i]);
+          }
+        }
+
+        /* '' is English and null is a language we do not publish. Both stay. */
+        if (!wanted) return;
+
+        var search = location.search.replace(/([?&])lang=[a-z-]+&?/i, '$1').replace(/[?&]$/, '');
+        location.replace('/' + wanted + location.pathname + search + location.hash);
+      })();
+    </script>
   </head>
 
   <body class="page">
@@ -37,10 +128,12 @@
           </svg>
           Nomkin
         </a>
+        <!--i18n:topbar-->
         <nav class="topbar__links" aria-label="Related pages">
           <a href="/puzzles/terms/">Submission terms</a>
           <a href="/privacy/#puzzles">Privacy</a>
         </nav>
+        <!--/i18n:topbar-->
       </div>
     </header>
 
@@ -57,15 +150,18 @@
           </svg>
         </div>
 
+        <!--i18n:receipt-head-->
         <h1>Thanks for your submission!</h1>
 
         <p class="receipt__lede">We've received your drawing and can't wait to have a look.</p>
+        <!--/i18n:receipt-head-->
 
         <!--
           What happens next, as three beats rather than a paragraph. The first
           dot is filled and the other two are not, so where this submission has
           got to is readable without reading anything.
         -->
+        <!--i18n:steps-->
         <ol class="steps">
           <li class="step step--done">
             <span class="step__rail" aria-hidden="true"><span class="step__dot"></span></span>
@@ -98,22 +194,61 @@
             </div>
           </li>
         </ol>
+        <!--/i18n:steps-->
 
+        <!--i18n:receipt-note-->
         <p class="receipt__note">
           <strong>Changed your mind?</strong> You can withdraw a drawing at any time. Write to
           <a href="mailto:hello@nomkin.app">hello@nomkin.app</a> and it comes out of the next update,
           the <a href="/puzzles/terms/">submission terms</a> set out exactly what that means.
         </p>
+        <!--/i18n:receipt-note-->
 
+        <!--i18n:sticker-->
         <a class="sticker sticker--amber" href="/puzzles/">
           Send another drawing
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </a>
+        <!--/i18n:sticker-->
 
+        <!--i18n:receipt-foot-->
         <p class="receipt__foot">No limit on how many you send.</p>
+        <!--/i18n:receipt-foot-->
       </div>
+    <!--i18n:langbar-->
+      <nav class="langbar" aria-label="Language">
+        <svg class="langbar__globe" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3.2 9h17.6M3.2 15h17.6" />
+          <path d="M12 3.2a13.5 13.5 0 0 1 0 17.6 13.5 13.5 0 0 1 0-17.6z" />
+        </svg>
+        <ul class="langbar__list">
+          <li class="langbar__item langbar__item--current">
+            <span lang="en" aria-current="true">English</span>
+          </li>
+          <li class="langbar__item">
+            <a href="/de/puzzles/thanks/" lang="de" hreflang="de" data-lang-pick="de">Deutsch</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/es/puzzles/thanks/" lang="es" hreflang="es" data-lang-pick="es">Español</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/fr/puzzles/thanks/" lang="fr" hreflang="fr" data-lang-pick="fr">Français</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/pt-br/puzzles/thanks/" lang="pt-BR" hreflang="pt-BR" data-lang-pick="pt-br">Português (Brasil)</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/ja/puzzles/thanks/" lang="ja" hreflang="ja" data-lang-pick="ja">日本語</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/ko/puzzles/thanks/" lang="ko" hreflang="ko" data-lang-pick="ko">한국어</a>
+          </li>
+        </ul>
+      </nav>
+    <!--/i18n:langbar-->
     </main>
   </body>
 </html>

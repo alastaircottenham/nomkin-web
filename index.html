@@ -9,6 +9,16 @@
       content="A calm, ADHD-friendly way to track what you eat and how much you move. Feed a pet instead of draining a number. Coming soon to iPhone and Android."
     />
     <link rel="canonical" href="https://nomkin.app/" />
+    <!--i18n:alternates-->
+    <link rel="alternate" hreflang="en" href="https://nomkin.app/" />
+    <link rel="alternate" hreflang="de" href="https://nomkin.app/de/" />
+    <link rel="alternate" hreflang="es" href="https://nomkin.app/es/" />
+    <link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/" />
+    <link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/" />
+    <link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/" />
+    <link rel="alternate" hreflang="x-default" href="https://nomkin.app/" />
+    <!--/i18n:alternates-->
     <meta name="theme-color" content="#ef9f27" />
 
     <link rel="icon" href="/assets/app-icon.png" />
@@ -21,6 +31,87 @@
     <meta property="og:description" content="Making calorie tracking simple and fun." />
     <meta property="og:image" content="https://nomkin.app/assets/app-icon.png" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!--
+      Which language to show, and who gets to decide.
+
+      Three answers, in that order of authority. A language picked from the
+      selector at the foot of the page wins, on this visit and on every later
+      one: it is the only signal here that is somebody actually saying what they
+      want. Failing that, the browser's own list of languages, which is the
+      nearest thing to an answer from a reader who has not been asked yet.
+      Failing both, English, by doing nothing at all.
+
+      The guessing half runs on the English pages only. `build.mjs` rewrites
+      `data-lang` for the rest, and a reader already on `/ja/` has asked, so
+      there is nothing left to guess and a page that guessed anyway would be
+      arguing with them. `?lang=en` forces English past a browser that says
+      otherwise, and is remembered like any other choice.
+    -->
+    <script data-lang="en">
+      (function () {
+        /* Language tag to URL prefix. English is the empty one, because English
+           lives at the root and every other language hangs off it. */
+        var DIRS = { en: '', de: 'de', es: 'es', fr: 'fr', pt: 'pt-br', ja: 'ja', ko: 'ko' };
+        var KEY = 'nomkin-lang';
+        var here = document.currentScript.getAttribute('data-lang');
+
+        function keep(code) {
+          try {
+            window.localStorage.setItem(KEY, code);
+          } catch (error) {
+            /* Private browsing, or storage switched off. The choice still works
+               for the page being opened; it just is not there the next time. */
+          }
+        }
+
+        /* A browser sends `de-AT` or `pt-PT` as readily as `de`, so only the
+           first part is looked at. Both Portugueses land on the Brazilian
+           translation, which is a great deal nearer either than English is.
+           Anything we do not publish returns null, meaning "keep looking". */
+        function dirFor(tag) {
+          var base = String(tag || '').toLowerCase().split('-')[0];
+          return Object.prototype.hasOwnProperty.call(DIRS, base) ? DIRS[base] : null;
+        }
+
+        document.addEventListener('click', function (event) {
+          var node = event.target;
+          var picked = node && node.closest && node.closest('[data-lang-pick]');
+          if (picked) keep(picked.getAttribute('data-lang-pick'));
+        });
+
+        if (here !== 'en') return;
+
+        var wanted = null;
+
+        var forced = /[?&]lang=([a-z-]+)/i.exec(location.search);
+        if (forced) {
+          wanted = dirFor(forced[1]);
+          if (wanted !== null) keep(forced[1].toLowerCase());
+        }
+
+        if (wanted === null) {
+          try {
+            wanted = dirFor(window.localStorage.getItem(KEY));
+          } catch (error) {
+            /* As above: unreadable storage is not an answer, so fall through. */
+          }
+        }
+
+        if (wanted === null) {
+          var offered = navigator.languages || [navigator.language];
+          for (var i = 0; i < offered.length && wanted === null; i++) {
+            wanted = dirFor(offered[i]);
+          }
+        }
+
+        /* '' is English and null is a language we do not publish. Both stay. */
+        if (!wanted) return;
+
+        var search = location.search.replace(/([?&])lang=[a-z-]+&?/i, '$1').replace(/[?&]$/, '');
+        location.replace('/' + wanted + location.pathname + search + location.hash);
+      })();
+    </script>
   </head>
 
   <body class="wash">
@@ -33,12 +124,16 @@
     -->
     <main class="wash__main">
       <h1 class="wordmark">Nomkin</h1>
+      <!--i18n:tagline-->
       <p class="tagline">Making calorie tracking simple and fun.</p>
+      <!--/i18n:tagline-->
 
       <!-- Decorative: the line above says everything this needs to say. -->
       <img class="pet" src="/assets/dog.png" alt="" width="1200" height="1200" />
 
+      <!--i18n:coming-soon-->
       <p class="coming-soon">Coming soon</p>
+      <!--/i18n:coming-soon-->
 
       <ul class="stores">
         <li>
@@ -61,6 +156,7 @@
               fill="#fff"
               d="M25.6 20.3c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8c-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.2 1.2-2.4 1.3-2.5-.1 0-2.5-1-2.5-3.7zm-2.3-6.8c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3z"
             />
+            <!--i18n:badge-apple-->
             <!-- `textLength` pins the width so the badge is the same shape on a
                machine that has none of these fonts. -->
             <text
@@ -86,6 +182,7 @@
             >
               App Store
             </text>
+            <!--/i18n:badge-apple-->
           </svg>
         </li>
         <li>
@@ -105,6 +202,7 @@
               <path d="M12.4 12.5 9.4 9.5l-9 9c.4.4 1 .4 1.7 0l10.3-6z" fill="#ff3a44" />
               <path d="M12.4 6.5 2.1.6C1.4.2.8.2.4.6l9 9 3-3z" fill="#00de76" />
             </g>
+            <!--i18n:badge-google-->
             <text
               x="41"
               y="16.5"
@@ -128,12 +226,14 @@
             >
               Google Play
             </text>
+            <!--/i18n:badge-google-->
           </svg>
         </li>
       </ul>
     </main>
 
     <footer class="site-footer">
+      <!--i18n:footer-->
       <!-- The four links are one row of equals; the copyright is not one of
            them, so it sits on its own line rather than in the same run. -->
       <nav class="site-footer__links" aria-label="Site">
@@ -147,6 +247,39 @@
         <a href="/delete-account/">Delete account</a>
       </nav>
       <p class="site-footer__legal">&copy; 2026 Nomkin</p>
+      <!--/i18n:footer-->
+    <!--i18n:langbar-->
+      <nav class="langbar" aria-label="Language">
+        <svg class="langbar__globe" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3.2 9h17.6M3.2 15h17.6" />
+          <path d="M12 3.2a13.5 13.5 0 0 1 0 17.6 13.5 13.5 0 0 1 0-17.6z" />
+        </svg>
+        <ul class="langbar__list">
+          <li class="langbar__item langbar__item--current">
+            <span lang="en" aria-current="true">English</span>
+          </li>
+          <li class="langbar__item">
+            <a href="/de/" lang="de" hreflang="de" data-lang-pick="de">Deutsch</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/es/" lang="es" hreflang="es" data-lang-pick="es">Español</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/fr/" lang="fr" hreflang="fr" data-lang-pick="fr">Français</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/pt-br/" lang="pt-BR" hreflang="pt-BR" data-lang-pick="pt-br">Português (Brasil)</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/ja/" lang="ja" hreflang="ja" data-lang-pick="ja">日本語</a>
+          </li>
+          <li class="langbar__item">
+            <a href="/ko/" lang="ko" hreflang="ko" data-lang-pick="ko">한국어</a>
+          </li>
+        </ul>
+      </nav>
+    <!--/i18n:langbar-->
     </footer>
   </body>
 </html>

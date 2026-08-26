@@ -1,0 +1,55 @@
+{
+  "_note": [
+    "<head> に入るもの、そしてどのブロックにも入らない翻訳対象の属性。",
+    "それ以外はすべて隣の .html にあります。",
+    "",
+    "文体は「です・ます」。原文の英語は意図的に平易で温かい調子なので、",
+    "硬い法律文体には寄せていません。「あなた」は日本語では距離が出るため、",
+    "意味が通る場所では省いています。"
+  ],
+  "pages": {
+    "index.html": {
+      "title": "Nomkin &middot; カロリー記録を、かんたんに、楽しく",
+      "description": "食べたものと動いた量を、静かに、ADHD にやさしいやり方で記録できます。数字を減らすのではなく、ペットにごはんをあげる感覚で。iPhone と Android に近日公開。",
+      "og:title": "Nomkin",
+      "og:description": "カロリー記録を、かんたんに、楽しく。"
+    },
+    "privacy.html": {
+      "title": "プライバシーポリシー — Nomkin",
+      "description": "Nomkin のプライバシーポリシー。記録したものはすべて端末の中に残ります。無料のバックアップアカウントを作るか、コインのために動画を見ることを選んだ場合を除きます。ほかに端末から出ていくのは、アプリ自体の使われ方についての匿名のメモが 1 日 1 通だけで、設定にはそれを止めるスイッチがあります。"
+    },
+    "terms.html": {
+      "title": "利用規約 — Nomkin",
+      "description": "Nomkin アプリの利用規約。任意のバックアップアカウント、コインの購入、コインのための動画視聴、アプリの使われ方についての匿名のメモ、Nomkin が何ではないか、そして通常の法的事項について。"
+    },
+    "delete-account.html": {
+      "title": "Nomkin のアカウントとデータを削除する",
+      "description": "Nomkin のバックアップアカウントと、そこに保管されているデータの写しを削除する方法。そして Nomkin が端末に保持しているものをすべて消す方法。"
+    },
+    "puzzles.html": {
+      "title": "イラストを送る &middot; Nomkin",
+      "description": "Nomkin の日替わりパズルは、手描きの絵を 5 つに切り分けたものです。手で絵を描いていて 18 歳以上の方は、審査用に 1 枚お送りください。",
+      "og:title": "Nomkin にイラストを送る",
+      "og:description": "あなたの作品が、日替わりパズルの 1 枚として Nomkin に登場したら?"
+    },
+    "puzzles-terms.html": {
+      "title": "パズル投稿規約 &middot; Nomkin",
+      "description": "日替わりパズルに使うイラストを Nomkin に送るための規約。著作権は描いた方のものです。18 歳以上であること、手描きであることが条件で、いつでも取り下げを申し出られます。"
+    },
+    "puzzles-thanks.html": {
+      "title": "ご投稿ありがとうございます &middot; Nomkin",
+      "description": "パズル用のイラストが届きました。"
+    }
+  },
+  "attrs": [
+    [
+      "aria-label=\"Coming soon to the Apple App Store\"",
+      "aria-label=\"Apple App Store に近日公開\""
+    ],
+    ["aria-label=\"Coming soon to Google Play\"", "aria-label=\"Google Play に近日公開\""],
+    [
+      "title=\"Send Nomkin a puzzle drawing\"",
+      "title=\"Nomkin にパズル用のイラストを送る\""
+    ]
+  ]
+}

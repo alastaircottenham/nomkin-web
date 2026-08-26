@@ -1,0 +1,15 @@
+{
+  "name": "nomkin-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "nomkin.app — the marketing site, the legal pages, and the puzzle submission page, in seven languages.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs --strict",
+    "sync": "node build.mjs --sync",
+    "dev": "node build.mjs && npx -y serve -l 4321 ."
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

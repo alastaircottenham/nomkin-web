@@ -70,9 +70,19 @@
   --color-text-secondary: #5c4f41;
   --color-text-muted: #7a6a58;
 
+  /*
+   * The rounded system face, then the ordinary one, then — for the Japanese and
+   * Korean translations — the faces those systems actually ship. The CJK names
+   * sit at the end where they cost a latin reader nothing: a browser takes the
+   * first font that has the glyph, and every latin glyph is found long before
+   * it gets this far. Without them a Windows machine falls through to whatever
+   * `sans-serif` happens to be, which for Korean is frequently a serif.
+   */
   --font-sans:
     ui-rounded, 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', system-ui, sans-serif;
+    'Helvetica Neue', system-ui, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic UI',
+    'Yu Gothic', Meiryo, 'Noto Sans JP', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR',
+    sans-serif;
 
   /*
    * The app's own face, for pages that are meant to feel like the app rather
@@ -383,6 +393,26 @@ svg {
 }
 
 /* The promise the whole document is an expansion of, pulled out of the flow. */
+/*
+ * A line the English documents do not carry, and the translated ones do: that
+ * this is a translation, which version governs where the two disagree, and —
+ * because these pages give steps to follow in an app that is still in English —
+ * that the button names below are printed the way the phone prints them.
+ *
+ * Quieter than the lede it sits above. It is a note about the document rather
+ * than part of it, and it should read as one.
+ */
+/* `.doc .doc__note` rather than `.doc__note`, because `.doc p` sets a colour and
+   would otherwise outrank a single class on the element itself. */
+.doc .doc__note {
+  margin: -1.25rem 0 2rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--color-border);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
 .doc__lede {
   font-size: 1.15rem;
   line-height: 1.55;
@@ -967,6 +997,22 @@ a.sticker {
   color: inherit;
 }
 
+/*
+ * On a translated page, the line under the heading that says the form itself is
+ * in English. Tally holds the questions, not this repository, so the one honest
+ * thing to do is say so before somebody scrolls into them.
+ *
+ * It takes the card's own ink at reduced opacity rather than a muted token: the
+ * card is fixed cream in both schemes, and `--color-text-muted` goes pale in
+ * dark mode and would vanish on it.
+ */
+.formcard__note {
+  margin: -0.75rem 0 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-food-line-fixed);
+}
+
 .formcard__frame iframe {
   display: block;
   width: 100%;
@@ -1180,14 +1226,125 @@ a.sticker {
 
 /* --- Foot --- */
 
+/* The bottom of the page is now the language selector's, so this keeps only
+   the gap down to it and hands the rest of the room over. */
 .page__foot {
   max-width: var(--wrap-max);
   margin: 0 auto;
-  padding: clamp(2rem, 5vw, 3rem) var(--wrap-pad)
-    max(clamp(2.5rem, 6vw, 3.5rem), env(safe-area-inset-bottom));
+  padding: clamp(2rem, 5vw, 3rem) var(--wrap-pad) clamp(1.25rem, 3vw, 1.75rem);
   font-size: 0.8125rem;
   line-height: 1.6;
   color: var(--color-text-muted);
+}
+
+/* --- The language selector ------------------------------------------------ */
+
+/*
+ * Seven links and a globe, at the foot of every page in every language.
+ *
+ * A row of links rather than a `<select>`, for two reasons. It is a set of
+ * seven, which is small enough to show whole — a menu that has to be opened to
+ * find out what is in it is a worse answer to "is this site in my language" than
+ * the answer written on the page. And each one is a real link to a real
+ * pre-rendered URL, so it works with no script running, it can be opened in a
+ * new tab, and a search engine follows it.
+ *
+ * Every name is written in its own language, which is the whole point: a reader
+ * who cannot read this page has to be able to find their way off it, and
+ * "German" is no help at all to somebody who only reads Deutsch.
+ *
+ * Nothing here sets a colour. The selector appears on the amber wash, on the
+ * document surface and under the puzzle page's foot, and on each of them the
+ * right ink is the one already in force — so it takes `currentColor` and the
+ * inherited size, and the three placement rules below supply the spacing.
+ */
+.langbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 0.7rem;
+  line-height: 1.5;
+}
+
+.langbar__globe {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Decoration next to seven words that already say what this is. */
+  opacity: 0.65;
+}
+
+.langbar__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Wider across than down, so a wrapped selector reads as rows of a set
+     rather than as a column that has fallen over. */
+  gap: 0.15rem 0.95rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.langbar a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: transparent;
+  /* Height for a fingertip without pushing the rows apart. */
+  padding: 0.2rem 0;
+}
+
+.langbar a:hover,
+.langbar a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.langbar :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* The language you are already reading, which is a statement rather than a
+   destination — hence a `<span>`, and hence weight instead of a link. */
+.langbar__item--current span {
+  font-weight: 700;
+}
+
+/* Placement. Three surfaces, three amounts of room. */
+
+/* On the amber wash it is one more row of the footer and inherits its ink. */
+.site-footer .langbar {
+  font-size: inherit;
+}
+
+/* On a document it follows the rule under the closing line. */
+.doc__inner > .langbar {
+  margin-top: 1.75rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+/* The puzzle page, where `<main>` has no padding of its own: the selector is
+   the last thing on it, so it carries the bottom edge and the safe area. */
+.page > main > .langbar {
+  padding: 0 var(--wrap-pad) max(clamp(2.5rem, 6vw, 3.5rem), env(safe-area-inset-bottom));
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+/* The thanks page, where `<main>` already holds the bottom margin: this needs
+   the gap under the card and nothing below itself. */
+.page > .thanks > .langbar {
+  padding-top: clamp(1.5rem, 4vw, 2rem);
+  padding-bottom: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

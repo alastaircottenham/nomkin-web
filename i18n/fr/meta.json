@@ -1,0 +1,55 @@
+{
+  "_note": [
+    "Ce qui va dans le <head>, et les quelques attributs traduisibles qui ne",
+    "tombent dans aucun bloc. Tout le reste est dans les .html à côté.",
+    "",
+    "Adresse : « vous » partout, y compris sur les pages les plus légères. Le",
+    "tutoiement se lit mal dans des conditions d'utilisation françaises, et une",
+    "moitié de site qui tutoie et une moitié qui vouvoie se lit plus mal encore."
+  ],
+  "pages": {
+    "index.html": {
+      "title": "Nomkin &middot; Compter les calories, simplement et avec plaisir",
+      "description": "Une façon calme et adaptée au TDAH de noter ce que vous mangez et combien vous bougez. Nourrissez un animal au lieu de vider un compteur. Bientôt sur iPhone et Android.",
+      "og:title": "Nomkin",
+      "og:description": "Compter les calories, simplement et avec plaisir."
+    },
+    "privacy.html": {
+      "title": "Politique de confidentialité — Nomkin",
+      "description": "La politique de confidentialité de Nomkin. Tout ce que vous notez reste sur votre téléphone, sauf si vous choisissez de créer un compte de sauvegarde gratuit ou de regarder une vidéo contre des pièces. La seule autre chose qui sort est une note anonyme par jour sur l'usage de l'application, et un interrupteur dans les réglages l'arrête."
+    },
+    "terms.html": {
+      "title": "Conditions d'utilisation — Nomkin",
+      "description": "Les conditions d'utilisation de l'application Nomkin : le compte de sauvegarde facultatif, l'achat de pièces, les vidéos contre des pièces, la note anonyme sur l'usage de l'application, ce que Nomkin n'est pas, et les mentions légales habituelles."
+    },
+    "delete-account.html": {
+      "title": "Supprimer votre compte Nomkin et vos données",
+      "description": "Comment supprimer votre compte de sauvegarde Nomkin et la copie de vos données qu'il conserve, et comment effacer tout ce que Nomkin garde sur votre téléphone."
+    },
+    "puzzles.html": {
+      "title": "Envoyez votre dessin &middot; Nomkin",
+      "description": "Le puzzle quotidien de Nomkin est un dessin fait à la main et découpé en cinq pièces. Si vous dessinez à la main et que vous avez 18 ans ou plus, envoyez-nous-en un pour relecture.",
+      "og:title": "Envoyez votre dessin à Nomkin",
+      "og:description": "Envie de voir votre dessin dans Nomkin, dans la rotation du puzzle quotidien ?"
+    },
+    "puzzles-terms.html": {
+      "title": "Conditions d'envoi des puzzles &middot; Nomkin",
+      "description": "Les conditions pour envoyer un dessin à Nomkin en vue du puzzle quotidien : vous gardez vos droits d'auteur, vous devez avoir 18 ans ou plus, l'œuvre doit être dessinée à la main, et vous pouvez demander son retrait à tout moment."
+    },
+    "puzzles-thanks.html": {
+      "title": "Merci pour votre envoi &middot; Nomkin",
+      "description": "Votre dessin de puzzle nous est bien parvenu."
+    }
+  },
+  "attrs": [
+    [
+      "aria-label=\"Coming soon to the Apple App Store\"",
+      "aria-label=\"Bientôt sur l'App Store d'Apple\""
+    ],
+    ["aria-label=\"Coming soon to Google Play\"", "aria-label=\"Bientôt sur Google Play\""],
+    [
+      "title=\"Send Nomkin a puzzle drawing\"",
+      "title=\"Envoyer à Nomkin un dessin pour le puzzle\""
+    ]
+  ]
+}

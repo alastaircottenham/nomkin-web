@@ -1,0 +1,52 @@
+{
+  "_note": [
+    "<head>에 들어가는 것과, 어느 블록에도 속하지 않는 번역 대상 속성들.",
+    "나머지는 모두 옆에 있는 .html 파일에 있습니다.",
+    "",
+    "문체는 존댓말입니다. 원문 영어가 일부러 쉽고 따뜻한 어조라서, 딱딱한",
+    "법률 문체로 끌고 가지 않았습니다. '당신'은 한국어에서 거리감이 생기므로",
+    "뜻이 통하는 자리에서는 넣지 않았습니다."
+  ],
+  "pages": {
+    "index.html": {
+      "title": "Nomkin &middot; 칼로리 기록을 쉽고 즐겁게",
+      "description": "무엇을 먹고 얼마나 움직였는지를 차분하게, ADHD에 친화적인 방식으로 기록합니다. 숫자를 깎는 대신 반려동물에게 밥을 주세요. iPhone과 Android에 곧 출시됩니다.",
+      "og:title": "Nomkin",
+      "og:description": "칼로리 기록을 쉽고 즐겁게."
+    },
+    "privacy.html": {
+      "title": "개인정보 처리방침 — Nomkin",
+      "description": "Nomkin의 개인정보 처리방침. 기록한 것은 모두 휴대폰 안에 남습니다. 무료 백업 계정을 만들거나 코인을 받으려고 동영상을 보는 경우는 예외입니다. 그 밖에 휴대폰을 떠나는 것은 앱 자체가 어떻게 쓰였는지에 대한 익명 메모 하루 한 통뿐이고, 설정에는 그것을 멈추는 스위치가 있습니다."
+    },
+    "terms.html": {
+      "title": "이용약관 — Nomkin",
+      "description": "Nomkin 앱의 이용약관. 선택 사항인 백업 계정, 코인 구매, 코인을 받으려고 동영상 보기, 앱이 어떻게 쓰였는지에 대한 익명 메모, Nomkin이 아닌 것, 그리고 흔한 법적 사항들."
+    },
+    "delete-account.html": {
+      "title": "Nomkin 계정과 데이터 삭제하기",
+      "description": "Nomkin 백업 계정과 거기에 보관된 데이터 사본을 삭제하는 방법, 그리고 Nomkin이 휴대폰에 두고 있는 것을 전부 지우는 방법."
+    },
+    "puzzles.html": {
+      "title": "그림 보내기 &middot; Nomkin",
+      "description": "Nomkin의 데일리 퍼즐은 손으로 그린 그림을 다섯 조각으로 자른 것입니다. 손으로 그림을 그리고 만 18세 이상이라면, 검토를 위해 한 장 보내주세요.",
+      "og:title": "Nomkin에 그림 보내기",
+      "og:description": "당신의 그림이 데일리 퍼즐의 한 장으로 Nomkin에 실린다면 어떨까요?"
+    },
+    "puzzles-terms.html": {
+      "title": "퍼즐 응모 약관 &middot; Nomkin",
+      "description": "데일리 퍼즐로 쓰일 그림을 Nomkin에 보내기 위한 약관. 저작권은 그린 사람의 것으로 남고, 만 18세 이상이어야 하며, 손으로 그린 작품이어야 하고, 언제든 회수를 요청할 수 있습니다."
+    },
+    "puzzles-thanks.html": {
+      "title": "보내주셔서 감사합니다 &middot; Nomkin",
+      "description": "퍼즐용 그림이 잘 도착했습니다."
+    }
+  },
+  "attrs": [
+    [
+      "aria-label=\"Coming soon to the Apple App Store\"",
+      "aria-label=\"Apple App Store에 곧 출시\""
+    ],
+    ["aria-label=\"Coming soon to Google Play\"", "aria-label=\"Google Play에 곧 출시\""],
+    ["title=\"Send Nomkin a puzzle drawing\"", "title=\"Nomkin에 퍼즐용 그림 보내기\""]
+  ]
+}

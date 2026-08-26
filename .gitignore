@@ -10,3 +10,15 @@
 .vercel
 
 .DS_Store
+
+# The six translated trees, which `build.mjs` writes from the English pages and
+# the partials in `i18n/`. Generated output, so not kept here: the English page
+# and the translation of it are the two things worth reviewing in a diff, and a
+# copy of both is not. `npm run build` puts them back, and Vercel runs it on
+# every deploy.
+/de/
+/es/
+/fr/
+/pt-br/
+/ja/
+/ko/

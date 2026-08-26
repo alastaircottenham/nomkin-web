@@ -1,0 +1,55 @@
+{
+  "_note": [
+    "Was im <head> steht, und die paar übersetzbaren Attribute, die in keinem",
+    "Block liegen. Alles Übrige steht in den .html-Dateien daneben.",
+    "",
+    "Anrede: durchgehend 'du'. Nomkin spricht im Englischen betont schlicht und",
+    "warm, und 'Sie' würde daraus eine andere App machen — auch in den",
+    "Rechtstexten, wo es an der Verbindlichkeit nichts ändert."
+  ],
+  "pages": {
+    "index.html": {
+      "title": "Nomkin &middot; Kalorienzählen, einfach und mit Spaß",
+      "description": "Eine ruhige, ADHS-freundliche Art festzuhalten, was du isst und wie viel du dich bewegst. Füttere ein Tier, statt eine Zahl zu leeren. Demnächst für iPhone und Android.",
+      "og:title": "Nomkin",
+      "og:description": "Kalorienzählen, einfach und mit Spaß."
+    },
+    "privacy.html": {
+      "title": "Datenschutzerklärung — Nomkin",
+      "description": "Die Datenschutzerklärung von Nomkin. Alles, was du erfasst, bleibt auf deinem Handy — es sei denn, du legst ein kostenloses Backup-Konto an oder schaust ein Video für Münzen. Sonst verlässt nur eine anonyme Notiz pro Tag das Handy, darüber wie die App genutzt wird, und in den Einstellungen gibt es einen Schalter, der sie abstellt."
+    },
+    "terms.html": {
+      "title": "Nutzungsbedingungen — Nomkin",
+      "description": "Die Nutzungsbedingungen für die Nomkin-App: das optionale Backup-Konto, der Kauf von Münzen, Videos für Münzen, die anonyme Notiz darüber wie die App genutzt wird, was Nomkin nicht ist, und das übliche Kleingedruckte."
+    },
+    "delete-account.html": {
+      "title": "Dein Nomkin-Konto und deine Daten löschen",
+      "description": "Wie du dein Nomkin-Backup-Konto und die darin liegende Kopie deiner Daten löschst — und wie du alles löschst, was Nomkin auf deinem Handy behält."
+    },
+    "puzzles.html": {
+      "title": "Zeichnung einsenden &middot; Nomkin",
+      "description": "Das tägliche Puzzle in Nomkin ist ein von Hand gezeichnetes Bild, in fünf Teile geschnitten. Wenn du von Hand zeichnest und mindestens 18 bist, schick uns eins zur Prüfung.",
+      "og:title": "Schick deine Zeichnung an Nomkin",
+      "og:description": "Du möchtest deine Kunst in Nomkin sehen, als Teil der täglichen Puzzle-Rotation?"
+    },
+    "puzzles-terms.html": {
+      "title": "Einsendebedingungen für Puzzles &middot; Nomkin",
+      "description": "Die Bedingungen für eine Zeichnung, die du Nomkin für das tägliche Puzzle schickst: Das Urheberrecht bleibt bei dir, du musst mindestens 18 sein, das Werk muss von Hand gezeichnet sein, und du kannst es jederzeit zurückziehen."
+    },
+    "puzzles-thanks.html": {
+      "title": "Danke für deine Einsendung &middot; Nomkin",
+      "description": "Deine Puzzle-Zeichnung ist bei uns angekommen."
+    }
+  },
+  "attrs": [
+    [
+      "aria-label=\"Coming soon to the Apple App Store\"",
+      "aria-label=\"Demnächst im Apple App Store\""
+    ],
+    ["aria-label=\"Coming soon to Google Play\"", "aria-label=\"Demnächst bei Google Play\""],
+    [
+      "title=\"Send Nomkin a puzzle drawing\"",
+      "title=\"Eine Puzzle-Zeichnung an Nomkin senden\""
+    ]
+  ]
+}

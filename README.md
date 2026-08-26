@@ -1,10 +1,11 @@
 # nomkin.app
 
 The marketing site for [Nomkin](https://nomkin.app) — a landing page and the three legal pages that
-App Store Connect and the Google Play Console link to.
+App Store Connect and the Google Play Console link to, in seven languages.
 
-Plain static HTML. No build step, no framework, no dependencies. Open `index.html` in a browser and
-that is the site.
+Plain static HTML, hand-written, with no framework and no dependencies. The English pages *are* the
+site: open `index.html` in a browser and there it is. The other six languages are generated from
+those pages by `build.mjs`, which is the whole of the build step and needs nothing installed.
 
 ```
 index.html                 the landing page — the app's first screen, plus "coming soon"
@@ -18,6 +19,9 @@ styles.css                 every page
 assets/                    the dog, and the app icon (used as the favicon)
 api/feedback.js            the feedback relay — the one executable thing here
 vercel.json                security headers and the canonical-host redirect
+build.mjs                  writes de/ es/ fr/ pt-br/ ja/ ko/ from the pages above
+i18n/                      the translations, and the list of languages and pages
+sitemap.xml                generated, with the hreflang set for all seven languages
 ```
 
 **`api/feedback.js` is the only non-static file on the site**, and it is the reason this repo is no
@@ -33,8 +37,10 @@ straight at a section — `/privacy/#account`, `/privacy/#usage`, `/privacy/#ret
 
 1. Push this folder to its own GitHub repository.
 2. In Vercel, **Add New → Project** and import it.
-3. Framework preset: **Other**. Leave the build command and output directory **empty** — Vercel
-   serves the repository root as static files.
+3. Framework preset: **Other**. Leave the output directory **empty** — Vercel serves the repository
+   root as static files. `vercel.json` sets the build command to `npm run build`, which runs
+   `build.mjs` and writes the six translated trees into that root before it is served. There is no
+   `node_modules` to install; the script has no dependencies.
 4. **Settings → Domains**, add `nomkin.app` and `www.nomkin.app`. Point the registrar's records at
    Vercel as it instructs.
 5. **Settings → Environment Variables**, add `RESEND_API_KEY` for the feedback relay. See
@@ -63,6 +69,93 @@ The URLs the stores need are then:
 The app links out to one more, from Settings and from the puzzle screen:
 
 - Puzzle submissions: `https://nomkin.app/puzzles/`
+
+## Seven languages
+
+English, German, Spanish, French, Brazilian Portuguese, Japanese and Korean. Every page exists in
+every language, pre-rendered as a real static file at `/de/privacy/`, `/ja/`, and so on — nothing is
+fetched, nothing is swapped in by script, and a German reader never sees a flash of English.
+
+```
+npm run build     write de/ es/ fr/ pt-br/ ja/ ko/ and sitemap.xml
+npm run dev       the same, then serve the whole thing on :4321
+npm run sync      re-write the two generated blocks in the English pages
+```
+
+### How a page gets translated
+
+The English page is the source and the only file you edit for structure. It carries markers around
+the parts of it that are words:
+
+```html
+<!--i18n:doc-->
+  <h1>Privacy policy</h1>
+  ...
+<!--/i18n:doc-->
+```
+
+`i18n/<locale>/<page>.html` holds the same blocks in that language, and `build.mjs` swaps one for
+the other. `i18n/<locale>/meta.json` holds the `<title>`, the meta description, the Open Graph
+strings, and a short list of literal attribute substitutions for the few translatable attributes
+that fall outside any block — the Tally iframe's `title`, mostly.
+
+Everything else the build does per language: sets `<html lang>`, points the canonical and `og:url`
+at the locale URL, prefixes every internal link (`/privacy/#usage` becomes `/de/privacy/#usage`),
+regenerates the language selector with the current language marked, and rewrites `sitemap.xml`.
+
+**To change wording on a page, edit the English page and then the six partials.** The build will not
+notice that a paragraph now says something different, but it will notice most of the ways a
+translation can go structurally wrong, and `npm run build` fails on any of them:
+
+- a block the English page has and the translation does not, or the reverse;
+- an `id` the English page has and the translation lost — which would break `#usage` and the five
+  other fragments the documents link to each other by;
+- an external or `mailto:` link that went missing in translation;
+- a different number of headings, paragraphs, list items or table cells than the English page has,
+  which is how a dropped paragraph or an unclosed tag shows up.
+
+### Adding a language
+
+Add it to `LOCALES` in `i18n/locales.mjs`, add its name to `LANGBAR_LABEL` in `build.mjs`, run
+`npm run sync` to refresh the selector and the `hreflang` set in the English pages, then write
+`i18n/<locale>/`. Until those files exist the language still builds — as English, at its own URLs,
+with a warning per page — so the selector never points at a 404.
+
+### Which language a reader gets
+
+A small script in the `<head>` of every page, in this order:
+
+1. a language picked from the selector at the foot of the page, remembered in `localStorage`;
+2. `?lang=de` in the URL, which also gets remembered — the way to force a language past a browser
+   that says otherwise, and the way to link somebody straight at one;
+3. `navigator.languages`, the browser's own list;
+4. English, by doing nothing.
+
+Only the English pages guess. `build.mjs` rewrites the script's `data-lang` for the others, and a
+reader already on `/ja/` has asked for Japanese, so there is nothing left to guess at. Both
+Portugueses land on the Brazilian translation.
+
+### What is not translated
+
+- **The app itself**, which is English. Every page that gives steps to follow inside Nomkin prints
+  the button names in English, the way the phone prints them, and says so in a note under the
+  heading. If the app is ever localised, those names come out of the `<strong>` runs and the note
+  comes off with them.
+- **The Tally form** on `/puzzles/`, whose questions live in Tally rather than here. The card says
+  so above the frame, and invites people to answer in their own language.
+- **The store badges' brand names.** Apple and Google both keep "App Store" and "Google Play" in
+  latin on their own localised badges, so only the small line above them is translated. Its
+  `textLength` is re-measured per language — the attribute pins the badge's shape on a machine
+  without the fonts, and left at the English value it would stretch four Korean characters across
+  eighteen English ones.
+
+### The legal pages, translated
+
+The three legal documents are translated in full, and each carries a line under its heading saying
+that it is a translation and that the English is the reference version if the two ever disagree,
+without touching any right that cannot be waived by agreement. That is the ordinary way to publish
+translated terms, and it is worth keeping: a paragraph that drifts in translation should not be able
+to become the operative one.
 
 ## The puzzle submission form
 
@@ -259,6 +352,12 @@ what a feedback report carries. Nothing does that for this page, so the field ta
 `/privacy/#usage` and the list under `/privacy/#feedback` both have to be checked by hand against
 `src/core/usage.ts` and `src/core/feedback.ts` whenever either changes.
 
+The same edit now lands in seven places rather than one. `npm run build` will tell you if a
+translated table has gained or lost a row against the English one, which catches a row added here
+and forgotten there — but nothing can tell you that a row's *wording* went stale in German. Change
+the English page and the six partials in the same commit, or the drift this section is about
+happens six times over instead of once.
+
 ## Before submitting to Apple
 
 - The privacy policy URL must be **publicly reachable with no login and no redirect chain**. Load
@@ -361,9 +460,12 @@ live listing. When Nomkin ships:
 1. Download the official artwork —
    [Apple](https://developer.apple.com/app-store/marketing/guidelines/) ("Download on the App
    Store") and [Google](https://play.google.com/intl/en_us/badges/) ("Get it on Google Play").
-2. Replace the two inline `<svg>` blocks in `index.html` with them.
+2. Replace the two inline `<svg>` blocks in `index.html` with them. The official artwork is
+   published per language, so take the six other locales' badges too and put each in the
+   `badge-apple` / `badge-google` block of `i18n/<locale>/index.html`, replacing the recreated
+   `<text>` pair. That is also the moment the `textLength` note in those files stops applying.
 3. Wrap each in an `<a>` pointing at the real listing.
-4. Delete the `.coming-soon` pill.
+4. Delete the `.coming-soon` pill — and its translation in all six `i18n/<locale>/index.html`.
 
 ## Colour
 
