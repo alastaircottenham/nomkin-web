@@ -25,6 +25,10 @@
       "title": "Excluir sua conta e seus dados do Nomkin",
       "description": "Como excluir sua conta de backup do Nomkin e a cópia dos seus dados que ela guarda, e como apagar tudo o que o Nomkin mantém no seu celular."
     },
+    "support.html": {
+      "title": "Ajuda do Nomkin &middot; fale com a gente",
+      "description": "Como falar com quem faz o Nomkin: um endereço de e-mail, hello@nomkin.app, e o que vale contar na mensagem."
+    },
     "puzzles.html": {
       "title": "Envie seu desenho &middot; Nomkin",
       "description": "O quebra-cabeça diário do Nomkin é um desenho feito à mão e cortado em cinco peças. Se você desenha à mão e tem 18 anos ou mais, mande um para a gente avaliar.",

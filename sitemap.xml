@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://nomkin.app/</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-08-29</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/" />
@@ -15,7 +15,7 @@
   </url>
   <url>
     <loc>https://nomkin.app/de/</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-08-29</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/" />
@@ -27,7 +27,7 @@
   </url>
   <url>
     <loc>https://nomkin.app/es/</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-08-29</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/" />
@@ -39,7 +39,7 @@
   </url>
   <url>
     <loc>https://nomkin.app/fr/</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-08-29</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/" />
@@ -51,7 +51,7 @@
   </url>
   <url>
     <loc>https://nomkin.app/pt-br/</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-08-29</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/" />
@@ -63,7 +63,7 @@
   </url>
   <url>
     <loc>https://nomkin.app/ja/</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-08-29</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/" />
@@ -75,7 +75,7 @@
   </url>
   <url>
     <loc>https://nomkin.app/ko/</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-08-29</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/" />
@@ -336,6 +336,90 @@
     <xhtml:link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/delete-account/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/delete-account/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nomkin.app/delete-account/" />
+  </url>
+  <url>
+    <loc>https://nomkin.app/support/</loc>
+    <lastmod>2026-08-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/support/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/support/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/support/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/support/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/support/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/support/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/support/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nomkin.app/support/" />
+  </url>
+  <url>
+    <loc>https://nomkin.app/de/support/</loc>
+    <lastmod>2026-08-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/support/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/support/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/support/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/support/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/support/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/support/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/support/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nomkin.app/support/" />
+  </url>
+  <url>
+    <loc>https://nomkin.app/es/support/</loc>
+    <lastmod>2026-08-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/support/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/support/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/support/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/support/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/support/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/support/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/support/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nomkin.app/support/" />
+  </url>
+  <url>
+    <loc>https://nomkin.app/fr/support/</loc>
+    <lastmod>2026-08-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/support/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/support/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/support/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/support/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/support/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/support/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/support/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nomkin.app/support/" />
+  </url>
+  <url>
+    <loc>https://nomkin.app/pt-br/support/</loc>
+    <lastmod>2026-08-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/support/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/support/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/support/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/support/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/support/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/support/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/support/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nomkin.app/support/" />
+  </url>
+  <url>
+    <loc>https://nomkin.app/ja/support/</loc>
+    <lastmod>2026-08-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/support/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/support/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/support/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/support/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/support/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/support/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/support/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nomkin.app/support/" />
+  </url>
+  <url>
+    <loc>https://nomkin.app/ko/support/</loc>
+    <lastmod>2026-08-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nomkin.app/support/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://nomkin.app/de/support/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://nomkin.app/es/support/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://nomkin.app/fr/support/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://nomkin.app/pt-br/support/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nomkin.app/ja/support/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://nomkin.app/ko/support/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nomkin.app/support/" />
   </url>
   <url>
     <loc>https://nomkin.app/puzzles/</loc>

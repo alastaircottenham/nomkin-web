@@ -1,7 +1,7 @@
 # nomkin.app
 
-The marketing site for [Nomkin](https://nomkin.app) — a landing page and the three legal pages that
-App Store Connect and the Google Play Console link to, in seven languages.
+The marketing site for [Nomkin](https://nomkin.app) — a landing page, the three legal pages and the
+support page that App Store Connect and the Google Play Console link to, in seven languages.
 
 Plain static HTML, hand-written, with no framework and no dependencies. The English pages *are* the
 site: open `index.html` in a browser and there it is. The other six languages are generated from
@@ -12,6 +12,7 @@ index.html                 the landing page — the app's first screen, plus "co
 privacy/index.html         the privacy policy submitted to Apple and Google
 terms/index.html           the terms of use, which double as the Apple EULA
 delete-account/index.html  the account/data deletion steps Play asks for by URL
+support/index.html         the support URL App Store Connect asks for — one address, and what to say
 puzzles/index.html         the invitation to send in a drawing, and the embedded Tally form
 puzzles/terms/index.html   the submission terms, versioned separately from /terms/
 puzzles/thanks/index.html  where Tally redirects after a submission (noindex)
@@ -71,6 +72,7 @@ The URLs the stores need are then:
 - Marketing URL: `https://nomkin.app/`
 - Terms of use / EULA: `https://nomkin.app/terms/`
 - Account deletion (Play): `https://nomkin.app/delete-account/`
+- Support URL: `https://nomkin.app/support/`
 
 The app links out to one more, from Settings and from the puzzle screen:
 
@@ -376,6 +378,9 @@ happens six times over instead of once.
   as a custom EULA. Its "If you are on an iPhone" section carries Apple's required minimum terms.
   Leaving the field empty means Apple's standard licence applies instead, which says nothing about
   the account, the coins or the fact that Nomkin is not medical advice.
+- `https://nomkin.app/support/` goes in App Store Connect → App Information → **Support URL**,
+  which is a required field. Apple wants a page that offers a real way to get help, so the address
+  on it has to be one that answers — the same `hello@nomkin.app` as above.
 - The policy is one half of the job. The other half is the **App Privacy** questionnaire in App
   Store Connect (the nutrition label) and the **privacy manifest** in the app. The backup account
   and the daily usage note changed the honest answer: it is no longer "Data Not Collected" across

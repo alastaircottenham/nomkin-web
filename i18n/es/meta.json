@@ -25,6 +25,10 @@
       "title": "Eliminar tu cuenta y tus datos de Nomkin",
       "description": "Cómo eliminar tu cuenta de copia de seguridad de Nomkin y la copia de tus datos que guarda, y cómo borrar todo lo que Nomkin conserva en tu teléfono."
     },
+    "support.html": {
+      "title": "Ayuda de Nomkin &middot; contacto",
+      "description": "Cómo contactar con quienes hacen Nomkin: una dirección de correo, hello@nomkin.app, y qué conviene contar en el mensaje."
+    },
     "puzzles.html": {
       "title": "Envía tu dibujo &middot; Nomkin",
       "description": "El rompecabezas diario de Nomkin es un dibujo hecho a mano y cortado en cinco piezas. Si dibujas a mano y tienes 18 años o más, envíanos uno para que lo revisemos.",

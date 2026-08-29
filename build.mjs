@@ -17,8 +17,8 @@
  * So a translated page is a real, complete, pre-rendered HTML file. Nothing is
  * fetched, nothing is swapped in by a script, and there is no moment where a
  * German reader sees English. It is also why they are generated rather than
- * kept by hand: seven languages times seven pages is forty-nine files, and
- * forty-two of them drift the first time somebody edits the English one.
+ * kept by hand: seven languages times eight pages is fifty-six files, and
+ * forty-eight of them drift the first time somebody edits the English one.
  *
  * Run it with `npm run build`. It has no dependencies on purpose — a site that
  * needed a lockfile to publish a paragraph would have lost something.
@@ -455,7 +455,7 @@ async function main() {
   for (const locale of LOCALES) {
     if (locale.code === SOURCE) continue;
     /*
-     * A locale with nothing written for it yet still gets its seven pages, in
+     * A locale with nothing written for it yet still gets all of its pages, in
      * English, at the URLs the selector and the alternate links already point
      * at. A half-finished translation is a thing to warn about; a 404 behind a
      * link every other page carries is a thing to avoid.

@@ -26,6 +26,10 @@
       "title": "Nomkin 계정과 데이터 삭제하기",
       "description": "Nomkin 백업 계정과 거기에 보관된 데이터 사본을 삭제하는 방법, 그리고 Nomkin이 휴대폰에 두고 있는 것을 전부 지우는 방법."
     },
+    "support.html": {
+      "title": "Nomkin 지원 &middot; 문의하기",
+      "description": "Nomkin을 만드는 사람들에게 연락하는 방법. 창구는 메일 주소 하나, hello@nomkin.app 입니다. 무엇을 적으면 좋은지도 함께 안내합니다."
+    },
     "puzzles.html": {
       "title": "그림 보내기 &middot; Nomkin",
       "description": "Nomkin의 데일리 퍼즐은 손으로 그린 그림을 다섯 조각으로 자른 것입니다. 손으로 그림을 그리고 만 18세 이상이라면, 검토를 위해 한 장 보내주세요.",

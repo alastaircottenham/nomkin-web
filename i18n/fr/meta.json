@@ -26,6 +26,10 @@
       "title": "Supprimer votre compte Nomkin et vos données",
       "description": "Comment supprimer votre compte de sauvegarde Nomkin et la copie de vos données qu'il conserve, et comment effacer tout ce que Nomkin garde sur votre téléphone."
     },
+    "support.html": {
+      "title": "Aide Nomkin &middot; nous contacter",
+      "description": "Comment joindre les personnes qui font Nomkin : une adresse e-mail, hello@nomkin.app, et ce qu’il est utile d’y écrire."
+    },
     "puzzles.html": {
       "title": "Envoyez votre dessin &middot; Nomkin",
       "description": "Le puzzle quotidien de Nomkin est un dessin fait à la main et découpé en cinq pièces. Si vous dessinez à la main et que vous avez 18 ans ou plus, envoyez-nous-en un pour relecture.",

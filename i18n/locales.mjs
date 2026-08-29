@@ -37,7 +37,7 @@ export const LOCALES = [
  * false for the one page that asks not to be indexed.
  */
 export const PAGES = [
-  { path: '/', file: 'index.html', translated: 'index.html', lastmod: '2026-08-26', sitemap: true },
+  { path: '/', file: 'index.html', translated: 'index.html', lastmod: '2026-08-29', sitemap: true },
   {
     path: '/privacy/',
     file: 'privacy/index.html',
@@ -57,6 +57,13 @@ export const PAGES = [
     file: 'delete-account/index.html',
     translated: 'delete-account.html',
     lastmod: '2026-08-26',
+    sitemap: true,
+  },
+  {
+    path: '/support/',
+    file: 'support/index.html',
+    translated: 'support.html',
+    lastmod: '2026-08-29',
     sitemap: true,
   },
   {

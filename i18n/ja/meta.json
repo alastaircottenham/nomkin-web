@@ -26,6 +26,10 @@
       "title": "Nomkin のアカウントとデータを削除する",
       "description": "Nomkin のバックアップアカウントと、そこに保管されているデータの写しを削除する方法。そして Nomkin が端末に保持しているものをすべて消す方法。"
     },
+    "support.html": {
+      "title": "Nomkin サポート &middot; お問い合わせ",
+      "description": "Nomkin をつくっている人たちへの連絡方法。窓口はメールアドレスひとつ、hello@nomkin.app です。何を書けばよいかもまとめています。"
+    },
     "puzzles.html": {
       "title": "イラストを送る &middot; Nomkin",
       "description": "Nomkin の日替わりパズルは、手描きの絵を 5 つに切り分けたものです。手で絵を描いていて 18 歳以上の方は、審査用に 1 枚お送りください。",
